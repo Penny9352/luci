@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy 竞品全景清单（含第三方 AI 聚合平台）</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+  :root { --bg:#0f1117; --card:#1a1d27; --border:#2a2d3a; --accent:#6c5ce7; --accent2:#00cec9; --text:#e2e2e8; --muted:#8a8a9a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+  .wrap { max-width:1100px; margin:0 auto; padding:24px 20px; }
+  h1 { font-size:28px; font-weight:700; margin-bottom:6px; }
+  .sub { color:var(--muted); font-size:14px; margin-bottom:28px; }
+  h2 { font-size:20px; margin:32px 0 14px; padding-left:12px; border-left:4px solid var(--accent); }
+  h3 { font-size:16px; margin:18px 0 8px; color:var(--accent2); }
+  .tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; margin-right:6px; margin-bottom:4px; }
+  .tag-a { background:#6c5ce730; color:#a29bfe; }
+  .tag-b { background:#00cec920; color:#00cec9; }
+  .tag-c { background:#fd79a820; color:#fd79a8; }
+  .tag-d { background:#ffeaa720; color:#fdcb6e; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; margin:10px 0 20px; }
+  th { background:var(--accent); color:#fff; text-align:left; padding:10px 12px; font-weight:600; white-space:nowrap; }
+  td { padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  tr:hover td { background:#ffffff08; }
+  .highlight { background:var(--accent); color:#fff; font-weight:600; }
+  .note { background:#1e2030; border:1px solid var(--border); border-radius:8px; padding:14px 18px; margin:16px 0; font-size:13px; color:var(--muted); }
+  .note b { color:var(--text); }
+  #pie { width:100%; height:380px; margin:10px 0 20px; }
+  @media(max-width:768px){ table{font-size:12px;} th,td{padding:7px 6px;} h1{font-size:22px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>WorkBuddy 竞品全景清单</h1>
+<p class="sub">含第三方 AI 聚合平台（API 聚合 + 用户端聚合） · 2026 年 8 月整理</p>
+
+<!-- ========== 分类一 ========== -->
+<h2>一、同类办公 Agent / AI 工作台</h2>
+<p>与 WorkBuddy 直接竞争的桌面级 AI 办公智能体或全场景 AI 工作台。</p>
+
+<table>
+<tr>
+  <th style="width:18%">产品</th>
+  <th style="width:10%">所属</th>
+  <th>核心定位</th>
+  <th style="width:14%">价格模式</th>
+  <th style="width:22%">与 WorkBuddy 差异</th>
+</tr>
+<tr>
+  <td><b>Trae Work</b></td>
+  <td>字节跳动</td>
+  <td>AI 原生工作台，Work 模式（文档/数据/演示）+ Code 模式（编码/Git）</td>
+  <td>免费 + 订阅</td>
+  <td>编程基因更强，字节生态；缺 MCP 连接器与远程操控</td>
+</tr>
+<tr>
+  <td><b>扣子 Coze</b></td>
+  <td>字节跳动</td>
+  <td>全场景 AI Agent 协作平台，项目空间+多人多 Agent 协同，编程/视频原生模块</td>
+  <td>免费 + 按量</td>
+  <td>项目协同能力领先；但无桌面端远程操控、非腾讯生态</td>
+</tr>
+<tr>
+  <td><b>千问办公</b></td>
+  <td>阿里云</td>
+  <td>钉钉生态 AI 办公助手，专业岗位深度适配</td>
+  <td>免费 + 企业版</td>
+  <td>钉钉深度整合；阿里生态用户首选，非桌面 Agent 形态</td>
+</tr>
+<tr>
+  <td><b>豆包（办公 Agent 模式）</b></td>
+  <td>字节跳动</td>
+  <td>通用 AI 助手正演变为办公 Agent，对话+文档+创作</td>
+  <td>免费 + 订阅</td>
+  <td>轻量免费入口，但执行深度不及 WorkBuddy</td>
+</tr>
+<tr>
+  <td><b>AiPy</b></td>
+  <td>知道创宇</td>
+  <td>"Code is Agent"，AI 写 Python 代码操作真实世界，开源免费本地运行</td>
+  <td>开源免费</td>
+  <td>本地部署数据不出域；非桌面 GUI，面向技术用户</td>
+</tr>
+<tr>
+  <td><b>腾讯元宝</b></td>
+  <td>腾讯</td>
+  <td>通用 AI 对话助手，整合微信生态检索</td>
+  <td>免费</td>
+  <td>同属腾讯但定位更轻，无 Agent 执行能力</td>
+</tr>
+<tr>
+  <td><b>Genspark</b></td>
+  <td>Genspark AI</td>
+  <td>AI 搜索 + 轻量任务执行</td>
+  <td>免费 + Pro</td>
+  <td>搜索优先，Agent 协同弱；无桌面端/项目管理</td>
+</tr>
+<tr>
+  <td><b>ChatGPT GPTs</b></td>
+  <td>OpenAI</td>
+  <td>自定义智能体，可配置提示词+知识库+插件</td>
+  <td>Plus $20/月</td>
+  <td>单模型深度强，但无多 Agent 协同、无桌面端本地操作</td>
+</tr>
+</table>
+
+<!-- ========== 分类二 ========== -->
+<h2>二、开发者 API 聚合平台</h2>
+<p>面向开发者的多模型 API 统一网关，企业级调用基础设施。这类平台与 WorkBuddy 不直接竞争用户，但在 <b>模型供给层</b> 构成间接竞争关系——企业可能选择自建 API 网关 + 轻量客户端，而非使用 WorkBuddy 一站式方案。</p>
+
+<table>
+<tr>
+  <th style="width:18%">平台</th>
+  <th style="width:12%">类型</th>
+  <th>核心能力</th>
+  <th style="width:14%">模型覆盖</th>
+  <th style="width:22%">适用人群</th>
+</tr>
+<tr>
+  <td><b>微元算力 weytoken</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>自研智能路由调度，多上游冗余切换，异常检测引擎，支持私有化部署</td>
+  <td>100+ 规格</td>
+  <td>强合规政企、大规模生产调用</td>
+</tr>
+<tr>
+  <td><b>硅基流动 SiliconFlow</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>国产开源模型推理加速（DeepSeek-R1 优化），多模态支持</td>
+  <td>200+</td>
+  <td>国产开源模型偏好者、编程助手</td>
+</tr>
+<tr>
+  <td><b>百度智能云千帆</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>百度自研+第三方模型统一调度，安全合规成熟，企业级权限管控</td>
+  <td>80+</td>
+  <td>百度生态企业、强合规需求</td>
+</tr>
+<tr>
+  <td><b>阿里云百炼</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>通义系列+第三方，独占 GPT-5.6 接入，SLA 99.95%</td>
+  <td>80+</td>
+  <td>阿里云生态企业</td>
+</tr>
+<tr>
+  <td><b>火山方舟 / MaaS</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>字节系，自研+第三方模型，高并发，缓存命中率 ~70%</td>
+  <td>60+</td>
+  <td>字节生态、高并发业务</td>
+</tr>
+<tr>
+  <td><b>OpenRouter</b></td>
+  <td><span class="tag tag-b">开发者</span></td>
+  <td>全球模型聚合量最大（350+），新模型上架最快，透明 Token 排行</td>
+  <td>350+</td>
+  <td>海外开发者、模型尝鲜、技术预研</td>
+</tr>
+<tr>
+  <td><b>星宇智算 API</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>全模型覆盖+自研智能调度+高可用容灾，RL 成本优化</td>
+  <td>全主流</td>
+  <td>生产级规模化调用</td>
+</tr>
+<tr>
+  <td><b>ModelPort</b></td>
+  <td><span class="tag tag-b">开发者</span></td>
+  <td>国际+国产双线聚合，国内专线直连，成本降 60%+</td>
+  <td>30+</td>
+  <td>追求广度与性价比的开发者</td>
+</tr>
+<tr>
+  <td><b>非线智能</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>OpenAI 兼容协议，子账号 RBAC，审计日志，项目级预算管控</td>
+  <td>全主流</td>
+  <td>企业级网关、SaaS 快速开通</td>
+</tr>
+<tr>
+  <td><b>快快云安全</b></td>
+  <td><span class="tag tag-a">企业级</span></td>
+  <td>平均延迟 320ms，异常率 0.2%，数据本地化不存提示词，深度整合华为云/阿里云</td>
+  <td>全主流</td>
+  <td>强合规企业开发者</td>
+</tr>
+</table>
+
+<!-- ========== 分类三 ========== -->
+<h2>三、用户端 AI 聚合工具</h2>
+<p>面向普通用户/轻度专业用户，一个入口同时使用多个 AI 对话模型，主打 <b>多模型对比、切换、聚合体验</b>。这类产品与 WorkBuddy 在 <b>用户注意力</b> 层面竞争——用户如果已经在聚合工具里解决了日常需求，可能不会单独安装 WorkBuddy。</p>
+
+<table>
+<tr>
+  <th style="width:18%">产品</th>
+  <th style="width:10%">所属</th>
+  <th>核心定位</th>
+  <th style="width:14%">价格模式</th>
+  <th style="width:22%">与 WorkBuddy 差异</th>
+</tr>
+<tr>
+  <td><b>Poe</b></td>
+  <td>Quora</td>
+  <td>多模型聚合对话平台，20+ 模型一键切换，可创建自定义 Bot</td>
+  <td>免费 / $20 月</td>
+  <td>对话优先，无 Agent 执行/本地操作/项目管理</td>
+</tr>
+<tr>
+  <td><b>ChatHub</b></td>
+  <td>开源社区</td>
+  <td>浏览器扩展，15+ 模型并行对话对比，支持 API 自定义接入</td>
+  <td>开源免费</td>
+  <td>轻量对比工具，无任务执行能力</td>
+</tr>
+<tr>
+  <td><b>TypingMind</b></td>
+  <td>独立开发</td>
+  <td>BYOK（自带 Key）多模型客户端，界面精致，支持插件扩展</td>
+  <td>买断 + 订阅</td>
+  <td>面向有 API Key 的技术用户，非 Agent 平台</td>
+</tr>
+<tr>
+  <td><b>Nano-GPT / 纳米AI</b></td>
+  <td>360</td>
+  <td>360 系 AI 超级搜索+多模型聚合，国内合规模型优先</td>
+  <td>免费 + Pro</td>
+  <td>搜索入口，Agent 协同弱；360 生态</td>
+</tr>
+<tr>
+  <td><b>ChatALL</b></td>
+  <td>开源社区</td>
+  <td>多模型并行对话，侧重多文档协同分析与答案溯源</td>
+  <td>开源免费</td>
+  <td>文档分析优先，非通用办公 Agent</td>
+</tr>
+<tr>
+  <td><b>Perspective AI</b></td>
+  <td>独立开发</td>
+  <td>支持对话中途切换模型，内置 AI Store 市场</td>
+  <td>订阅制</td>
+  <td>模型切换体验好，无本地执行/办公场景</td>
+</tr>
+<tr>
+  <td><b>元象 XAgent</b></td>
+  <td>元象</td>
+  <td>整合本地+云端多模型，自定义工作流，开源可私有部署</td>
+  <td>开源免费</td>
+  <td>企业定制友好，生态规模不及 WorkBuddy</td>
+</tr>
+<tr>
+  <td><b>智媒 AI 聚合平台</b></td>
+  <td>智媒</td>
+  <td>内容生成+绘画+AI 语音等垂直工具聚合</td>
+  <td>按量计费</td>
+  <td>内容创作垂直场景，非全场景办公</td>
+</tr>
+</table>
+
+<!-- ========== 可视化 ========== -->
+<h2>竞品全景分布</h2>
+<div id="pie"></div>
+
+<div class="note">
+  <b>竞争关系说明：</b><br>
+  ① <b>直接竞争</b>（类别一）：同类办公 Agent，争夺同一批职场用户，功能高度重合。<br>
+  ② <b>供给层间接竞争</b>（类别二）：API 聚合平台为企业提供"自建 AI 能力"的替代路径，用户可能选择聚合 API + 轻量客户端，绕开 WorkBuddy 一站式方案。<br>
+  ③ <b>注意力间接竞争</b>（类别三）：用户端聚合工具满足日常多模型对话需求，降低用户安装独立办公 Agent 的意愿；但缺少任务执行、本地操作、项目管理等深度能力。
+</div>
+
+<div class="note">
+  <b>数据来源：</b>易观 2026 年 6 月桌面端 AI 办公智能体访问数据；火山引擎开发者社区 2026 年 7 月企业级聚合平台 TOP5 榜单；AIWW 聚合平台技术评测；多篇 2026 年 AI Agent 横评文章。排名因评价维度不同存在差异，以上为综合整理。
+</div>
+
+</div>
+
+<script>
+var chart = echarts.init(document.getElementById('pie'));
+chart.setOption({
+  tooltip: { trigger:'item', formatter:'{b}: {c} 个 ({d}%)' },
+  legend: { bottom:10, textStyle:{ color:'#e2e2e8', fontSize:12 } },
+  series:[{
+    type:'pie',
+    radius:['35%','65%'],
+    center:['50%','45%'],
+    avoidLabelOverlap:true,
+    itemStyle:{ borderRadius:6, borderColor:'#1a1d27', borderWidth:2 },
+    label:{ color:'#e2e2e8', fontSize:13, formatter:'{b}\n{c} 个' },
+    labelLine:{ lineStyle:{ color:'#555' } },
+    data:[
+      { value:8, name:'同类办公 Agent', itemStyle:{color:'#6c5ce7'} },
+      { value:10, name:'API 聚合平台', itemStyle:{color:'#00cec9'} },
+      { value:8, name:'用户端聚合工具', itemStyle:{color:'#fd79a8'} }
+    ]
+  }]
+});
+window.addEventListener('resize', function(){ chart.resize(); });
+</script>
+</body>
+</html>

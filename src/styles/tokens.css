@@ -1,0 +1,80 @@
+/**
+ * 设计 token。对比度数值为实测（sRGB 相对亮度），不是估算。
+ * 依据：docs/superpowers/specs/2026-08-19-c端官网首页-design.md §3
+ */
+
+:root {
+  /* ── 底：暖近黑。与产品暗色主题 (#0f0f0f~#1a1a1a) 及 logo 暗底同源 ── */
+  --bg: #1a1917;
+  --bg-elev: #232220;
+  --surface: #2b2a27;
+  --surface-2: #34322e;
+
+  /* ── 浅色间奏（模型矩阵那一段）── */
+  --bg-light: #f2efe9;
+  --text-on-light: #1a1917;      /* 15.3:1 */
+  --text-on-light-2: #57544d;    /*  6.6:1 */
+  --orange-on-light: #b34700;    /*  4.8:1 —— 浅底专用，品牌橙在此仅 2.5:1 */
+  --border-light: #1a19171f;
+  --surface-light: #e9e4da;
+
+  /* ── 描边 ── */
+  --border: #ffffff14;
+  --border-strong: #ffffff29;
+  --border-gold: #d4b87a3d;
+
+  /* ── 文字（暗场）── */
+  --text: #f7f5f2;               /* 16.1:1 */
+  --text-2: #a3a09a;             /*  6.7:1 */
+  --text-3: #8a877f;             /*  4.9:1 —— 余量小，勿再调暗 */
+
+  /* ── 橙：品牌与动作 ── */
+  --orange: #ff6b00;             /*  6.2:1 */
+  --orange-soft: #ff8559;
+  --orange-glow: #ff6b0026;
+  --on-orange: #150d05;          /* 橙底上的字必须是深色：白字仅 2.9:1 */
+
+  /* ── 金：语义点缀。只标「需留神」，不与橙争夺可点击的语义 ── */
+  --gold: #d4b87a;               /*  9.2:1 */
+  --gold-bright: #e8d4a2;
+  --gold-dim: #d4b87a80;
+
+  /* ── 字体 ── */
+  --ff-display: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --ff-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --ff-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── 排版阶梯。继承产品 token 并向上延伸 ── */
+  --fs-display: clamp(2.5rem, 6vw, 4.75rem);
+  --fs-h1: clamp(1.875rem, 4vw, 2.875rem);
+  --fs-h2: clamp(1.375rem, 2.4vw, 1.875rem);
+  --fs-lead: clamp(1rem, 1.4vw, 1.25rem);
+  --fs-body: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-cap: 0.8125rem;
+
+  /* ── 圆角：沿用产品阶梯 ── */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-2xl: 24px;
+
+  /* ── 阴影：都带偏移与柔化，没有零偏移光晕 ── */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 8px 32px rgb(0 0 0 / 0.5);
+  --shadow-window: 0 24px 64px -12px rgb(0 0 0 / 0.7), 0 2px 8px rgb(0 0 0 / 0.4);
+
+  /* ── 节奏 ── */
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --measure: 34em;
+  --page-max: 76rem;
+  --log-rail: clamp(3.25rem, 7vw, 7.5rem);
+
+  /* ── 缓动：指数式 ease-out ── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
