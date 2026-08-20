@@ -107,8 +107,12 @@
 }
 
 .demo__thread {
-  flex: 1;
-  min-height: 0;
+  /* 不能用 flex:1 —— 它的 flex-basis:0% 会盖掉下面的 height，
+     结果窗口仍然随内容长高 */
+  flex: none;
+  /* 高度固定：文字打进一个尺寸不变的框。随内容长高会让窗口在每次
+     循环重播时抖一下，也把下方内容一起推着走。 */
+  height: 17.25rem;
   padding: var(--pad);
   display: grid;
   gap: 0.625rem;
@@ -373,19 +377,21 @@
 .demo__channels li {
   display: flex;
   align-items: center;
-  gap: 0.5625rem;
-  padding-block: 0.6875rem;
+  gap: 0.6875rem;
+  padding-block: 0.8125rem;
   border-bottom: 1px solid var(--border);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-body);
 }
 
-.demo__channels svg {
-  color: var(--text-3);
+.demo__channel-logo {
+  width: 1.5rem;
+  height: 1.5rem;
   flex: none;
 }
 
 .demo__channel-name {
   color: var(--text);
+  font-weight: 600;
 }
 
 .demo__channel-action {
@@ -424,8 +430,8 @@
     -webkit-backdrop-filter: none;
   }
 
-  .demo__window {
-    min-height: 0;
+  .demo__thread {
+    height: 15.5rem;
   }
 
   .demo__block p {

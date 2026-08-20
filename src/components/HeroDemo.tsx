@@ -3,15 +3,7 @@ import { simulation, reach, hero } from '../content/copy'
 import { useTypewriter, type Step } from '../hooks/useTypewriter'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 import { useInView } from '../hooks/useInView'
-import {
-  IconFile,
-  IconSpark,
-  IconConverge,
-  IconSliders,
-  IconCheck,
-  IconSend,
-  IconLink,
-} from './ui/Icon'
+import { IconFile, IconSpark, IconConverge, IconSliders, IconCheck, IconSend } from './ui/Icon'
 
 const MODE_ICONS = [IconSpark, IconConverge, IconSliders]
 
@@ -144,7 +136,15 @@ export function HeroDemo() {
         <ul className="demo__channels">
           {reach.channels.map((c) => (
             <li key={c.name}>
-              <IconLink size={15} />
+              <img
+                className="demo__channel-logo"
+                src={c.logo}
+                alt=""
+                width={44}
+                height={44}
+                loading="lazy"
+                decoding="async"
+              />
               <span className="demo__channel-name">{c.name}</span>
               <span className="demo__channel-action">{c.action}</span>
             </li>

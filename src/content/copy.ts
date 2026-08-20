@@ -62,10 +62,11 @@ export const simulation = {
 export const reach = {
   title: '不只在网页上',
   lead: '扫码绑定后，在聊天软件里直接对话，文件自动同步回网页端。',
+  /** logo 取自产品自身的资源，非重绘 */
   channels: [
-    { name: '微信', action: '连接' },
-    { name: '飞书', action: '连接' },
-    { name: '企业微信', action: '连接' },
+    { name: '微信', action: '连接', logo: '/logos/wechat.png' },
+    { name: '飞书', action: '连接', logo: '/logos/feishu.png' },
+    { name: '企业微信', action: '连接', logo: '/logos/wecom.png' },
   ],
   footnote: '定时任务的结果也推到这里。',
 } as const
