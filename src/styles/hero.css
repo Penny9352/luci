@@ -27,8 +27,8 @@
   display: grid;
   justify-items: center;
   text-align: center;
-  gap: 1.5rem;
-  padding-top: clamp(3rem, 8vh, 6rem);
+  gap: 1rem;
+  padding-top: clamp(1.75rem, 4.5vh, 3.5rem);
 }
 
 .hero__title {
@@ -44,10 +44,11 @@
 }
 
 .hero__sub {
-  max-width: 40em;
+  max-width: 34em;
   font-size: var(--fs-lead);
   color: var(--text-2);
   line-height: 1.75;
+  text-wrap: balance;
 }
 
 .hero__cta {
@@ -55,12 +56,12 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.875rem;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 }
 
 .hero__sim {
   position: relative;
-  margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  margin-top: clamp(1.75rem, 3.5vh, 2.75rem);
   flex: none;
 }
 
@@ -110,7 +111,7 @@
 .sim__body {
   padding: var(--sim-pad);
   display: grid;
-  gap: 1rem;
+  gap: 0.8125rem;
   align-content: start;
   overflow: hidden;
 }
@@ -182,7 +183,7 @@
 
 .sim__answer {
   display: grid;
-  gap: 0.875rem;
+  gap: 0.75rem;
 }
 
 .sim__block h4 {
@@ -241,7 +242,16 @@
   }
 
   .sim__window {
-    min-height: 18rem;
+    --sim-pad: 0.875rem;
+    min-height: 16rem;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 8.5vw, 2.75rem);
+  }
+
+  .sim__ask {
+    max-width: 100%;
   }
 
   .sim__block p {
