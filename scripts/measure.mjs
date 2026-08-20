@@ -1,31 +1,25 @@
 import puppeteer from 'puppeteer-core'
 const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 const b=await puppeteer.launch({executablePath:CHROME,headless:true,args:['--no-sandbox']})
-for (const v of [{n:'desktop',w:1440,h:900},{n:'mobile',w:390,h:844}]) {
+for (const v of [{n:'desktop',w:1440,h:900},{n:'laptop',w:1512,h:945},{n:'mobile',w:390,h:844}]) {
   const p=await b.newPage()
   await p.setViewport({width:v.w,height:v.h,deviceScaleFactor:1})
   await p.goto('http://localhost:4173/',{waitUntil:'networkidle0'})
   await p.evaluate(()=>document.fonts.ready)
-  await new Promise(r=>setTimeout(r,4900)) // 产出卡刚浮出的时刻
+  await new Promise(r=>setTimeout(r,4200))
   const r=await p.evaluate(()=>{
-    const out={doc:document.documentElement.scrollHeight,sections:[],railGaps:[],file:null}
-    for (const el of document.querySelectorAll('.hero,.stage,.interlude,.start')) {
-      const b=el.getBoundingClientRect()
-      out.sections.push({cls:el.className.split(' ')[0],h:Math.round(b.height)})
-    }
-    const rails=[...document.querySelectorAll('.stage__rail,.interlude__rail')]
-      .map(e=>{const b=e.getBoundingClientRect();return{top:b.top+scrollY,bottom:b.bottom+scrollY,x:Math.round(b.left)}})
-      .sort((a,b)=>a.top-b.top)
-    for (let i=1;i<rails.length;i++) out.railGaps.push({gap:Math.round(rails[i].top-rails[i-1].bottom),xPrev:rails[i-1].x,xNext:rails[i].x})
-    const f=document.querySelector('.sim__file')
-    if (f){const b=f.getBoundingClientRect();out.file={bottom:Math.round(b.bottom),vh:innerHeight,visible:b.bottom<=innerHeight,opacity:getComputedStyle(f).opacity}}
-    return out
+    const g=s=>{const e=document.querySelector(s);if(!e)return null;const b=e.getBoundingClientRect();return{top:Math.round(b.top),bottom:Math.round(b.bottom),h:Math.round(b.height),w:Math.round(b.width)}}
+    const rails=[...document.querySelectorAll('.stage__rail,.interlude__rail')].map(e=>{const b=e.getBoundingClientRect();return{t:b.top+scrollY,b:b.bottom+scrollY,x:Math.round(b.left)}}).sort((a,b)=>a.t-b.t)
+    const gaps=[];for(let i=1;i<rails.length;i++)gaps.push(`${Math.round(rails[i].t-rails[i-1].b)}@${rails[i-1].x}→${rails[i].x}`)
+    return{doc:document.documentElement.scrollHeight,vh:innerHeight,
+      win:g('.demo__window'),modes:g('.demo__modes'),side:g('.demo__side'),composer:g('.demo__composer'),file:g('.demo__file'),gaps}
   })
-  console.log(`\n=== ${v.n} (${v.w}x${v.h}) ===`)
-  console.log('文档高:',r.doc)
-  console.log('各节高:',r.sections.map(s=>`${s.cls}=${s.h}`).join('  '))
-  console.log('轨接缝:',r.railGaps.map(g=>`gap=${g.gap} x:${g.xPrev}→${g.xNext}`).join('  '))
-  console.log('产出卡:',JSON.stringify(r.file))
+  console.log(`\n=== ${v.n} ${v.w}x${v.h} | 文档 ${r.doc} ===`)
+  console.log(' 窗口   ', JSON.stringify(r.win))
+  console.log(' 窗口底 ', r.win&&r.win.bottom, r.win && r.win.bottom<=r.vh ? '✓ 完整可见':'✗ 被折线切掉 '+(r.win.bottom-r.vh)+'px')
+  console.log(' 模式表 ', JSON.stringify(r.modes), r.modes && r.modes.bottom<=r.vh ? '✓':'✗')
+  console.log(' 右侧栏 ', JSON.stringify(r.side))
+  if(r.gaps.length) console.log(' 轨接缝 ', r.gaps.join('  '))
   await p.close()
 }
 await b.close()

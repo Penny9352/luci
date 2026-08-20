@@ -123,3 +123,23 @@ export const IconConverge = (p: IconProps) => (
     <path d="M11 12h9" />
   </Svg>
 )
+
+/** 自定义模型：手动拨定 */
+export const IconSliders = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 8h9" />
+    <path d="M17 8h3" />
+    <circle cx="15" cy="8" r="2.1" />
+    <path d="M4 16h3" />
+    <path d="M11 16h9" />
+    <circle cx="9" cy="16" r="2.1" />
+  </Svg>
+)
+
+/** 绑定到聊天软件 */
+export const IconLink = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.8-2.8a4 4 0 0 0-5.7-5.7l-1.6 1.6" />
+    <path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.8 2.8a4 4 0 1 0 5.7 5.7l1.6-1.6" />
+  </Svg>
+)

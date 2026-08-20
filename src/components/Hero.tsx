@@ -1,6 +1,6 @@
 import { hero, LOGIN_URL } from '../content/copy'
 import { Button } from './ui/Button'
-import { ChatSimulation } from './ChatSimulation'
+import { HeroDemo } from './HeroDemo'
 import { IconArrowDown } from './ui/Icon'
 
 export function Hero() {
@@ -21,8 +21,8 @@ export function Hero() {
           </Button>
         </div>
       </div>
-      <div className="hero__sim page">
-        <ChatSimulation />
+      <div className="hero__demo page">
+        <HeroDemo />
       </div>
     </section>
   )
