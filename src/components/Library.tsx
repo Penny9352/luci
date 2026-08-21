@@ -22,6 +22,25 @@ export function Library() {
           width={1912}
           height={971}
         />
+
+        <p className="lede measure">{l.reuse.lead}</p>
+
+        <div className="split">
+          <ScreenshotFrame
+            src="/shots/library-attach-menu.png"
+            alt={l.reuse.attachShot.alt}
+            caption={l.reuse.attachShot.caption}
+            width={1130}
+            height={485}
+          />
+          <ScreenshotFrame
+            src="/shots/library-picker.png"
+            alt={l.reuse.pickerShot.alt}
+            caption={l.reuse.pickerShot.caption}
+            width={1570}
+            height={1245}
+          />
+        </div>
       </div>
     </Stage>
   )
