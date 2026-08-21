@@ -19,9 +19,10 @@ export function Ecosystem() {
         <ul className="apps">
           {e.apps.map((a) => (
             <li key={a.name}>
+              <img className="apps__icon" src={a.icon} alt="" width={48} height={48} />
               <h3>{a.name}</h3>
               <p>{a.what}</p>
-              <p className="apps__note">{a.note}</p>
+              {a.note && <p className="apps__note">{a.note}</p>}
             </li>
           ))}
         </ul>
