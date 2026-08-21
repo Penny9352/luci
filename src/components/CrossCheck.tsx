@@ -12,12 +12,24 @@ export function CrossCheck() {
     <Stage id="cross-check" stage={c.stage} name={c.stageName}>
       <div className="stack">
         <h2>{c.title}</h2>
-        <p className="lede measure">{c.lead}</p>
         <p className="lede measure">
-          {c.engine.pre}
-          <strong className="engine">{c.engine.name}</strong>
-          {c.engine.post}
+          <strong>{c.subtitle}</strong>
         </p>
+        <p className="lede measure">
+          {c.problem.pre}
+          <strong>{c.problem.strong}</strong>
+          {c.problem.post}
+        </p>
+        <p className="lede measure">{c.engine}</p>
+
+        <div className="usage measure">
+          <p className="usage__label">{c.usage.label}</p>
+          <p className="lede">
+            {c.usage.pre}
+            <strong>{c.usage.strong}</strong>
+            {c.usage.post}
+          </p>
+        </div>
 
         <p className="beats">
           {c.beats.map((b) => (

@@ -538,6 +538,11 @@
   font-weight: 600;
 }
 
+.usage__label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
 .beats {
   display: flex;
   flex-wrap: wrap;
