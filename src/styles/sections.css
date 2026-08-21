@@ -28,7 +28,9 @@
 .stage h2 {
   font-size: var(--fs-h1);
   letter-spacing: -0.015em;
-  max-width: 20ch;
+  /* 中文标题的宽度约束要用 em：ch 是数字 0 的宽度，中文衬线里约 0.5em，
+     20ch 实际只有十来个汉字宽，会把词组断开 */
+  max-width: 16em;
 }
 
 .lede {
@@ -517,4 +519,53 @@
 
 .shot--evidence .shot__frame {
   border-color: var(--border-strong);
+}
+
+/* ── 引擎名与三拍 ─────────────────────────────────────────── */
+
+/* 技术代称。写在句子里加重，不做标题上方的眉题（craft floor 硬禁）。 */
+.engine {
+  color: var(--orange);
+  font-weight: 600;
+}
+
+.beats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.875rem;
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.beats span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.beats span:not(:last-child)::after {
+  content: '';
+  width: 1.25rem;
+  height: 1px;
+  margin-inline-start: 0.875rem;
+  background: var(--border-strong);
+}
+
+/* 代价写在明面上，比只讲好处可信 */
+.tradeoff {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  max-width: var(--measure);
+  padding: 0.875rem 1rem;
+  border-inline-start: 1px solid var(--border-gold);
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+.tradeoff__label {
+  flex: none;
+  color: var(--gold);
+  font-weight: 600;
 }

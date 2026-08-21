@@ -13,6 +13,17 @@ export function CrossCheck() {
       <div className="stack">
         <h2>{c.title}</h2>
         <p className="lede measure">{c.lead}</p>
+        <p className="lede measure">
+          {c.engine.pre}
+          <strong className="engine">{c.engine.name}</strong>
+          {c.engine.post}
+        </p>
+
+        <p className="beats">
+          {c.beats.map((b) => (
+            <span key={b}>{b}</span>
+          ))}
+        </p>
 
         <ScreenshotFrame
           src="/shots/cross-check-panel.png"
@@ -34,6 +45,11 @@ export function CrossCheck() {
             </div>
           ))}
         </dl>
+
+        <p className="tradeoff">
+          <span className="tradeoff__label">{c.tradeoff.label}</span>
+          {c.tradeoff.text}
+        </p>
 
         <p className="claim">{c.closing}</p>
       </div>

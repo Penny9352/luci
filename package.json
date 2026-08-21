@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "npm run fonts && tsc -b && vite build",
     "preview": "vite preview",
-    "fonts": "node scripts/subset-fonts.mjs"
+    "fonts": "node scripts/subset-fonts.mjs",
+    "check:copy": "node scripts/check-copy.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",
