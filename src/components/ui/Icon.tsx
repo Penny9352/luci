@@ -152,3 +152,31 @@ export const IconInfo = (p: IconProps) => (
     <path d="M12 8.2v.1" />
   </Svg>
 )
+
+export const IconPlus = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 4.5v15" />
+    <path d="M4.5 12h15" />
+  </Svg>
+)
+
+/** 输入框「+」菜单里的「从电脑上传」 */
+export const IconPaperclip = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M21.4 11.05 12.25 20.2a6 6 0 0 1-8.5-8.48l9.2-9.2a4 4 0 0 1 5.65 5.66l-9.19 9.2a2 2 0 0 1-2.83-2.83l8.49-8.49" />
+  </Svg>
+)
+
+export const IconSearch = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="10.8" cy="10.8" r="6.8" />
+    <path d="m19.5 19.5-4-4" />
+  </Svg>
+)
+
+/** 读取/写入文件的工具调用标记 */
+export const IconTool = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z" />
+  </Svg>
+)

@@ -1,6 +1,7 @@
 import { library as l } from '../content/copy'
 import { Stage } from './Stage'
 import { ScreenshotFrame } from './ui/ScreenshotFrame'
+import { LibraryDemo } from './LibraryDemo'
 
 export function Library() {
   return (
@@ -25,22 +26,7 @@ export function Library() {
 
         <p className="lede measure">{l.reuse.lead}</p>
 
-        <div className="split">
-          <ScreenshotFrame
-            src="/shots/library-attach-menu.png"
-            alt={l.reuse.attachShot.alt}
-            caption={l.reuse.attachShot.caption}
-            width={1130}
-            height={485}
-          />
-          <ScreenshotFrame
-            src="/shots/library-picker.png"
-            alt={l.reuse.pickerShot.alt}
-            caption={l.reuse.pickerShot.caption}
-            width={1570}
-            height={1245}
-          />
-        </div>
+        <LibraryDemo />
       </div>
     </Stage>
   )
