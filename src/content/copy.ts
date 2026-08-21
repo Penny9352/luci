@@ -16,7 +16,7 @@ export const ENTERPRISE_URL = 'https://biz.lucimix.com'
 export const nav = {
   brand: 'lucimix',
   links: [
-    { label: '交叉验证', href: '#cross-check' },
+    { label: '模型能力', href: '#cross-check' },
     { label: '定时任务', href: '#scheduled' },
     { label: '生态应用', href: '#ecosystem' },
     { label: '光点', href: '#start' },
@@ -79,7 +79,7 @@ export const reach = {
 
 export const crossCheck = {
   stage: '01',
-  stageName: '交叉验证',
+  stageName: '模型能力',
   title: '多模型协同推理引擎',
   subtitle: '一个问题，让多个 AI 一起思考。',
   problem: {
