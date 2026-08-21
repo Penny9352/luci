@@ -143,3 +143,12 @@ export const IconLink = (p: IconProps) => (
     <path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.8 2.8a4 4 0 1 0 5.7 5.7l1.6-1.6" />
   </Svg>
 )
+
+/** 产品里模式旁边的说明入口 */
+export const IconInfo = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M12 11v5" />
+    <path d="M12 8.2v.1" />
+  </Svg>
+)

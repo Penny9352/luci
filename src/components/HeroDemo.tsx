@@ -3,7 +3,15 @@ import { simulation, reach, hero } from '../content/copy'
 import { useTypewriter, type Step } from '../hooks/useTypewriter'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 import { useInView } from '../hooks/useInView'
-import { IconFile, IconSpark, IconConverge, IconSliders, IconCheck, IconSend } from './ui/Icon'
+import {
+  IconFile,
+  IconSpark,
+  IconConverge,
+  IconSliders,
+  IconCheck,
+  IconSend,
+  IconInfo,
+} from './ui/Icon'
 
 const MODE_ICONS = [IconSpark, IconConverge, IconSliders]
 
@@ -122,7 +130,10 @@ export function HeroDemo() {
               key={m.name}
             >
               <Ico size={17} className="demo__mode-icon" />
-              <span className="demo__mode-name">{m.name}</span>
+              <span className="demo__mode-name">
+                {m.name}
+                {m.info && <IconInfo size={13} className="demo__mode-info" />}
+              </span>
               {m.current && <IconCheck size={15} className="demo__mode-check" />}
               <span className="demo__mode-desc">{m.desc}</span>
             </div>

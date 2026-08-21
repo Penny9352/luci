@@ -38,7 +38,10 @@ export function Models() {
           <dl className="modes__list">
             {m.modes.map((mode) => (
               <div className="modes__row" key={mode.name}>
-                <dt>{mode.name}</dt>
+                <dt>
+                  {mode.name}
+                  {'alias' in mode && <span className="modes__alias">{mode.alias}</span>}
+                </dt>
                 <dd className="modes__what">{mode.what}</dd>
                 <dd className="modes__when">{mode.when}</dd>
               </div>

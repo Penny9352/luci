@@ -334,6 +334,15 @@
   font-size: var(--fs-sm);
 }
 
+/* 代称与产品内叫法挂钩，否则用户进产品对不上号 */
+.modes__alias {
+  display: block;
+  margin-top: 0.125rem;
+  font-weight: 400;
+  font-size: var(--fs-cap);
+  color: var(--text-on-light-2);
+}
+
 .modes__what {
   font-size: var(--fs-sm);
   color: var(--text-on-light);
