@@ -1,6 +1,5 @@
 import { library as l } from '../content/copy'
 import { Stage } from './Stage'
-import { ScreenshotFrame } from './ui/ScreenshotFrame'
 import { LibraryDemo } from './LibraryDemo'
 
 export function Library() {
@@ -9,21 +8,6 @@ export function Library() {
       <div className="stack">
         <h2>{l.title}</h2>
         <p className="lede measure">{l.lead}</p>
-        <ul className="tabs" aria-label="文件库分类">
-          {l.tabs.map((t, i) => (
-            <li key={t} className={i === 0 ? 'is-on' : undefined}>
-              {t}
-            </li>
-          ))}
-        </ul>
-        <ScreenshotFrame
-          src="/shots/library.png"
-          alt={l.shot.alt}
-          caption={l.shot.caption}
-          width={1912}
-          height={971}
-        />
-
         <p className="lede measure">{l.reuse.lead}</p>
 
         <LibraryDemo />

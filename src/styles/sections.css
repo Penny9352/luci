@@ -232,28 +232,6 @@
   overflow: hidden;
 }
 
-/* ── 文件库分类 ───────────────────────────────────────────── */
-
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  list-style: none;
-}
-
-.tabs li {
-  padding: 0.3125rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  font-size: var(--fs-cap);
-  color: var(--text-3);
-}
-
-.tabs li.is-on {
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
 /* ── 文件库：对话内引用文件演示（与首屏 .demo 共用窗口壳）─── */
 
 @keyframes reuse-in {
