@@ -175,6 +175,7 @@ export const libraryDemo = {
       { name: 'WorkBuddy竞品全景清单（含第三方AI聚合平台）.html', time: '2天前' },
     ],
     selected: '已选 0 个文件',
+    selectedOne: '已选 1 个文件',
     cancel: '取消',
     confirm: '确认添加',
   },

@@ -535,15 +535,46 @@
   align-items: center;
   gap: 0.625rem;
   min-width: 0;
+  padding: 0.3125rem 0.5rem;
+  margin-inline: -0.5rem;
+  border-radius: var(--r-sm);
   font-size: var(--fs-cap);
+  transition: background 0.25s var(--ease-out);
+}
+
+.reuse__modal-row.is-selected {
+  background: var(--surface-2);
 }
 
 .reuse__modal-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 0.9375rem;
   height: 0.9375rem;
   border: 1px solid var(--border-strong);
   border-radius: 4px;
+  color: var(--on-orange);
   flex: none;
+  transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+
+.reuse__modal-box.is-checked {
+  background: var(--orange);
+  border-color: var(--orange);
+  animation: reuse-check-pop 0.32s var(--ease-out);
+}
+
+@keyframes reuse-check-pop {
+  0% {
+    transform: scale(0.55);
+  }
+  65% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .reuse__modal-row svg {
@@ -590,6 +621,12 @@
   border-radius: var(--r-sm);
   background: var(--surface-2);
   color: var(--text-3);
+  transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out);
+}
+
+.reuse__modal-confirm.is-active {
+  background: var(--orange);
+  color: var(--on-orange);
 }
 
 /* ── 模型矩阵（浅色间奏）：两行 logo 横向滚动 ──────────────── */
