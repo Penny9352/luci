@@ -188,36 +188,18 @@ export const libraryDemo = {
 export const models = {
   title: '不绑定任何一家',
   lead: '没有哪个模型适合所有场景。接入得够多，才谈得上每次都用对的那个。',
-  groups: [
-    {
-      label: '国产',
-      items: [
-        { name: 'DeepSeek', icon: '/logos/models/deepseek.png' },
-        { name: 'Kimi', icon: '/logos/models/kimi.png' },
-        { name: 'GLM', icon: '/logos/models/glm.png' },
-        { name: 'Qwen', icon: '/logos/models/qwen.png' },
-      ],
-    },
-    {
-      label: '世界前沿',
-      items: [
-        { name: 'Claude', icon: '/logos/models/claude.png' },
-        { name: 'GPT', icon: '/logos/models/gpt.png' },
-      ],
-    },
-  ],
-  modesTitle: '三种模式，一个判断标准',
-  modesCriterion: '这段内容错了，要不要担责？',
-  modes: [
-    { name: '智能模式', what: '自动选最合适的单个模型，你只管提问。', when: '长、日常、随手问、自己看' },
-    {
-      name: '多模型协同推理引擎',
-      /** 产品里的叫法，写出来才对得上，否则用户进产品找不到 */
-      alias: '产品内叫「暴力模式」',
-      what: '多个模型同时作答，交叉验证后择优输出。',
-      when: '重要决策、复杂分析、希望多方验证',
-    },
-    { name: '自定义模型', what: '自己指定这次用哪个。', when: '明确知道某个模型在这件事上更擅长' },
+  items: [
+    { name: 'Claude Opus 5', icon: '/logos/models/claude.png' },
+    { name: 'Claude Sonnet 5', icon: '/logos/models/claude.png' },
+    { name: 'DeepSeek V4 Flash', icon: '/logos/models/deepseek.png' },
+    { name: 'DeepSeek V4 Pro', icon: '/logos/models/deepseek.png' },
+    { name: 'GLM 5.1', icon: '/logos/models/glm.png' },
+    { name: 'GLM 5.2', icon: '/logos/models/glm.png' },
+    { name: 'GPT 5.6 Sol', icon: '/logos/models/gpt.png' },
+    { name: 'GPT 5.6 Terra', icon: '/logos/models/gpt.png' },
+    { name: 'Kimi K2.6', icon: '/logos/models/kimi.png' },
+    { name: 'Kimi K3', icon: '/logos/models/kimi.png' },
+    { name: 'Qwen 3.5', icon: '/logos/models/qwen.png' },
   ],
 } as const
 

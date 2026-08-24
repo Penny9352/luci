@@ -599,22 +599,11 @@
   gap: 1.5rem;
 }
 
-.matrix__row {
-  display: grid;
-  gap: 0.75rem;
-  padding-block: 1.25rem;
-  border-top: 1px solid var(--border-light);
-}
-
-.matrix__label {
-  font-size: var(--fs-cap);
-  letter-spacing: 0.06em;
-  color: var(--orange-on-light);
-}
-
 .marquee {
   --fade: clamp(1.5rem, 6vw, 3.5rem);
   overflow: hidden;
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--border-light);
   mask-image: linear-gradient(
     to right,
     transparent,
@@ -628,12 +617,12 @@
   display: flex;
   width: max-content;
   gap: 0.875rem;
-  animation: marquee-scroll 26s linear infinite;
+  animation: marquee-scroll 34s linear infinite;
 }
 
 .marquee__track--reverse {
   animation-direction: reverse;
-  animation-duration: 30s;
+  animation-duration: 38s;
 }
 
 @keyframes marquee-scroll {
@@ -663,70 +652,6 @@
 
 .marquee__pill img {
   border-radius: 999px;
-}
-
-.modes {
-  display: grid;
-  gap: 1.5rem;
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  background: var(--surface-light);
-  border-radius: var(--r-lg);
-}
-
-.modes__head {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.modes h3 {
-  font-size: var(--fs-h2);
-  letter-spacing: -0.01em;
-}
-
-.modes__criterion {
-  font-family: var(--ff-display);
-  font-size: var(--fs-lead);
-  color: var(--orange-on-light);
-}
-
-.modes__list {
-  display: grid;
-  gap: 0;
-}
-
-.modes__row {
-  display: grid;
-  grid-template-columns: minmax(6.5rem, auto) minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 0.25rem 1.5rem;
-  padding-block: 1rem;
-  border-top: 1px solid var(--border-light);
-  align-items: baseline;
-}
-
-.modes__row dt {
-  font-weight: 600;
-  font-size: var(--fs-sm);
-}
-
-/* 代称与产品内叫法挂钩，否则用户进产品对不上号 */
-.modes__alias {
-  display: block;
-  margin-top: 0.125rem;
-  font-weight: 400;
-  font-size: var(--fs-cap);
-  color: var(--text-on-light-2);
-}
-
-.modes__what {
-  font-size: var(--fs-sm);
-  color: var(--text-on-light);
-  line-height: 1.7;
-}
-
-.modes__when {
-  font-size: var(--fs-cap);
-  color: var(--text-on-light-2);
-  line-height: 1.7;
 }
 
 /* ── 生态应用 ─────────────────────────────────────────────── */
@@ -857,10 +782,6 @@
   }
 
   .apps {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .modes__row {
     grid-template-columns: minmax(0, 1fr);
   }
 
