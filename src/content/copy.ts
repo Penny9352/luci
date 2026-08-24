@@ -186,8 +186,8 @@ export const libraryDemo = {
 } as const
 
 export const models = {
-  title: '不绑定任何一家',
-  lead: '没有哪个模型适合所有场景。接入得够多，才谈得上每次都用对的那个。',
+  title: '一个入口，连接多个领先模型',
+  lead: '统一接入国内外主流大模型，针对不同场景选择更合适的能力，无需在多个平台之间来回切换。',
   items: [
     { name: 'Claude Opus 5', icon: '/logos/models/claude.png' },
     { name: 'Claude Sonnet 5', icon: '/logos/models/claude.png' },
