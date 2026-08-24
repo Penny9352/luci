@@ -39,6 +39,16 @@ pnpm-debug.log*
 .idea/
 *.swp
 
+# 内部/开发用素材，网站构建与部署不依赖它们——只留在本地，不进仓库。
+# 部署到公司域名的是纯净的站点源码，不带 AI 工具配置与原始设计素材。
+.claude/
+.impeccable/
+assets/
+Lucimix产品介绍/
+docs/
+PRODUCT.md
+tsconfig.tsbuildinfo
+
 # Claude Code: machine-local settings (holds the impeccable design hook).
 # Each developer gets this by running `npx impeccable install` once.
 .claude/settings.local.json
