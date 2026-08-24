@@ -189,10 +189,23 @@ export const models = {
   title: '不绑定任何一家',
   lead: '没有哪个模型适合所有场景。接入得够多，才谈得上每次都用对的那个。',
   groups: [
-    { label: '国产', items: ['DeepSeek', 'Kimi', 'GLM', 'Qwen'] },
-    { label: '世界前沿', items: ['Claude', 'GPT'] },
+    {
+      label: '国产',
+      items: [
+        { name: 'DeepSeek', icon: '/logos/models/deepseek.png' },
+        { name: 'Kimi', icon: '/logos/models/kimi.png' },
+        { name: 'GLM', icon: '/logos/models/glm.png' },
+        { name: 'Qwen', icon: '/logos/models/qwen.png' },
+      ],
+    },
+    {
+      label: '世界前沿',
+      items: [
+        { name: 'Claude', icon: '/logos/models/claude.png' },
+        { name: 'GPT', icon: '/logos/models/gpt.png' },
+      ],
+    },
   ],
-  groupsNote: '等',
   modesTitle: '三种模式，一个判断标准',
   modesCriterion: '这段内容错了，要不要担责？',
   modes: [

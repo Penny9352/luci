@@ -17,14 +17,23 @@ export function Models() {
         </div>
 
         <div className="matrix">
-          {m.groups.map((g) => (
-            <div className="matrix__group" key={g.label}>
+          {m.groups.map((g, gi) => (
+            <div className="matrix__row" key={g.label}>
               <span className="matrix__label">{g.label}</span>
-              <ul className="matrix__list">
+              <div className="marquee" aria-hidden="true">
+                <div className={['marquee__track', gi % 2 === 1 && 'marquee__track--reverse'].filter(Boolean).join(' ')}>
+                  {[...g.items, ...g.items].map((i, idx) => (
+                    <span className="marquee__pill" key={`${i.name}-${idx}`}>
+                      <img src={i.icon} alt="" width={28} height={28} />
+                      {i.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <ul className="visually-hidden">
                 {g.items.map((i) => (
-                  <li key={i}>{i}</li>
+                  <li key={i.name}>{i.name}</li>
                 ))}
-                <li className="matrix__more">{m.groupsNote}</li>
               </ul>
             </div>
           ))}

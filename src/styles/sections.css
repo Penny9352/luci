@@ -592,18 +592,16 @@
   color: var(--text-3);
 }
 
-/* ── 模型矩阵（浅色间奏）─────────────────────────────────── */
+/* ── 模型矩阵（浅色间奏）：两行 logo 横向滚动 ──────────────── */
 
 .matrix {
   display: grid;
-  gap: 1.75rem;
+  gap: 1.5rem;
 }
 
-.matrix__group {
+.matrix__row {
   display: grid;
-  grid-template-columns: minmax(5rem, auto) minmax(0, 1fr);
-  gap: 1.5rem;
-  align-items: baseline;
+  gap: 0.75rem;
   padding-block: 1.25rem;
   border-top: 1px solid var(--border-light);
 }
@@ -614,19 +612,57 @@
   color: var(--orange-on-light);
 }
 
-.matrix__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem 1.75rem;
-  list-style: none;
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+.marquee {
+  --fade: clamp(1.5rem, 6vw, 3.5rem);
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--fade),
+    #000 calc(100% - var(--fade)),
+    transparent
+  );
 }
 
-.matrix__more {
-  color: var(--text-on-light-2);
-  font-weight: 400;
+.marquee__track {
+  display: flex;
+  width: max-content;
+  gap: 0.875rem;
+  animation: marquee-scroll 26s linear infinite;
+}
+
+.marquee__track--reverse {
+  animation-direction: reverse;
+  animation-duration: 30s;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee__pill {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 1.25rem 0.625rem 0.625rem;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-on-light);
+  white-space: nowrap;
+}
+
+.marquee__pill img {
+  border-radius: 999px;
 }
 
 .modes {
@@ -840,9 +876,13 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .matrix__group {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.75rem;
+  .marquee {
+    --fade: 1.25rem;
+  }
+
+  .marquee__pill {
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    font-size: 1rem;
   }
 
   /* 窄屏文字换行更多，固定高度的窗口要给够空间，不然结尾的工具调用标记会被裁掉 */
