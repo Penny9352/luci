@@ -41,6 +41,12 @@ export function Scheduled() {
         <h2>{s.title}</h2>
         <p className="lede measure">{s.lead}</p>
 
+        <p className="beats">
+          {s.beats.map((b) => (
+            <span key={b}>{b}</span>
+          ))}
+        </p>
+
         <ol className="tasks">
           {s.tasks.map((t) => (
             <li key={t.when}>
