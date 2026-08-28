@@ -335,7 +335,8 @@ export const footer = {
   tagline: 'An AI assistant that actually works for you.',
   /** Registered entity stays as filed. Swap if there is a registered English name. */
   company: '北京光忽智能科技有限公司',
-  icp: '京ICP备2025000000号',
+  /** Same legal notice as the Chinese page; entity name kept as registered. */
+  copyright: 'Copyright © 香港超昂控股有限公司 All Rights Reserved.',
   columns: [
     { title: 'Product', links: nav.links },
     {

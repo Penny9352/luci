@@ -108,14 +108,53 @@
 }
 
 .nav__links a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 44px;
   transition: color 0.2s var(--ease-out);
 }
 
+/**
+ * 悬停与选中的下划线。
+ *
+ * 用伪元素而不是 text-decoration：可以从中间展开，也不会把行盒撑高。
+ * 悬停是中性灰，选中是品牌橙 —— 两者形态一致、颜色分级，一眼能分出
+ * 「我正指着谁」和「我正在哪一段」。
+ */
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0.5625rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-3);
+  opacity: 0;
+  scale: 0.3 1;
+  transition:
+    opacity 0.2s var(--ease-out),
+    scale 0.24s var(--ease-out),
+    background-color 0.2s var(--ease-out);
+}
+
 .nav__links a:hover {
   color: var(--text);
+}
+
+.nav__links a:hover::after {
+  opacity: 1;
+  scale: 1 1;
+}
+
+.nav__links a[aria-current] {
+  color: var(--text);
+}
+
+.nav__links a[aria-current]::after {
+  opacity: 1;
+  scale: 1 1;
+  background: var(--orange-fill);
 }
 
 .nav__actions {
@@ -175,6 +214,11 @@
     font-size: 1.0625rem;
     border-bottom: 1px solid var(--border);
     color: var(--text-2);
+  }
+
+  /* 抽屉里没有下划线的位置，用色相区分当前段 */
+  .nav__sheet a[aria-current] {
+    color: var(--orange);
   }
 }
 

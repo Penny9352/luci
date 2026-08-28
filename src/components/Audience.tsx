@@ -14,10 +14,10 @@ const ROLE_ICONS = [IconFlask, IconTarget, IconTrend, IconPen, IconUsers]
 export function Audience() {
   return (
     <Stage id="audience" tint>
-      <div className="stack">
+      <div className="section-head">
         <p className="section__label">{a.label}</p>
         <h2>{a.title}</h2>
-        <p className="lede measure">{a.lead}</p>
+        <p className="lede">{a.lead}</p>
       </div>
 
       <ul className="roles">

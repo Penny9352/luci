@@ -22,10 +22,10 @@ export function Case() {
 
   return (
     <Stage id="case">
-      <div className="stack">
+      <div className="section-head">
         <p className="section__label">{c.label}</p>
         <h2 className="case__title">{c.title}</h2>
-        <p className="lede measure">{c.lead}</p>
+        <p className="lede">{c.lead}</p>
       </div>
 
       <div className={['case', inView && 'is-in'].filter(Boolean).join(' ')} ref={ref}>

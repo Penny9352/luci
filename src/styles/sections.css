@@ -25,7 +25,44 @@
   align-content: start;
 }
 
-/* 段标签。与工作台段头的 .ws__label 同一套字号与字距 */
+/**
+ * 段头：标签 + 标题 + 导语，居中。
+ *
+ * 全站唯一一处段头实现 —— 工作台段头原来在 workspace.css 里另写了一份
+ * 完全相同的（.ws__head / .ws__label / .ws__lead），已合并到这里。
+ * 之前适用人群、案例、模型、生态四段是左对齐，夹在居中的首屏、工作台
+ * 与收尾段之间，看起来像没对齐。
+ */
+.section-head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.section-head h2 {
+  font-size: var(--fs-h1);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  /* 宽度由段头自己收，标题不再单独限宽 */
+  max-width: none;
+}
+
+/* 标签贴着标题，导语离得开一些 —— 一个 46px 的标题下方留 10px 会发闷 */
+.section-head .section__label {
+  margin-bottom: 0.75rem;
+}
+
+.section-head .lede {
+  margin-top: 1.25rem;
+}
+
+/* 段头之后若直接跟正文栈（生态段），补上段间距 */
+.section-head + .stack {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
 .section__label {
   font-size: var(--fs-cap);
   font-weight: 700;

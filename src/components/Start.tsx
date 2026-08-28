@@ -58,7 +58,7 @@ export function Start() {
         </div>
 
         <div className="foot__bottom page">
-          <span>{f.icp}</span>
+          <span>{f.copyright}</span>
           <span>{f.disclaimer}</span>
         </div>
       </footer>

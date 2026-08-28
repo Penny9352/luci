@@ -387,8 +387,11 @@ export const footer = {
   brand: 'lucimix',
   tagline: '一个真正替你工作的 AI 助手。',
   company: '北京光忽智能科技有限公司',
-  /** TODO: 向用户取实际备案号。品牌页上的 京ICP备2025000000号 是占位。 */
-  icp: '京ICP备2025000000号',
+  /**
+   * 页脚底栏的法律声明。原来这里是 ICP 备案号占位，2026-08-28 用户指定
+   * 改为版权声明 —— 字段名跟着改，留着 icp 这个名字会误导后来的人。
+   */
+  copyright: 'Copyright © 香港超昂控股有限公司 All Rights Reserved.',
   columns: [
     { title: '产品', links: nav.links },
     {

@@ -11,9 +11,9 @@ const rows = [m.items.slice(0, mid), m.items.slice(mid)]
 export function Models() {
   return (
     <Stage id="models" tint>
-      <div className="stack">
+      <div className="section-head">
         <h2>{m.title}</h2>
-        <p className="lede measure">{m.lead}</p>
+        <p className="lede">{m.lead}</p>
       </div>
 
       <div className="matrix">

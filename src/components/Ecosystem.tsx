@@ -4,9 +4,11 @@ import { Stage } from './Stage'
 export function Ecosystem() {
   return (
     <Stage id="ecosystem">
-      <div className="stack">
+      <div className="section-head">
         <h2>{e.title}</h2>
+      </div>
 
+      <div className="stack">
         <dl className="terms terms--lead">
           {e.points.map((p) => (
             <div className="terms__row" key={p.term}>

@@ -41,10 +41,10 @@ export function Workspace() {
   return (
     <section className="ws" id="workspace">
       <div className="ws__inner page">
-        <header className="ws__head">
-          <p className="ws__label">{w.label}</p>
+        <header className="section-head">
+          <p className="section__label">{w.label}</p>
           <h2>{w.title}</h2>
-          <p className="ws__lead">{w.lead}</p>
+          <p className="lede">{w.lead}</p>
         </header>
 
         <div className="ws__tabs" role="tablist" aria-label={nav.tablistLabel}>
