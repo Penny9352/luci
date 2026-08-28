@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * 元素进入视口后置为 true 并保持。用于日志轨的阶段状态翻转。
- * rootMargin 让翻转发生在元素抵达视口中上部时，而不是刚露头就翻。
+ * 元素是否在视口内。
+ *
+ * once 为 true（默认）时触发一次就断开观察，适合「演一遍就完事」的东西；
+ * once 为 false 时持续跟随，滚出去会复位 —— 循环动效需要这个，
+ * 否则动画在屏幕外照样一圈圈空转。
  */
-export function useInView<T extends HTMLElement>(rootMargin = '-35% 0px -45% 0px') {
+export function useInView<T extends HTMLElement>(
+  rootMargin = '-15% 0px -15% 0px',
+  once = true
+) {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
 
@@ -17,16 +23,14 @@ export function useInView<T extends HTMLElement>(rootMargin = '-35% 0px -45% 0px
     }
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true)
-          io.disconnect()
-        }
+        setInView(entry.isIntersecting)
+        if (entry.isIntersecting && once) io.disconnect()
       },
       { rootMargin }
     )
     io.observe(el)
     return () => io.disconnect()
-  }, [rootMargin])
+  }, [rootMargin, once])
 
   return { ref, inView }
 }

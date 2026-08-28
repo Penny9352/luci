@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#1a1917" />
+    <title>Lucimix — An AI assistant that actually works for you</title>
+    <meta
+      name="description"
+      content="Leading models from China and abroad in one place. Output is filed for reuse, tasks run on a schedule, results arrive in your chat app. Several models answer independently, and where they disagree it is flagged."
+    />
+    <link rel="alternate" hreflang="zh-Hans" href="https://lucimix.com/" />
+    <link rel="alternate" hreflang="en" href="https://lucimix.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://lucimix.com/" />
+    <link rel="preload" href="/fonts/noto-serif-sc-700.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      html { background: #1a1917; }
+    </style>
+  </head>
+  <body>
+    <!--
+      English edition of the same page. Language is decided by URL, not by
+      state: `/` is Chinese, `/en/` is English, and src/content/copy.ts picks
+      the dictionary once at load. See that file for the reasoning.
+
+      The direction contract lives in the Chinese index.html; this page is the
+      same build, same components, same visual world — only the dictionary
+      differs.
+    -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

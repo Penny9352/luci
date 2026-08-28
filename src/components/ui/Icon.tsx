@@ -180,3 +180,52 @@ export const IconTool = (p: IconProps) => (
     <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z" />
   </Svg>
 )
+
+/* ── 适用人群。沿用同一套 24 网格 / 1.6 描边 ───────────────── */
+
+export const IconFlask = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M9.5 3h5" />
+    <path d="M10.5 3v5.6L5.1 17.3A2 2 0 0 0 6.8 20.4h10.4a2 2 0 0 0 1.7-3.1L13.5 8.6V3" />
+    <path d="M7.7 14.8h8.6" />
+  </Svg>
+)
+
+export const IconTarget = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="7.6" />
+    <circle cx="12" cy="12" r="3.2" />
+    <path d="M12 1.6v2.4M12 20v2.4M1.6 12h2.4M20 12h2.4" />
+  </Svg>
+)
+
+export const IconTrend = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M3 16.8l5.6-5.6 3.4 3.4L21 6" />
+    <path d="M15.2 6H21v5.8" />
+  </Svg>
+)
+
+export const IconPen = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 20h4L19.4 8.6a2.1 2.1 0 0 0-3-3L5 17v3z" />
+    <path d="M14.4 6.6l3 3" />
+  </Svg>
+)
+
+export const IconUsers = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="9.2" cy="8.2" r="3.3" />
+    <path d="M3.2 19.2a6 6 0 0 1 12 0" />
+    <path d="M16.4 5.5a3.3 3.3 0 0 1 0 5.4" />
+    <path d="M17.6 14.1a6 6 0 0 1 3.2 5.1" />
+  </Svg>
+)
+
+export const IconWarn = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3.8 2.9 19.6a1 1 0 0 0 .87 1.5h16.46a1 1 0 0 0 .87-1.5L12 3.8z" />
+    <path d="M12 9.6v4.3" />
+    <path d="M12 17.3h.01" />
+  </Svg>
+)

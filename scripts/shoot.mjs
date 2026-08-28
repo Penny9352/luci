@@ -17,7 +17,7 @@ const VIEWS = [
   { name: 'mobile', width: 390, height: 844, dsf: 2, mobile: true },
 ]
 
-const SECTIONS = ['#cross-check', '#scheduled', '#library', '#models', '#ecosystem', '#start']
+const SECTIONS = ['#workspace', '#models', '#ecosystem', '#start']
 
 async function main() {
   await mkdir(OUT, { recursive: true })

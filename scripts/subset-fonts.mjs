@@ -27,7 +27,7 @@ const EXTRA = '0123456789%·—…、，。：；？！（）「」『』/+-.,:;
 
 /**
  * 中文正文走系统栈（PingFang SC / Microsoft YaHei），与产品端一致，不下载。
- * 只有标题用的衬线需要子集，且只含标题里实际出现的字。
+ * 只有标题用的衬线需要子集，且只含标题里实际出现的字 —— 中英两份词典都算。
  */
 const FAMILIES = [
   { file: 'noto-serif-sc-700', family: 'Noto Serif SC', spec: 'wght@700', weight: 700, set: 'display' },
@@ -38,7 +38,7 @@ const FAMILIES = [
 
 /** copy.ts 里承担标题/展示级排版的字段名 */
 const DISPLAY_KEYS = [
-  'title', 'titleLead', 'titleAccent', 'titleTail', 'stageName',
+  'title', 'titleBrand', 'titleLead', 'titleAccent', 'titleTail', 'stageName',
   'modesTitle', 'modesCriterion', 'closing', 'term', 'name', 'heading', 'label',
 ]
 
@@ -47,8 +47,12 @@ function clean(set) {
   return [...set].sort().join('')
 }
 
+/** 两份词典都要扫：英文标题同样走思源宋体，缺拉丁字形会静默掉回系统衬线 */
+const COPY_FILES = ['src/content/copy.zh.ts', 'src/content/copy.en.ts']
+
 async function collectChars() {
-  const src = await readFile(resolve(root, 'src/content/copy.ts'), 'utf8')
+  const parts = await Promise.all(COPY_FILES.map((f) => readFile(resolve(root, f), 'utf8')))
+  const src = parts.join('\n')
 
   // 展示级：只取标题类字段的字符串字面量
   const keys = DISPLAY_KEYS.join('|')

@@ -25,6 +25,14 @@
   align-content: start;
 }
 
+/* 段标签。与工作台段头的 .ws__label 同一套字号与字距 */
+.section__label {
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+}
+
 .stage h2 {
   font-size: var(--fs-h1);
   letter-spacing: -0.015em;
@@ -246,7 +254,8 @@
 }
 
 .reuse__window {
-  max-width: 44rem;
+  /* 原来卡在 44rem，是为了在通栏暗底上不至于铺得太散；
+     现在外面有卡片收着，铺满卡宽才不会在右侧留一块死白。 */
   position: relative;
 }
 
@@ -634,13 +643,14 @@
 .matrix {
   display: grid;
   gap: 1.5rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
 
 .marquee {
   --fade: clamp(1.5rem, 6vw, 3.5rem);
   overflow: hidden;
   padding-block: 1.25rem;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--border);
   mask-image: linear-gradient(
     to right,
     transparent,
@@ -678,12 +688,13 @@
   gap: 0.625rem;
   padding: 0.625rem 1.25rem 0.625rem 0.625rem;
   border-radius: 999px;
-  background: #fff;
+  background: var(--bg);
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
   font-size: 1.0625rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--text-on-light);
+  color: var(--text);
   white-space: nowrap;
 }
 
@@ -737,8 +748,9 @@
 
 /* ── 尾部 ─────────────────────────────────────────────────── */
 
+/* 收尾段（含页脚）是最后一块色块，接在白底的生态段之后。 */
 .start {
-  border-top: 1px solid var(--border);
+  background: var(--surface);
   padding-top: clamp(4.5rem, 10vw, 8rem);
 }
 
@@ -872,10 +884,10 @@
   }
 }
 
-/* 交叉验证的截图是证据，必须给足尺寸才读得出推理日志 */
+/* 交叉验证的截图是证据，必须给足尺寸才读得出推理日志。
+   现在外面套了卡片，卡宽就是上限，不必再自己压一道 54rem。 */
 .shot--evidence {
   width: 100%;
-  max-width: 54rem;
   margin-block: 0.5rem;
 }
 
@@ -935,4 +947,164 @@
   flex: none;
   color: var(--gold);
   font-weight: 600;
+}
+
+/* ── 还能在哪用：原来挂在首屏演示窗右侧，首屏让给演示窗后落到这里 ──
+   讲的是同一件事的另一半 —— 生态不只是平台上的应用，也包括
+   把这个账号带进你已经在用的聊天软件。 */
+
+.reach {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: center;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: clamp(16px, 2vw, 24px);
+  background: var(--surface);
+}
+
+.reach__head {
+  display: grid;
+  gap: 0.625rem;
+  align-content: start;
+}
+
+.reach h3 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.01em;
+}
+
+.reach__lead {
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+.reach__foot {
+  font-size: var(--fs-cap);
+  line-height: 1.6;
+  color: var(--text-3);
+}
+
+.reach__channels {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.reach__channels li {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+  font-size: var(--fs-sm);
+}
+
+.reach__logo {
+  width: 1.625rem;
+  height: 1.625rem;
+  flex: none;
+}
+
+.reach__name {
+  font-weight: 600;
+}
+
+.reach__action {
+  margin-inline-start: auto;
+  font-size: var(--fs-cap);
+  color: var(--orange);
+}
+
+@media (max-width: 900px) {
+  .reach {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+@media (max-width: 560px) {
+  .reach__channels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── 适用人群 ─────────────────────────────────────────────── */
+
+.roles {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: clamp(2rem, 4vw, 3rem);
+  list-style: none;
+}
+
+.roles__item {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  /* 栏内padding 吃掉的宽度直接换成断行 —— 五栏本来就窄，能省则省 */
+  padding-inline: clamp(0.75rem, 1.2vw, 1.125rem);
+  border-inline-start: 1px solid var(--border);
+}
+
+/* 第一栏左侧不画线：那道线会变成整块内容的外框边，而不是分栏 */
+.roles__item:first-child {
+  border-inline-start: 0;
+  padding-inline-start: 0;
+}
+
+.roles__icon {
+  color: var(--orange);
+}
+
+.roles__item h3 {
+  font-family: var(--ff-body);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.roles__item p {
+  font-size: var(--fs-sm);
+  line-height: 1.75;
+  color: var(--text-2);
+}
+
+/* 五栏在 900 以下每栏只剩三四个字，先降到两栏，再降到单栏 */
+@media (max-width: 900px) {
+  .roles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 2rem;
+  }
+
+  /* 每行第一格不画竖线 —— 那道线会变成整块的外框边 */
+  .roles__item:nth-child(odd) {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .roles {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0;
+  }
+
+  /* 单栏里竖线没有意义，换成横线断句 */
+  .roles__item {
+    border-inline-start: 0;
+    padding-inline: 0;
+  }
+
+  .roles__item + .roles__item {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
 }

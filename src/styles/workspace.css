@@ -1,0 +1,622 @@
+/**
+ * 工作台 Tab 区 —— 全页第二块色块（白底，夹在暖灰的首屏与模型段之间）。
+ *
+ * 一个外框，四块画布。外框（侧栏 + 顶栏 + 画布尺寸）在切 Tab 时一动不动，
+ * 只有画布内容换 —— 外框跟着内容变，整页会在每次点击时抖一下。
+ */
+
+.ws {
+  position: relative;
+  background: var(--bg);
+  overflow-x: clip;
+}
+
+.ws__inner {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+}
+
+/* ── 段头 ───────────────────────────────────────────────── */
+
+.ws__head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.625rem;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.ws__label {
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+}
+
+.ws__head h2 {
+  font-size: var(--fs-h1);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.ws__lead {
+  font-size: var(--fs-lead);
+  line-height: 1.75;
+  color: var(--text-2);
+}
+
+/* ── Tab 条 ─────────────────────────────────────────────── */
+
+.ws__tabs {
+  display: flex;
+  justify-content: center;
+  /* 窄屏靠横向滚动，不靠换行 —— 换行会把第四个 Tab 甩到第二排，
+     整条药丸变成 L 形缺口 */
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  width: max-content;
+  max-width: 100%;
+  margin-block-start: clamp(1.75rem, 3.5vw, 2.5rem);
+  margin-inline: auto;
+  padding: 0.3125rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+
+.ws__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.625rem 1.125rem;
+  border: 0;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--ease-out),
+    background-color 0.2s var(--ease-out);
+}
+
+.ws__tab svg {
+  color: var(--text-3);
+  transition: color 0.2s var(--ease-out);
+}
+
+.ws__tab:hover {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.ws__tab:hover svg {
+  color: var(--orange);
+}
+
+.ws__tab.is-on {
+  background: var(--orange-fill);
+  color: var(--on-orange);
+  box-shadow: var(--shadow-sm);
+}
+
+.ws__tab.is-on svg {
+  color: var(--on-orange);
+}
+
+/* ── 舞台：左文案 / 右产品窗口 ──────────────────────────── */
+
+.ws__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+  gap: clamp(1.75rem, 4vw, 3.25rem);
+  align-items: center;
+  margin-top: clamp(1.75rem, 3.5vh, 2.75rem);
+}
+
+.ws__copy h3 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.ws__desc {
+  margin-top: 0.75rem;
+  font-size: var(--fs-body);
+  line-height: 1.8;
+  color: var(--text-2);
+}
+
+.ws__usecase {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  line-height: 1.75;
+  color: var(--text-3);
+}
+
+/* ── 产品窗口外框 ───────────────────────────────────────── */
+
+.ws__device {
+  --canvas-h: clamp(20rem, 27vw, 24.5rem);
+  display: grid;
+  grid-template-columns: 8.75rem minmax(0, 1fr);
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-window);
+  overflow: hidden;
+}
+
+.ws__side {
+  display: grid;
+  align-content: start;
+  gap: 0.125rem;
+  padding: 0.875rem 0.625rem;
+  background: var(--bg-elev);
+  border-inline-end: 1px solid var(--border);
+}
+
+.ws__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding-inline: 0.4375rem;
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ws__new {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0.6875rem 0 0.5rem;
+  padding: 0.4375rem 0.5rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-sm);
+  font-size: 0.75rem;
+  color: var(--text-2);
+}
+
+.ws__new svg {
+  color: var(--orange);
+  flex: none;
+}
+
+.ws__side-label {
+  margin: 0.6875rem 0 0.25rem;
+  padding-inline: 0.4375rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+}
+
+.ws__side-item {
+  padding: 0.375rem 0.4375rem;
+  border-radius: var(--r-xs);
+  font-size: 0.75rem;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws__side-item.is-on {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ws__main {
+  display: grid;
+  grid-template-rows: auto var(--canvas-h);
+  min-width: 0;
+}
+
+.ws__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6875rem 0.9375rem;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+
+.ws__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--orange);
+  border-radius: 999px;
+  background: var(--orange-glow);
+  color: var(--orange);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ws__canvas {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  animation: ws-in 0.4s var(--ease-out) both;
+}
+
+@keyframes ws-in {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+/* ── 暴力模式：真实截图 ─────────────────────────────────── */
+
+.ws-verify {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+}
+
+/* ── 日常任务：对话演示 ─────────────────────────────────── */
+
+.ws-daily {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100%;
+  padding: 0.875rem;
+}
+
+.ws-daily__thread {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  overflow: hidden;
+}
+
+.ws-daily__composer {
+  margin-top: 0.5rem;
+  padding: 0.625rem 0.8125rem 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--bg-elev);
+  display: grid;
+  gap: 0.5625rem;
+}
+
+/* ── 定时任务 ───────────────────────────────────────────── */
+
+.ws-sched {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 0.9375rem;
+  overflow: hidden;
+}
+
+.ws-sched__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.6875rem 0.8125rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.ws-sched__when {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.ws-sched__when svg {
+  color: var(--orange);
+  flex: none;
+}
+
+.ws-sched__body {
+  display: grid;
+  gap: 0.0625rem;
+  min-width: 0;
+}
+
+.ws-sched__name {
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ws-sched__desc {
+  font-size: 0.75rem;
+  /* 落在 --surface 上，--text-3 只有 4.2:1 */
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-sched__state {
+  padding: 0.1875rem 0.5625rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  /* --surface-2 是最深的一层，--text-3 在这里只有 3.6:1 */
+  color: var(--text-2);
+  font-size: 0.6875rem;
+  white-space: nowrap;
+}
+
+.ws-sched__state.is-running {
+  /* 橙底会把背景托亮，压薄底色也只到 4.46:1 —— 真正的瓶颈是 --orange
+     本身在抬高的底上只有 4.5:1 左右。字色换成更亮的 --orange-soft。 */
+  background: color-mix(in srgb, var(--orange) 8%, transparent);
+  color: var(--orange-soft);
+}
+
+.ws-sched__log {
+  margin-top: 0.1875rem;
+  padding: 0.6875rem 0.8125rem;
+  border: 1px solid var(--border-gold);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+.ws-sched__log-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-inline-end: 0.5rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.ws-sched__log-label svg {
+  flex: none;
+}
+
+/* ── 文档管理 ───────────────────────────────────────────── */
+
+.ws-docs {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.6875rem;
+  height: 100%;
+  padding: 0.9375rem;
+  overflow: hidden;
+}
+
+.ws-docs__search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--bg-elev);
+  font-size: 0.75rem;
+  color: var(--text-3);
+}
+
+.ws-docs__search svg {
+  color: var(--text-3);
+  flex: none;
+}
+
+.ws-docs__body {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.875rem;
+  min-height: 0;
+}
+
+.ws-docs__folders {
+  display: grid;
+  align-content: start;
+  gap: 0.125rem;
+}
+
+.ws-docs__folder {
+  padding: 0.3125rem 0.5rem;
+  border-radius: var(--r-xs);
+  font-size: 0.75rem;
+  color: var(--text-3);
+}
+
+.ws-docs__folder.is-on {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ws-docs__list {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+
+.ws-docs__head,
+.ws-docs__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 5.5rem 3.5rem;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.ws-docs__head {
+  padding: 0 0.5rem 0.4375rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.6875rem;
+  color: var(--text-3);
+}
+
+.ws-docs__row {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.ws-docs__row:last-child {
+  border-bottom: 0;
+}
+
+.ws-docs__file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.ws-docs__file svg {
+  color: var(--text-3);
+  flex: none;
+}
+
+.ws-docs__file > span {
+  display: grid;
+  gap: 0.0625rem;
+  min-width: 0;
+}
+
+.ws-docs__name {
+  font-size: var(--fs-cap);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-docs__meta {
+  font-size: 0.6875rem;
+  color: var(--text-3);
+}
+
+.ws-docs__time {
+  font-size: 0.6875rem;
+  color: var(--text-3);
+}
+
+.ws-docs__state {
+  justify-self: start;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: 0.6875rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.ws-docs__tip {
+  padding: 0.5625rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  font-size: 0.75rem;
+  line-height: 1.65;
+  /* 同上：--surface 底 */
+  color: var(--text-2);
+}
+
+.ws-docs__tip strong {
+  color: var(--text-2);
+  margin-inline-end: 0.25rem;
+}
+
+/* ── 断点 ───────────────────────────────────────────────── */
+
+@media (max-width: 1000px) {
+  .ws__stage {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .ws__copy {
+    text-align: center;
+    max-width: 34em;
+    margin-inline: auto;
+  }
+
+  .ws__usecase {
+    /* 居中窄栏里，顶部那道横线跨满整宽会像分隔条，收窄一点 */
+    max-width: 26em;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .ws__tabs {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .ws__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ws__tab {
+    /* 触控下限 44px：加的是上下内边距，字号不动 */
+    min-height: 44px;
+    padding: 0.5625rem 0.8125rem;
+  }
+
+  .ws__device {
+    /* 窄屏对话内容行数最多，画布反而要比桌面按比例更高 */
+    --canvas-h: 26rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* 窄屏提问气泡会占掉半屏，截断后仍读得出是什么请求 */
+  .demo__ask p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 窄屏侧栏没有存在价值，让画布拿走整幅宽度 */
+  .ws__side {
+    display: none;
+  }
+
+  .ws-docs__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ws-docs__folders {
+    display: none;
+  }
+
+  .ws-docs__head,
+  .ws-docs__row {
+    grid-template-columns: minmax(0, 1fr) 4rem;
+  }
+
+  .ws-docs__head span:last-child,
+  .ws-docs__state {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws__canvas {
+    animation: none;
+  }
+}

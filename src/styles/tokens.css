@@ -1,43 +1,41 @@
 /**
  * 设计 token。对比度数值为实测（sRGB 相对亮度），不是估算。
- * 依据：docs/superpowers/specs/2026-08-19-c端官网首页-design.md §3
+ *
+ * 页面是浅色的；产品演示窗口、手机推送这些「产品实拍」仍是暗的 ——
+ * 它们套 .panel-dark，在那个作用域里把整套变量换回产品自己的暗色主题，
+ * 于是同一份组件样式在浅底页面和深色面板里都成立，不必写两遍。
  */
 
 :root {
-  /* ── 底：暖近黑。与产品暗色主题 (#0f0f0f~#1a1a1a) 及 logo 暗底同源 ── */
-  --bg: #1a1917;
-  --bg-elev: #232220;
-  --surface: #2b2a27;
-  --surface-2: #34322e;
+  /* ── 底：白 + 暖灰。灰带一点暖，跟品牌橙同源，不是中性灰 ── */
+  --bg: #ffffff;
+  --bg-elev: #fafaf8;
+  --surface: #f4f2ee;            /* 分段大卡片 */
+  --surface-2: #e9e6e0;          /* 卡片里再深一档 */
 
-  /* ── 浅色间奏（模型矩阵那一段）── */
-  --bg-light: #f2efe9;
-  --text-on-light: #1a1917;      /* 15.3:1 */
-  --text-on-light-2: #57544d;    /*  6.6:1 */
-  --orange-on-light: #b34700;    /*  4.8:1 —— 浅底专用，品牌橙在此仅 2.5:1 */
-  --border-light: #1a19171f;
-  --surface-light: #e9e4da;
+  /* ── 描边：黑色低透明度，比灰实色更贴底 ── */
+  --border: #1a19171a;
+  --border-strong: #1a191733;
+  --border-gold: #7d5f1c33;
 
-  /* ── 描边 ── */
-  --border: #ffffff14;
-  --border-strong: #ffffff29;
-  --border-gold: #d4b87a3d;
+  /* ── 文字（浅底）── */
+  --text: #1a1917;               /* 17.6:1 */
+  --text-2: #57544d;             /*  7.6:1 */
+  --text-3: #6f6c65;             /*  5.2:1 —— 落到卡片底上只剩 4.6:1，勿再调浅 */
 
-  /* ── 文字（暗场）── */
-  --text: #f7f5f2;               /* 16.1:1 */
-  --text-2: #a3a09a;             /*  6.7:1 */
-  --text-3: #8a877f;             /*  4.9:1 —— 余量小，勿再调暗 */
-
-  /* ── 橙：品牌与动作 ── */
-  --orange: #ff6b00;             /*  6.2:1 */
-  --orange-soft: #ff8559;
-  --orange-glow: #ff6b0026;
-  --on-orange: #150d05;          /* 橙底上的字必须是深色：白字仅 2.9:1 */
+  /* ── 橙：品牌与动作。浅底上必须分成两支 ──
+     亮橙在白底只有 3.0:1，能当色块不能当字；
+     所以 --orange 是「能读的橙」，--orange-fill 是「能填的橙」。 */
+  --orange: #b34700;             /*  5.5:1，文字、描边、图标 */
+  --orange-fill: #ff6b00;        /*  填充：按钮、选区、标记 */
+  --orange-soft: #e35a00;        /*  填充态 hover */
+  --orange-glow: #ff6b0014;
+  --on-orange: #150d05;          /*  6.4:1 落在 --orange-fill 上 */
 
   /* ── 金：语义点缀。只标「需留神」，不与橙争夺可点击的语义 ── */
-  --gold: #d4b87a;               /*  9.2:1 */
-  --gold-bright: #e8d4a2;
-  --gold-dim: #d4b87a80;
+  --gold: #7d5f1c;               /*  6.0:1 */
+  --gold-bright: #9c7826;
+  --gold-dim: #7d5f1c80;
 
   /* ── 字体 ── */
   --ff-display: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
@@ -62,19 +60,66 @@
   --r-xl: 20px;
   --r-2xl: 24px;
 
-  /* ── 阴影：都带偏移与柔化，没有零偏移光晕 ── */
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.4);
-  --shadow-lg: 0 8px 32px rgb(0 0 0 / 0.5);
-  --shadow-window: 0 24px 64px -12px rgb(0 0 0 / 0.7), 0 2px 8px rgb(0 0 0 / 0.4);
+  /* ── 阴影：浅底上只能极柔，暗场那套 0.3~0.7 的黑会发脏 ── */
+  --shadow-sm: 0 1px 2px rgb(26 25 23 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(26 25 23 / 0.1);
+  --shadow-lg: 0 12px 32px -8px rgb(26 25 23 / 0.14);
+  --shadow-window: 0 24px 64px -20px rgb(26 25 23 / 0.28), 0 2px 8px rgb(26 25 23 / 0.08);
 
   /* ── 节奏 ── */
   --gutter: clamp(1.25rem, 4vw, 2.5rem);
   --measure: 34em;
   --page-max: 76rem;
-  --log-rail: clamp(3.25rem, 7vw, 7.5rem);
 
   /* ── 缓动：指数式 ease-out ── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ── 产品实拍面板 ────────────────────────────────────────────
+   演示窗口、模式切换器、手机推送：这些是产品本体，产品是暗色的，
+   所以整块换回暖近黑那一套。面板内部的组件样式一行都不用改。 */
+
+.panel-dark {
+  color-scheme: dark;
+
+  /**
+   * 必须显式重设 color。
+   *
+   * color 是按**计算值**继承的：body 上的 `color: var(--text)` 早已算成
+   * 浅色主题的近黑，再往下传就是那个具体颜色，不会因为这里换了 --text
+   * 而回头重算。后代只要没显式写 color，就会带着浅色主题的字色掉进暗
+   * 面板里 —— 首屏那条提问气泡曾经因此只有 1.37:1，几乎看不见。
+   */
+  color: var(--text);
+
+  --bg: #1a1917;
+  --bg-elev: #232220;
+  --surface: #2b2a27;
+  --surface-2: #34322e;
+
+  --border: #ffffff14;
+  --border-strong: #ffffff29;
+  --border-gold: #d4b87a3d;
+
+  --text: #f7f5f2;               /* 16.1:1 */
+  --text-2: #a3a09a;             /*  6.7:1 */
+  /* 只在 --bg / --bg-elev 上成立（4.7:1 / 4.6:1）。落到 --surface 只剩
+     4.2:1、--surface-2 只剩 3.6:1 —— 那两层底上一律改用 --text-2。 */
+  --text-3: #8f8c84;
+
+  --orange: #ff6b00;             /*  6.2:1，暗底上亮橙可以直接当字 */
+  --orange-fill: #ff6b00;
+  --orange-soft: #ff8559;
+  --orange-glow: #ff6b0026;
+
+  --gold: #d4b87a;               /*  9.2:1 */
+  --gold-bright: #e8d4a2;
+  --gold-dim: #d4b87a80;
+
+  /* 面板内部仍是暗场，阴影照旧；只有面板自己投在白页上的那道要收住 */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 8px 32px rgb(0 0 0 / 0.5);
+  --shadow-window: 0 24px 64px -20px rgb(26 25 23 / 0.35), 0 2px 8px rgb(26 25 23 / 0.12);
 }

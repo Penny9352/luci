@@ -22,7 +22,7 @@ import puppeteer from 'puppeteer-core'
 const URL = process.argv[2] ?? 'http://localhost:4173/'
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
-/** 营销叙述里严禁出现的词与能力表述 */
+/** 营销叙述里严禁出现的词与能力表述（中文页） */
 const BANNED = [
   ['多模型对比', '该词在小红书已被天梯图/评测内容占据'],
   ['更强', '空洞'],
@@ -38,21 +38,55 @@ const BANNED = [
 
 /** 营销叙述里必须存在的关键表述，防止改动时被误删 */
 const REQUIRED = [
-  ['多模型协同推理引擎', '对外技术代称'],
-  ['择优输出', '替代被禁的「最优」，说的是动作'],
-  ['出错的地方会被标出来', '交叉验证的落点，不可换成「保证正确」'],
+  ['分歧标出', '交叉验证的落点。原文「出错的地方会被标出来」随板块删除，Tab 文案里以此承接'],
   ['不提供任何投资建议', '收盘复盘的必需免责'],
   ['只能使用本人照片或已获授权的形象', '肖像权免责，风险落在平台'],
-  ['响应耗时会明显变长', '代价要写在明面上'],
 ]
 
-/** 界面复刻必须与产品逐字一致的字符串 */
-const REPLICA_MUST_MATCH = [
-  '智能模式',
-  '自动选择最合适的单个模型处理你的请求',
-  '暴力模式',
-  '同时调用多个模型，综合最优结果返回',
-  '自定义模型',
+/**
+ * 2026-08-27 首屏改 Tab 结构时，下列必需表述随 CrossCheck / Scheduled /
+ * Library 三个板块一并删除。记在这里是为了它们别被无声地忘掉 ——
+ * 想恢复，最省的位置是 workspace.tabs[0].usecase：
+ *
+ *   ['多模型协同推理引擎', '对外技术代称']  ← 用户已明确解除该要求
+ *   ['择优输出',          '替代被禁的「最优」，说的是动作']
+ *   ['出错的地方会被标出来', '不可换成「保证正确」']
+ *   ['响应耗时会明显变长',  '代价要写在明面上 —— 目前全站已无任何权衡披露']
+ */
+
+/**
+ * 界面复刻必须与产品逐字一致的字符串。
+ *
+ * 改 Tab 结构后，常开的模式切换器已删，页面上只剩输入框那颗模式 chip，
+ * 所以此表随之收缩到 chip 上真实出现的词。
+ */
+const REPLICA_MUST_MATCH = ['智能模式']
+
+/**
+ * 英文页。词表不是中文表的机翻 —— 禁的是同一批「做不到 / 不能承诺」的
+ * 能力表述，必需的是同一批免责，只是换了语言。
+ */
+const BANNED_EN = [
+  ['guaranteed correct', '不可承诺'],
+  ['always accurate', '同上'],
+  ['never wrong', '同上'],
+  ['Excel', '需要本地文件读写，产品做不了'],
+  ['transcribe', '会议录音转写，产品做不了'],
+  ['ghostwrit', '代写论文，能力无效 + 合规违规'],
+  ['undetectable', '降 AIGC 检测率，合规违规'],
+]
+
+const REQUIRED_EN = [
+  ['flag', '交叉验证的落点：分歧要被标出来'],
+  ['does not give investment advice', '股票复盘的必需免责'],
+  ['permission to use', '肖像权免责，风险落在平台'],
+]
+
+const REPLICA_MUST_MATCH_EN = ['Smart Mode']
+
+const SUITES = [
+  { name: '中文页', path: '/', banned: BANNED, required: REQUIRED, replica: REPLICA_MUST_MATCH },
+  { name: '英文页', path: '/en/', banned: BANNED_EN, required: REQUIRED_EN, replica: REPLICA_MUST_MATCH_EN },
 ]
 
 const browser = await puppeteer.launch({
@@ -60,48 +94,78 @@ const browser = await puppeteer.launch({
   headless: true,
   args: ['--no-sandbox'],
 })
-const page = await browser.newPage()
-await page.goto(URL, { waitUntil: 'networkidle0', timeout: 60000 })
-
-const { prose, replica } = await page.evaluate(() => {
-  const demo = document.querySelector('.demo')
-  const replica = demo ? demo.innerText : ''
-  const clone = document.body.cloneNode(true)
-  clone.querySelector('.demo')?.remove()
-  return { prose: clone.innerText, replica }
-})
-await browser.close()
-
 let bad = 0
 
-for (const [word, why] of BANNED) {
-  if (prose.includes(word)) {
-    console.error(`✗ 营销叙述里出现禁用表述「${word}」—— ${why}`)
+for (const suite of SUITES) {
+  const page = await browser.newPage()
+  await page.goto(URL.replace(/\/$/, '') + suite.path, { waitUntil: 'networkidle0', timeout: 60000 })
+
+  /**
+   * 首屏是 Tab 区：同一时刻只有一个面板在 DOM 里。只读当前状态等于三个 Tab
+   * 的文案从没被检查过，所以这里逐个点开，把四份正文并起来再扫。
+   */
+  const read = () =>
+    page.evaluate(() => {
+      const demo = document.querySelector('.ws-daily')
+      const replica = demo ? demo.innerText : ''
+      const clone = document.body.cloneNode(true)
+      clone.querySelector('.ws-daily')?.remove()
+      return { prose: clone.innerText, replica }
+    })
+
+  const tabCount = await page.$$eval('.ws__tab', (els) => els.length)
+  if (tabCount === 0) {
+    console.error(`✗ ${suite.name}：找不到 .ws__tab —— Tab 区结构变了，本脚本的覆盖范围已失效`)
     bad += 1
+    await page.close()
+    continue
   }
-}
 
-for (const [word, why] of REQUIRED) {
-  if (!prose.includes(word)) {
-    console.error(`✗ 营销叙述里缺少必需表述「${word}」—— ${why}`)
-    bad += 1
+  let prose = ''
+  let replica = ''
+  for (let i = 0; i < tabCount; i += 1) {
+    const tabs = await page.$$('.ws__tab')
+    await tabs[i].click()
+    await page.waitForFunction(
+      (n) => document.querySelectorAll('.ws__tab')[n]?.getAttribute('aria-selected') === 'true',
+      {},
+      i
+    )
+    const r = await read()
+    prose += `\n${r.prose}`
+    if (r.replica) replica = r.replica
   }
-}
+  await page.close()
 
-for (const word of REPLICA_MUST_MATCH) {
-  if (!replica.includes(word)) {
-    console.error(`✗ 界面复刻与产品不一致，缺少「${word}」——复刻不得改写产品用词`)
-    bad += 1
+  let sub = 0
+  for (const [word, why] of suite.banned) {
+    if (prose.includes(word)) {
+      console.error(`✗ ${suite.name} 出现禁用表述「${word}」—— ${why}`)
+      sub += 1
+    }
   }
+  for (const [word, why] of suite.required) {
+    if (!prose.includes(word)) {
+      console.error(`✗ ${suite.name} 缺少必需表述「${word}」—— ${why}`)
+      sub += 1
+    }
+  }
+  for (const word of suite.replica) {
+    if (!replica.includes(word)) {
+      console.error(`✗ ${suite.name} 界面复刻与产品不一致，缺少「${word}」`)
+      sub += 1
+    }
+  }
+  bad += sub
+  if (sub === 0)
+    console.log(
+      `✓ ${suite.name}：${suite.banned.length} 条禁用 / ${suite.required.length} 条必需 / ` +
+        `${suite.replica.length} 条界面复刻，全部通过`
+    )
 }
 
-if (bad === 0) {
-  console.log(
-    `✓ 文案红线通过：营销叙述 ${BANNED.length} 条禁用 / ${REQUIRED.length} 条必需，` +
-      `界面复刻 ${REPLICA_MUST_MATCH.length} 条与产品一致`
-  )
-  process.exit(0)
-}
+await browser.close()
 
-console.error(`\n${bad} 处不合规。见 spec §9。`)
+if (bad === 0) process.exit(0)
+console.error(`\n${bad} 处不合规。`)
 process.exit(1)

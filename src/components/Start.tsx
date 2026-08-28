@@ -34,19 +34,32 @@ export function Start() {
 
       <footer className="foot">
         <div className="foot__inner page">
-          <p className="foot__co">{f.company}</p>
-          <p className="foot__links">
-            {f.links.map((l) => (
-              <a key={l.label} href={l.href}>
-                {l.label}
-              </a>
-            ))}
-            <a href={f.enterprise.href}>{f.enterprise.label}</a>
-          </p>
-          <p className="foot__legal">
-            <span>{f.icp}</span>
-            <span>{f.disclaimer}</span>
-          </p>
+          <div className="foot__brand">
+            <a className="foot__logo" href="#top">
+              <img src="/logo.svg" alt="" width={22} height={34} />
+              <span>{f.brand}</span>
+            </a>
+            <p className="foot__tagline">{f.tagline}</p>
+            <p className="foot__co">{f.company}</p>
+          </div>
+
+          {f.columns.map((col) => (
+            <nav className="foot__col" key={col.title} aria-label={col.title}>
+              <h3>{col.title}</h3>
+              <ul>
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    <a href={l.href}>{l.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+
+        <div className="foot__bottom page">
+          <span>{f.icp}</span>
+          <span>{f.disclaimer}</span>
         </div>
       </footer>
     </section>

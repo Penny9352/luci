@@ -1,8 +1,8 @@
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
-import { CrossCheck } from './components/CrossCheck'
-import { Scheduled } from './components/Scheduled'
-import { Library } from './components/Library'
+import { Workspace } from './components/Workspace'
+import { Audience } from './components/Audience'
+import { Case } from './components/Case'
 import { Models } from './components/Models'
 import { Ecosystem } from './components/Ecosystem'
 import { Start } from './components/Start'
@@ -10,19 +10,17 @@ import { Start } from './components/Start'
 export default function App() {
   return (
     <>
-      <a className="skip-link" href="#cross-check">
+      <a className="skip-link" href="#workspace">
         跳到正文
       </a>
       <Nav />
       <main id="main">
         <Hero />
-        <div className="log">
-          <CrossCheck />
-          <Scheduled />
-          <Library />
-          <Models />
-          <Ecosystem />
-        </div>
+        <Workspace />
+        <Audience />
+        <Case />
+        <Models />
+        <Ecosystem />
         <Start />
       </main>
     </>
