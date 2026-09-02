@@ -38,7 +38,7 @@ const FAMILIES = [
 
 /** copy.ts 里承担标题/展示级排版的字段名 */
 const DISPLAY_KEYS = [
-  'title', 'titleBrand', 'titleLead', 'titleAccent', 'titleTail', 'stageName',
+  'title', 'titleLead', 'titleMain', 'stageName',
   'modesTitle', 'modesCriterion', 'closing', 'term', 'name', 'heading', 'label',
 ]
 
@@ -79,7 +79,14 @@ async function fetchSubset({ family, spec }, text) {
   if (!match) throw new Error(`${family}: no woff2 in css2 response`)
   const font = await fetch(match[1], { headers: { 'User-Agent': UA } })
   if (!font.ok) throw new Error(`${family}: font responded ${font.status}`)
-  return Buffer.from(await font.arrayBuffer())
+  const buf = Buffer.from(await font.arrayBuffer())
+  // Google 的 CJK 子集接口偶发性失灵：text= 被忽略，直接吐出未裁切的整份字重
+  // （思源宋体粗体整份 6MB+）。真子集给几百个字符最多几十到一百多 KB，
+  // 超过这个数量级基本可以判定不是子集，宁可保留旧产物也不要吞下这种文件。
+  if (buf.length > 300 * 1024) {
+    throw new Error(`${family}: got ${(buf.length / 1024).toFixed(0)}KB — looks unsubsetted, refusing`)
+  }
+  return buf
 }
 
 function css(entries) {

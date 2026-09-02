@@ -1,83 +1,8 @@
 /**
- * 工作台 Tab 区 —— 全页第二块色块（白底，夹在暖灰的首屏与模型段之间）。
- *
- * 一个外框，四块画布。外框（侧栏 + 顶栏 + 画布尺寸）在切 Tab 时一动不动，
- * 只有画布内容换 —— 外框跟着内容变，整页会在每次点击时抖一下。
+ * 工作台 —— 四个工作模式，各占一整幅色块屏（见 Stage 组件），奇偶交替
+ * 暖灰/白底，跟全站其它段落的色块节奏保持一致。每屏自带小标签 + 标题，
+ * 不再靠共用的 Tab 条切换 —— 四份外框（侧栏 + 顶栏 + 画布）各自独立。
  */
-
-.ws {
-  position: relative;
-  background: var(--bg);
-  overflow-x: clip;
-}
-
-.ws__inner {
-  padding-block: clamp(3.5rem, 7vw, 6rem);
-}
-
-/* 段头用全站公用的 .section-head（见 sections.css） */
-
-/* ── Tab 条 ─────────────────────────────────────────────── */
-
-.ws__tabs {
-  display: flex;
-  justify-content: center;
-  /* 窄屏靠横向滚动，不靠换行 —— 换行会把第四个 Tab 甩到第二排，
-     整条药丸变成 L 形缺口 */
-  flex-wrap: nowrap;
-  gap: 0.25rem;
-  width: max-content;
-  max-width: 100%;
-  margin-block-start: clamp(1.75rem, 3.5vw, 2.5rem);
-  margin-inline: auto;
-  padding: 0.3125rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-}
-
-.ws__tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4375rem;
-  padding: 0.625rem 1.125rem;
-  border: 0;
-  border-radius: var(--r-md);
-  background: transparent;
-  color: var(--text-2);
-  font-family: inherit;
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    color 0.2s var(--ease-out),
-    background-color 0.2s var(--ease-out);
-}
-
-.ws__tab svg {
-  color: var(--text-3);
-  transition: color 0.2s var(--ease-out);
-}
-
-.ws__tab:hover {
-  color: var(--text);
-  background: var(--bg);
-}
-
-.ws__tab:hover svg {
-  color: var(--orange);
-}
-
-.ws__tab.is-on {
-  background: var(--orange-fill);
-  color: var(--on-orange);
-  box-shadow: var(--shadow-sm);
-}
-
-.ws__tab.is-on svg {
-  color: var(--on-orange);
-}
 
 /* ── 舞台：左文案 / 右产品窗口 ──────────────────────────── */
 
@@ -86,13 +11,33 @@
   grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
   gap: clamp(1.75rem, 4vw, 3.25rem);
   align-items: center;
-  margin-top: clamp(1.75rem, 3.5vh, 2.75rem);
+}
+
+.ws__copy .section__label {
+  margin-bottom: 0.75rem;
 }
 
 .ws__copy h3 {
   font-size: var(--fs-h2);
   letter-spacing: -0.02em;
   text-wrap: balance;
+}
+
+.ws__product-wrap {
+  position: relative;
+}
+
+/* 两行叠题的第二行换色——暴力模式这一屏逐字取自参考图 */
+.ws__title-accent {
+  color: var(--orange);
+}
+
+.ws__title-accent--inline {
+  margin-inline-start: 0.15em;
+}
+
+.ws__heading--verify-zh {
+  white-space: nowrap;
 }
 
 .ws__desc {
@@ -111,6 +56,35 @@
   color: var(--text-3);
 }
 
+.ws-docs__features {
+  display: grid;
+  gap: 1.75rem;
+  margin: 2rem 0 0;
+  padding: 1.75rem 0 0;
+  border-top: 1px solid var(--border);
+  list-style: none;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ws-docs__features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ws-docs__feature-icon {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1.5px solid var(--orange);
+  border-radius: 50%;
+  color: var(--orange);
+  flex: none;
+}
+
 /* ── 产品窗口外框 ───────────────────────────────────────── */
 
 .ws__device {
@@ -122,6 +96,18 @@
   border-radius: var(--r-xl);
   box-shadow: var(--shadow-window);
   overflow: hidden;
+}
+
+/* 「自由模式」这一屏两步一镜到底，内容比其它三屏多，画布单独放高 ——
+   只影响这一屏，其它三屏的 --canvas-h 不动 */
+.ws__device--daily {
+  --canvas-h: clamp(26rem, 32vw, 30rem);
+}
+
+/* 「暴力模式」这一屏是完整案例（任务 → 三模型独立作答 → 交叉验证 →
+   结论），比截图时代长得多，画布单独放高——只上中文站 */
+.ws__device--verify {
+  --canvas-h: clamp(28rem, 36vw, 34rem);
 }
 
 .ws__side {
@@ -184,6 +170,24 @@
   font-weight: 600;
 }
 
+/* 「自由模式」侧栏按真实产品左侧导航改 —— 图标 + 文字的入口行，
+   不再是伪造的工作列表 */
+.ws__side-item--nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.375rem;
+}
+
+.ws__side-item--nav svg {
+  color: var(--text-3);
+  flex: none;
+}
+
+.ws__side-item--nav.is-on svg {
+  color: var(--orange);
+}
+
 .ws__main {
   display: grid;
   grid-template-rows: auto var(--canvas-h);
@@ -229,7 +233,7 @@
   }
 }
 
-/* ── 暴力模式：真实截图 ─────────────────────────────────── */
+/* ── 暴力模式：真实截图（英文站） ──────────────────────────── */
 
 .ws-verify {
   display: block;
@@ -239,30 +243,657 @@
   object-position: left top;
 }
 
-/* ── 日常任务：对话演示 ─────────────────────────────────── */
+/* ── 暴力模式：涨价决策案例（中文站，手绘界面） ──────────────── */
+
+.ws-verify-case {
+  height: 100%;
+  padding: 0.75rem;
+  display: grid;
+  gap: 0.625rem;
+  align-content: start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.ws-verify-case::-webkit-scrollbar {
+  width: 5px;
+}
+
+.ws-verify-case::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+}
+
+/* 任务卡：用户请求 + 附件 */
+.vc-task {
+  display: flex;
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--bg-elev);
+}
+
+.vc-task__icon {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, #22a35e 16%, transparent);
+  color: #22a35e;
+  flex: none;
+}
+
+.vc-task__body {
+  min-width: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.vc-task__prompt {
+  white-space: pre-line;
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.vc-task__attachment {
+  font-size: 0.75rem;
+  color: var(--text-3);
+}
+
+/* 阶段标题行——阶段一带右侧小字说明，阶段二/三是纯标题 */
+.vc-stage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.vc-stage-head__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.vc-stage-head__label svg {
+  color: var(--text-3);
+  flex: none;
+}
+
+.vc-stage-head__note {
+  font-size: 0.75rem;
+  color: var(--text-3);
+}
+
+.vc-stage-label {
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* 三个模型独立作答 */
+.vc-models {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.vc-model {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  padding: 0.625rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--bg-elev);
+}
+
+.vc-model--orange {
+  --accent: var(--orange);
+}
+
+.vc-model--green {
+  --accent: #22a35e;
+}
+
+.vc-model--blue {
+  --accent: #3b7cf6;
+}
+
+.vc-model__head {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+}
+
+.vc-model__avatar {
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  flex: none;
+}
+
+.vc-model__avatar-text {
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.vc-model__name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vc-model__angle {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.vc-model__intro {
+  font-size: 0.6875rem;
+  color: var(--text-2);
+}
+
+.vc-model__bullets {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding-left: 0.9375rem;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.vc-model__bullets li::marker {
+  color: var(--text-3);
+}
+
+.vc-model__range-label {
+  margin-top: 0.125rem;
+  font-size: 0.625rem;
+  color: var(--text-3);
+}
+
+.vc-model__range {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.vc-model__confidence {
+  justify-self: start;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.625rem;
+  color: var(--text-3);
+}
+
+/* 阶段二：一致观点 / 存在分歧 */
+.vc-cross {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.vc-cross__box {
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-gold);
+}
+
+.vc-cross__box--agree {
+  border-color: color-mix(in srgb, #22a35e 45%, transparent);
+  background: color-mix(in srgb, #22a35e 9%, transparent);
+}
+
+.vc-cross__box--disagree {
+  border-color: color-mix(in srgb, var(--orange) 45%, transparent);
+  background: color-mix(in srgb, var(--orange) 9%, transparent);
+}
+
+.vc-cross__head {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.vc-cross__box--agree .vc-cross__head svg {
+  color: #22a35e;
+}
+
+.vc-cross__box--disagree .vc-cross__head svg {
+  color: var(--orange);
+}
+
+.vc-cross__box ul {
+  display: grid;
+  gap: 0.3125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vc-cross__box li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.vc-cross__box li svg {
+  flex: none;
+  margin-top: 0.1875rem;
+}
+
+.vc-cross__box--agree li svg {
+  color: #22a35e;
+}
+
+.vc-cross__box--disagree li svg {
+  color: var(--orange);
+}
+
+/* 阶段三：综合结论 */
+.vc-conclusion {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, #8b5cf6 40%, transparent);
+  background: color-mix(in srgb, #8b5cf6 14%, transparent);
+}
+
+.vc-conclusion__icon {
+  display: grid;
+  place-items: center;
+  color: #8b5cf6;
+}
+
+.vc-conclusion__text {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.vc-conclusion__cta {
+  grid-column: 2;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  background: #8b5cf6;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.vc-footnote {
+  font-size: 0.6875rem;
+  color: var(--text-3);
+}
+
+@media (max-width: 720px) {
+  .vc-models,
+  .vc-cross {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── 自由模式：Claude → DeepSeek，两步一镜到底 ─────────────── */
 
 .ws-daily {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   height: 100%;
-  padding: 0.875rem;
+  padding: 0.625rem;
 }
 
+/* Claude 那份完整回答比画布高——不裁，让这一块自己滚动，跟真实聊天
+   窗口一样；输入框和切换弹窗都在这个容器外面，不随内容滚走。 */
 .ws-daily__thread {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.375rem;
   align-content: start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.ws-daily__thread::-webkit-scrollbar {
+  width: 5px;
+}
+
+.ws-daily__thread::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+}
+
+.demo__narr {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.demo__text {
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+/* Claude 答复里那几步工具调用，压成一行小字，不逐条动效 */
+.demo__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  font-size: 0.6875rem;
+  color: var(--text-3);
+}
+
+.demo__tools span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.demo__tools svg {
+  color: var(--text-3);
+  flex: none;
+}
+
+/* 写入文件之后生成的产出物卡片 */
+.demo__file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4375rem 0.625rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--bg-elev);
+}
+
+.demo__file-icon {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--gold) 14%, transparent);
+  color: var(--gold);
+  flex: none;
+}
+
+.demo__file-name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-cap);
+  color: var(--text);
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.demo__file-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-3);
+  flex: none;
+}
+
+/* 核心信息列表 —— 生理机制 / 五大主流理论 / 实用知识 / 常见误解澄清 */
+.demo__bullets {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+  padding-left: 1.125rem;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+.demo__bullets strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* DeepSeek 那条文案末尾的话题标签行 */
+.demo__hashtags {
+  font-size: var(--fs-cap);
+  line-height: 1.6;
+  color: var(--orange);
 }
 
 .ws-daily__composer {
-  margin-top: 0.5rem;
-  padding: 0.625rem 0.8125rem 0.5rem;
+  position: relative;
+  margin-top: 0.375rem;
+  padding: 0.5rem 0.75rem 0.4375rem;
   border: 1px solid var(--border-strong);
   border-radius: var(--r-md);
   background: var(--bg-elev);
   display: grid;
-  gap: 0.5625rem;
+  gap: 0.4375rem;
+}
+
+/* 模式 chip 现在直接显示当前模型名（真实产品就是这样），切换弹窗打开
+   的一刻轻轻按下去，暗示这行字是被点开的 */
+.demo__chip.is-pressed {
+  scale: 0.96;
+}
+
+/* 「切换模型」是这一屏唯一要演的动作 —— 弹窗绝对定位悬浮在输入框正
+   上方，不占版面高度，跟真实产品的下拉菜单一个位置。DOM 常驻、只切
+   opacity，这样界面复刻文案（自定义模型）随时都在，不依赖动画走到哪。 */
+.ws-daily__menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 0.5rem);
+  padding: 0.375rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-window);
+  display: grid;
+  gap: 0.0625rem;
+  opacity: 0;
+  scale: 0.97;
+  translate: 0 4px;
+  transform-origin: bottom left;
+  pointer-events: none;
+  transition:
+    opacity 0.28s var(--ease-out),
+    scale 0.28s var(--ease-out),
+    translate 0.28s var(--ease-out);
+}
+
+.ws-daily__menu.is-open {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+}
+
+.ws-daily__menu-label {
+  padding: 0.25rem 0.5rem 0.3125rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+}
+
+.ws-daily__menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--r-xs);
+  font-size: var(--fs-cap);
+  color: var(--text-2);
+}
+
+.ws-daily__menu-item.is-selected {
+  background: var(--orange-glow);
+  color: var(--orange);
+  font-weight: 600;
+  animation: demo-switch-in 0.32s var(--ease-out) both;
+}
+
+.ws-daily__menu-item svg {
+  flex: none;
+}
+
+@keyframes demo-switch-in {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+
+/* Step 1/2 案例注释，画在控件外面 —— 控件本身要模拟真实使用 */
+.ws-daily__caption {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+
+.ws-daily__caption svg {
+  color: var(--text-3);
+  flex: none;
+}
+
+.ws-daily__caption span {
+  transition:
+    color 0.3s var(--ease-out),
+    font-weight 0.3s var(--ease-out);
+}
+
+.ws-daily__caption span.is-active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* 中文站专用：任务 → Step 1 → Step 2 三段步骤条，画在控件外面 ——
+   控件本身要模拟真实使用，不自己标注第几步。跟整屏对齐、贴满页面
+   宽度（.ws__stage 的兄弟节点），不再只贴设备栏那一列窄条，字号/字重
+   也跟着这个更宽的卡片放大一档，逐字照参考图。 */
+.ws-daily__stepbar {
+  margin-top: 1.75rem;
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.ws-daily__stepbar-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.ws-daily__stepbar-badge {
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  flex: none;
+  transition:
+    background 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+
+.ws-daily__stepbar-badge--task {
+  background: var(--orange-glow);
+  color: var(--orange);
+}
+
+.ws-daily__stepbar-item.is-active .ws-daily__stepbar-badge {
+  background: var(--orange);
+  color: #fff;
+}
+
+.ws-daily__stepbar-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.1875rem;
+  padding-top: 0.125rem;
+}
+
+.ws-daily__stepbar-label {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.ws-daily__stepbar-title {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.ws-daily__stepbar-desc {
+  font-size: var(--fs-cap);
+  line-height: 1.5;
+  /* --surface 底，--text-3 只有 4.2:1，这里抬一档到 --text-2 */
+  color: var(--text-2);
+}
+
+.ws-daily__stepbar-chevron {
+  align-self: center;
+  color: var(--border-strong);
+  flex: none;
+}
+
+@media (max-width: 640px) {
+  .ws-daily__stepbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ws-daily__stepbar-chevron {
+    display: none;
+  }
 }
 
 /* ── 定时任务 ───────────────────────────────────────────── */
@@ -398,6 +1029,24 @@
   min-height: 0;
 }
 
+.ws-docs__body--zh {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.625rem;
+}
+
+.ws-docs__categories {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.ws-docs__categories .ws-docs__folder {
+  flex: none;
+  padding: 0.3125rem 0.625rem;
+}
+
 .ws-docs__folders {
   display: grid;
   align-content: start;
@@ -509,6 +1158,194 @@
   margin-inline-end: 0.25rem;
 }
 
+.ws-docs--zh {
+  position: relative;
+}
+
+.ws-docs__cross {
+  position: absolute;
+  z-index: 2;
+  left: 10%;
+  right: 4%;
+  top: 70%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-window);
+  transform: scale(0.8);
+  transform-origin: center top;
+}
+
+.ws-docs__cross-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ws-docs__cross-head h4 {
+  margin: 0;
+  font-size: var(--fs-cap);
+}
+
+.ws-docs__cross-head p {
+  max-width: 42em;
+  margin: 0.375rem 0 0;
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--bg) 60%, var(--text));
+}
+
+.ws-docs__cross-close,
+.ws-docs__cross-remove {
+  color: color-mix(in srgb, var(--bg) 60%, var(--text));
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.ws-docs__cross-field {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.625rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+
+.ws-docs__cross-field > strong {
+  font-size: 0.6875rem;
+}
+
+.ws-docs__cross-file,
+.ws-docs__cross-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--bg-elev);
+}
+
+.ws-docs__cross-file {
+  min-height: 2.75rem;
+}
+
+.ws-docs__cross-file > svg {
+  color: var(--orange);
+  flex: none;
+}
+
+.ws-docs__cross-file > span:nth-child(2) {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+}
+
+.ws-docs__cross-file b {
+  overflow: hidden;
+  font-size: 0.6875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ws-docs__cross-file small {
+  color: var(--text-3);
+  font-size: 0.625rem;
+}
+
+.ws-docs__cross-prompt {
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 4.5rem;
+  color: var(--text-2);
+  font-size: 0.6875rem;
+  line-height: 1.55;
+}
+
+.ws-docs__cross-send {
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--on-orange);
+  flex: none;
+  align-self: flex-end;
+}
+
+.ws-docs__cross-note {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.625rem;
+}
+
+.ws-docs__cross-callout {
+  position: absolute;
+  right: -7.25rem;
+  bottom: 2.75rem;
+  margin: 0;
+  color: var(--orange);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+  animation: docs-callout-float 2.4s var(--ease-in-out) infinite;
+}
+
+.ws-docs__cross-callout-arrow {
+  position: absolute;
+  left: -2.5rem;
+  top: 0.05rem;
+  width: 2.5rem;
+  height: 2.75rem;
+  border-left: 2px solid var(--orange);
+  border-bottom: 2px solid var(--orange);
+  border-bottom-left-radius: 100%;
+  transform: rotate(-24deg);
+  transform-origin: right bottom;
+  animation: docs-callout-arrow 2.4s var(--ease-in-out) infinite;
+}
+
+.ws-docs__cross-callout-arrow::after {
+  content: '';
+  position: absolute;
+  left: -0.28rem;
+  bottom: -0.18rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-left: 2px solid var(--orange);
+  border-bottom: 2px solid var(--orange);
+  transform: rotate(10deg);
+}
+
+@keyframes docs-callout-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -0.25rem;
+  }
+}
+
+@keyframes docs-callout-arrow {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: -0.125rem 0.125rem;
+  }
+}
+
 /* ── 断点 ───────────────────────────────────────────────── */
 
 @media (max-width: 1000px) {
@@ -531,23 +1368,6 @@
 }
 
 @media (max-width: 720px) {
-  .ws__tabs {
-    width: 100%;
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .ws__tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .ws__tab {
-    /* 触控下限 44px：加的是上下内边距，字号不动 */
-    min-height: 44px;
-    padding: 0.5625rem 0.8125rem;
-  }
-
   .ws__device {
     /* 窄屏对话内容行数最多，画布反而要比桌面按比例更高 */
     --canvas-h: 26rem;
@@ -576,6 +1396,18 @@
     display: none;
   }
 
+  .ws-docs__categories {
+    display: none;
+  }
+
+  .ws-docs__cross {
+    display: none;
+  }
+
+  .ws-docs__cross-callout {
+    display: none;
+  }
+
   .ws-docs__head,
   .ws-docs__row {
     grid-template-columns: minmax(0, 1fr) 4rem;
@@ -589,6 +1421,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ws__canvas {
+    animation: none;
+  }
+
+  .ws-docs__cross-callout,
+  .ws-docs__cross-callout-arrow {
     animation: none;
   }
 }

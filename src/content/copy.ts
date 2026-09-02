@@ -21,16 +21,4 @@ export const ALT_LANG = LANG === 'en' ? { code: 'zh', label: '中文', href: '/'
 
 const dict = LANG === 'en' ? en : zh
 
-export const {
-  nav,
-  hero,
-  simulation,
-  reach,
-  workspace,
-  audience,
-  caseStudy,
-  models,
-  ecosystem,
-  start,
-  footer,
-} = dict
+export const { nav, hero, simulation, reach, workspace, models, ecosystem, start, footer } = dict

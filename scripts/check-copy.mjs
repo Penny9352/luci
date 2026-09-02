@@ -38,9 +38,12 @@ const BANNED = [
 
 /** 营销叙述里必须存在的关键表述，防止改动时被误删 */
 const REQUIRED = [
-  ['分歧标出', '交叉验证的落点。原文「出错的地方会被标出来」随板块删除，Tab 文案里以此承接'],
-  ['不提供任何投资建议', '收盘复盘的必需免责'],
-  ['只能使用本人照片或已获授权的形象', '肖像权免责，风险落在平台'],
+  [
+    '标注模型分歧',
+    '交叉验证的落点，原文「分歧标出」。2026-09-02 暴力模式左侧文案改成参考图的四条 ' +
+      'checklist（workspace.tabs[1].checklist），原句被拆开，改用「标注模型分歧，提示验证，' +
+      '减少返工」这条承接同一件事：分歧会被标出来，不是被模型悄悄抹平。',
+  ],
 ]
 
 /**
@@ -52,6 +55,12 @@ const REQUIRED = [
  *   ['择优输出',          '替代被禁的「最优」，说的是动作']
  *   ['出错的地方会被标出来', '不可换成「保证正确」']
  *   ['响应耗时会明显变长',  '代价要写在明面上 —— 目前全站已无任何权衡披露']
+ *
+ * 2026-09-02 中文站拿掉了生态应用整段——'不提供任何投资建议'（投资理财
+ * Agent）和'只能使用本人照片或已获授权的形象'（写真生成 / 口播视频助手）
+ * 这两条必需免责原来就只挂在这一段里，段没了、页面上不再宣传这些能力，
+ * 免责也就无从谈起，随之从中文页的必需清单里去掉。英文页的生态应用还在，
+ * REQUIRED_EN 不受影响，照旧要求这两条。
  */
 
 /**
@@ -60,7 +69,7 @@ const REQUIRED = [
  * 改 Tab 结构后，常开的模式切换器已删，页面上只剩输入框那颗模式 chip，
  * 所以此表随之收缩到 chip 上真实出现的词。
  */
-const REPLICA_MUST_MATCH = ['智能模式']
+const REPLICA_MUST_MATCH = ['自定义模型']
 
 /**
  * 英文页。词表不是中文表的机翻 —— 禁的是同一批「做不到 / 不能承诺」的
@@ -82,7 +91,7 @@ const REQUIRED_EN = [
   ['permission to use', '肖像权免责，风险落在平台'],
 ]
 
-const REPLICA_MUST_MATCH_EN = ['Smart Mode']
+const REPLICA_MUST_MATCH_EN = ['Custom models']
 
 const SUITES = [
   { name: '中文页', path: '/', banned: BANNED, required: REQUIRED, replica: REPLICA_MUST_MATCH },
@@ -101,40 +110,17 @@ for (const suite of SUITES) {
   await page.goto(URL.replace(/\/$/, '') + suite.path, { waitUntil: 'networkidle0', timeout: 60000 })
 
   /**
-   * 首屏是 Tab 区：同一时刻只有一个面板在 DOM 里。只读当前状态等于三个 Tab
-   * 的文案从没被检查过，所以这里逐个点开，把四份正文并起来再扫。
+   * 2026-09-02 工作台从「一个 Tab 区，同一时刻只有一个面板在 DOM 里」
+   * 改成「四个独立整幅屏，四份都常驻 DOM」，不用再逐个点开——一次性
+   * 读整页正文就已经包含全部四屏的文案。
    */
-  const read = () =>
-    page.evaluate(() => {
-      const demo = document.querySelector('.ws-daily')
-      const replica = demo ? demo.innerText : ''
-      const clone = document.body.cloneNode(true)
-      clone.querySelector('.ws-daily')?.remove()
-      return { prose: clone.innerText, replica }
-    })
-
-  const tabCount = await page.$$eval('.ws__tab', (els) => els.length)
-  if (tabCount === 0) {
-    console.error(`✗ ${suite.name}：找不到 .ws__tab —— Tab 区结构变了，本脚本的覆盖范围已失效`)
-    bad += 1
-    await page.close()
-    continue
-  }
-
-  let prose = ''
-  let replica = ''
-  for (let i = 0; i < tabCount; i += 1) {
-    const tabs = await page.$$('.ws__tab')
-    await tabs[i].click()
-    await page.waitForFunction(
-      (n) => document.querySelectorAll('.ws__tab')[n]?.getAttribute('aria-selected') === 'true',
-      {},
-      i
-    )
-    const r = await read()
-    prose += `\n${r.prose}`
-    if (r.replica) replica = r.replica
-  }
+  const { prose, replica } = await page.evaluate(() => {
+    const demo = document.querySelector('.ws-daily')
+    const replica = demo ? demo.innerText : ''
+    const clone = document.body.cloneNode(true)
+    clone.querySelector('.ws-daily')?.remove()
+    return { prose: clone.innerText, replica }
+  })
   await page.close()
 
   let sub = 0

@@ -34,8 +34,6 @@ export const nav = {
   brand: 'lucimix',
   links: [
     { label: 'Workspace', href: '#workspace' },
-    { label: "Who it's for", href: '#audience' },
-    { label: 'Case study', href: '#case' },
     { label: 'Models', href: '#models' },
     { label: 'Apps', href: '#ecosystem' },
     { label: 'Lumens', href: '#start' },
@@ -47,45 +45,89 @@ export const nav = {
   menuOpen: 'Open menu',
   menuClose: 'Close menu',
   langSwitch: '切换到中文',
-  tablistLabel: 'Lucimix working modes',
 }
 
 export const hero = {
-  titleBrand: 'Lucimix',
-  titleLead: 'An AI assistant that ',
-  titleAccent: 'actually works',
-  titleTail: ' for you',
-  subtitleLead:
-    'Analyse data, write documents, run research, track investments — Lucimix keeps working on your tasks and delivers the results to',
-  subtitleTail: '. One account covers every way you use AI.',
+  kicker: 'Lucimix · Multi-Model AI Platform',
+  /** No lead line in English — the Chinese copy stacks two lines, this one doesn't */
+  titleLead: '',
+  titleMain: 'One place. The right AI.',
+  subtitle:
+    "Access the world's leading AI models in one place. Choose your model, let Lucimix pick the best one, or combine multiple models for harder problems.",
   ctaPrimary: 'Start free',
   ctaSecondary: 'See how it works',
-  simulationAlt:
-    'Product demo: the user asks for scattered notes to be turned into a weekly report. Smart Mode picks a model, answers, and files the result in the Library. The composer offers three modes — Smart Mode picks one model, Cross-Check Mode has several models answer independently and flags where they disagree, and Custom lets you choose. The same account also binds to WeChat, Feishu and WeCom, so you can use it straight from your chat app.',
 }
 
 /** Opening demo: one ordinary exchange, no cross-check, nothing unshipped. */
+/** Mirrors copy.zh.ts — a two-turn, UI-tells-its-own-story demo: Claude drafts
+ *  material, then the model switcher opens and DeepSeek picks it up to write
+ *  a social post. Content is trimmed from real product screenshots to fit the
+ *  canvas; the emoji in DeepSeek's copy are kept as-is (matches its house style). */
 export const simulation = {
-  user: 'Turn these scattered notes into a weekly report. Keep it formal, under 500 words, and do not invent data I did not give you.',
-  modeLabel: 'Smart Mode',
-  modeNote: 'chosen for you',
-  model: 'GLM 5.1',
-  blocks: [
+  placeholder: 'Type a message...',
+  /** Model-switcher popup title — UI replica, matches the product verbatim */
+  modelMenuLabel: 'Custom models',
+  models: ['claude-opus-5', 'deepseek-v4-pro', 'glm-5.1', 'kimi-k2.6'],
+  // zh-only for now: the bottom device caption is a richer 3-segment step
+  // bar there (see Workspace.tsx, gated on LANG === 'zh'). English keeps the
+  // simple arrow caption, but the field lives here too for type parity.
+  task: {
+    label: 'Task',
+    title: 'Research "why we dream" and turn it into a social post',
+  },
+  turns: [
     {
-      heading: 'Shipped this week',
-      body: 'Settlement path rolled out to 30%. Rollback time cut from 12 minutes to 90 seconds.',
+      step: 'Step 1',
+      displayName: 'Claude',
+      model: 'claude-opus-5',
+      user: 'Put together material on why we dream',
+      stepTitle: 'Research the material',
+      stepDesc: 'Searches and writes as it goes, producing a reusable file.',
+      tools: ['Web search', 'Write file'],
+      // zh-only: the full multi-step narration + file card + bullets. Kept
+      // empty here so the English demo stays the compact two-block version.
+      narration: [] as { text: string; tools: string[] }[],
+      file: '',
+      summary: '',
+      summaryIntro: '',
+      bullets: [] as { label: string; body: string }[],
+      closing: '',
+      intro: '',
+      hashtags: '',
+      outro: '',
+      blocks: [
+        { heading: 'The mechanism', body: 'Brain activity nears waking levels during REM sleep, while the body stays briefly paralyzed.' },
+        { heading: 'Five leading theories', body: 'Memory consolidation, emotional regulation, threat rehearsal, neural clean-up, and creativity.' },
+      ],
     },
     {
-      heading: 'Next week',
-      body: 'Widen the rollout to 60% and land the first pass of the reconciliation script.',
+      step: 'Step 2',
+      displayName: 'DeepSeek',
+      model: 'deepseek-v4-pro',
+      user: 'Turn this into a social post — catchy title, keep the body light',
+      stepTitle: 'Write the social post',
+      stepDesc: 'Picks up the material directly — no context lost.',
+      tools: [] as string[],
+      narration: [] as { text: string; tools: string[] }[],
+      file: '',
+      summary: '',
+      summaryIntro: '',
+      bullets: [] as { label: string; body: string }[],
+      closing: '',
+      intro: '',
+      hashtags: '',
+      outro: '',
+      blocks: [
+        {
+          heading: '🥱 Dreamed again last night? Turns out your brain was running "detox + rehearsal" behind your back',
+          body: "Ex showed up, forgot your pen at the exam, chased by three dogs down the block... woke up like, what even was that? Turns out I had dreaming all wrong.",
+        },
+        {
+          heading: '1️⃣ Dreaming isn\'t bad — it\'s your brain on the night shift 🌙',
+          body: 'Scientists say it mostly happens in REM sleep, when your brain is nearly as active as when you\'re awake — but your body stays "paralyzed", so you don\'t act it out and fall off the bed 😂',
+        },
+      ],
     },
-  ],
-  file: { name: 'Weekly-report-W34.md', note: 'saved to Library' },
-  placeholder: 'What can I help you with?',
-  modes: [
-    { name: 'Smart Mode', desc: 'Picks the single model best suited to your request', current: true, info: false },
-    { name: 'Cross-Check Mode', desc: 'Runs several models at once and returns a combined answer', current: false, info: true },
-    { name: 'Custom models', desc: 'Currently: Smart Mode', current: false, info: false },
   ],
 }
 
@@ -101,10 +143,6 @@ export const reach = {
 }
 
 export const workspace = {
-  label: 'Lucimix Workspace',
-  title: 'One workspace. Work finished.',
-  lead: 'From everyday questions to serious research, Lucimix carries the work through to something you can use.',
-
   side: {
     brand: 'Lucimix',
     newTask: 'New task',
@@ -112,48 +150,90 @@ export const workspace = {
     recentLabel: 'Recent',
     recent: ['Competitor scan', 'Product plan notes', 'Sector research'],
     settings: 'Settings',
+    navAssistant: 'Assistant',
+    navLibrary: 'Library',
+    navSchedule: 'Scheduled',
+    // zh-only: the Documents screen's sidebar shows a Lumens balance entry
+    // there. Kept here only for type parity.
+    lumens: 'Lumens',
   },
   topbar: 'New task',
 
+  /** No longer switchable tabs — four standalone full-screen sections, in display order */
   tabs: [
+    {
+      id: 'daily',
+      tab: 'Free Mode',
+      badge: 'Custom models',
+      title: 'Always the right AI for the job',
+      titleAccent: '',
+      desc: 'Hand one task to different AIs. Switch freely — the context never breaks.',
+      usecase: '',
+      checklist: [] as string[],
+      topbar: '',
+    },
     {
       id: 'verify',
       tab: 'Cross-Check',
       badge: 'Cross-Check · 3 models',
       title: 'An AI you can lean on',
+      // zh-only: this screen's left copy switches to a two-line title +
+      // checklist there. Kept empty here for type parity — English keeps
+      // the original title/desc/usecase paragraph layout.
+      titleAccent: '',
       desc: 'Three models answer independently, cross-check each other, and flag every disagreement before giving you a conclusion.',
       usecase: 'Turn on Cross-Check Mode for sector research, academic writing, legal and compliance work, and financial analysis.',
-    },
-    {
-      id: 'daily',
-      tab: 'Everyday',
-      badge: 'Model chosen for you',
-      title: 'Everyday tasks',
-      /** Mirrors copy.zh.ts — see the note there about PPT / file handling. */
-      desc: 'Everyday questions, weekly reports, slide decks, tidying files, digging up material. Say what you need and take the result.',
-      usecase: '',
+      checklist: [] as string[],
+      topbar: '',
     },
     {
       id: 'schedule',
       tab: 'Scheduled',
       badge: 'Scheduled task',
       title: 'Set it once. It keeps running.',
+      titleAccent: '',
       desc: 'Search, monitor and digest on a schedule. Results are generated and delivered on time, without you asking.',
       usecase: '',
+      checklist: [] as string[],
+      topbar: '',
     },
     {
       id: 'docs',
       tab: 'Documents',
       badge: 'Documents',
       title: 'Files that stay useful',
+      titleAccent: '',
       desc: 'Uploads and AI output in one place, searchable, previewable, and reusable across conversations.',
       usecase: 'Start a new conversation and pick up the material and results you already have.',
+      checklist: [] as string[],
+      topbar: '',
     },
   ],
 
+  // zh-only: the Cross-Check panel there is now a hand-built case-study UI
+  // instead of a screenshot. These fields exist here only for type parity —
+  // VerifyPanel.tsx still renders the src/alt screenshot for English.
   verify: {
     src: '/shots/cross-check-panel.png',
     alt: 'Lucimix cross-check interface: stage one shows GLM 5.1, Sonnet 4.6 and DeepSeek V4 Pro drafting in parallel; stage two shows the cross-check log listing the claim all three agreed on, the cost conclusion they disagreed on, and the reason for the disagreement.',
+    task: { prompt: '', attachment: '' },
+    stage1: {
+      label: '',
+      note: '',
+      models: [] as {
+        name: string
+        badge: string
+        accent: string
+        angle: string
+        intro: string
+        bullets: string[]
+        range: string
+        confidence: string
+      }[],
+    },
+    stage2: { label: '', agreeLabel: '', agree: [] as string[], disagreeLabel: '', disagree: [] as string[] },
+    stage3: { label: '', text: '', cta: '' },
+    footnote: '',
   },
 
   schedule: {
@@ -168,6 +248,9 @@ export const workspace = {
 
   docs: {
     search: 'Search by name, by content, or just ask the documents a question',
+    // zh-only: a short features list shown under the Documents screen's copy
+    // there. Kept here only for type parity.
+    features: ['Supports many file formats', 'Auto-parsed and indexed', 'Reusable across conversations'],
     folders: ['All documents', 'Product', 'Competitors', 'Meetings', 'Sector reports'],
     head: { name: 'Document', time: 'Updated', state: 'Status' },
     files: [
@@ -181,76 +264,46 @@ export const workspace = {
   },
 }
 
-export const audience = {
-  label: "Who it's for",
-  title: 'Who hands their hard questions to Lucimix?',
-  lead: 'If your work contains judgements that cannot afford to be wrong, Cross-Check Mode earns its keep.',
-  roles: [
-    { name: 'Researchers', what: 'Source checking, proposal review, cross-checked literature surveys' },
-    { name: 'Product managers', what: 'Competitor watch, requirement analysis, weighing options' },
-    { name: 'Investors', what: 'Filings analysis, sector research, cross-checked figures' },
-    { name: 'Writers and creators', what: 'Fact checking, data verification, citation accuracy' },
-    { name: 'Managers', what: 'Proposal review, risk spotting, decisions seen from several angles' },
-  ],
-}
-
-export const caseStudy = {
-  label: 'Case study',
-  title: 'What one AI missed,\nthree AIs found.',
-  lead: 'Not more words. Fewer mistakes shipped.',
-
-  doc: {
-    kind: 'Graduate research proposal',
-    running: 'Checking',
-    done: 'Check complete',
-    title: '“A Multimodal LLM System for Classroom Emotion Feedback”',
-  },
-
-  session: {
-    prompt:
-      'Draft a research proposal outline: “A Multimodal LLM System for Classroom Emotion Feedback”',
-    steps: ['Drafting in parallel', 'Cross-check', 'Composing answer'],
-    stage1: 'Stage one · 3 models drafting in parallel',
-    stage1Count: '3/3',
-    models: [
-      { name: 'GLM 5.1', excerpt: 'Start by bounding the problem: multimodal…', words: '1,342 words' },
-      { name: 'Sonnet 4.6', excerpt: 'A proposal lives or dies on the research gap…', words: '1,655 words' },
-      { name: 'DeepSeek V4 Pro', excerpt: 'Structure it as problem — method — validation…', words: '2,108 words' },
-    ],
-    stage2: 'Stage two · cross-check',
-    stage2Note: '5,105 words read',
-  },
-
-  flags: [
-    'Two key research gaps missing',
-    'Method design underspecified',
-    'One citation does not exist',
-    'Two contributions overlap existing work',
-  ],
-
-  result: {
-    label: 'Lucimix Cross-Check Mode',
-    count: '4',
-    heading: 'risks caught before submission',
-    checks: [
-      'Filled in the missing research directions',
-      'Three models completed the method section together',
-      'Flagged the citation that could not be verified',
-      'Spotted where the contributions repeat existing work',
-    ],
-    note: 'Several models analyse independently, then check each other for disagreements and gaps.',
-  },
-
-  uses: [
-    'Sector research · verify data and sources',
-    'Financial analysis · surface assumptions and mismatches',
-    'Legal and compliance · check for gaps and risks',
-  ],
-}
-
 export const models = {
   title: 'One door, many leading models',
   lead: 'Leading models from China and abroad in one place, so you can pick what suits the task instead of switching between platforms.',
+  // zh-only for now: the redesigned section (3 mode cards above the
+  // marquee) ships on the Chinese site first. Kept here only for type
+  // parity — Models.tsx still renders the original title/lead + marquee
+  // layout when LANG !== 'zh'.
+  modes: [
+    {
+      icon: 'free',
+      label: 'Free Mode',
+      title: 'I pick',
+      bullets: [
+        { icon: 'grid', text: 'Choose any model' },
+        { icon: 'swap', text: 'Switch anytime' },
+        { icon: 'link', text: 'Context carries over' },
+      ],
+    },
+    {
+      icon: 'smart',
+      label: 'Smart Mode',
+      title: 'AI picks for me',
+      bullets: [
+        { icon: 'target', text: 'Auto-matched model' },
+        { icon: 'bolt', text: 'One-tap ask' },
+        { icon: 'check', text: 'No second-guessing' },
+      ],
+    },
+    {
+      icon: 'verify',
+      label: 'Cross-Check',
+      title: 'Let them all weigh in',
+      bullets: [
+        { icon: 'users', text: 'Multiple models answer' },
+        { icon: 'shield', text: 'Cross-checked' },
+        { icon: 'pie', text: 'Different angles combined' },
+      ],
+    },
+  ],
+  matrixLabel: 'Leading AI models, all in one place',
   items: [
     { name: 'Claude Opus 5', icon: '/logos/models/claude.png' },
     { name: 'Claude Sonnet 5', icon: '/logos/models/claude.png' },

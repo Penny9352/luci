@@ -1,37 +1,37 @@
-import { hero, reach, LOGIN_URL } from '../content/copy'
+import { hero, LOGIN_URL } from '../content/copy'
 import { Button } from './ui/Button'
 import { IconArrowDown } from './ui/Icon'
+
+/**
+ * 思源宋体的拉丁字形比中文字重轻很多，「AI」嵌进中文标题里会显得
+ * 单薄、像贴错了字体。拆出来换成无衬线粗体 + 品牌橙，视觉粗细对得上，
+ * 顺带做成强调色 —— 一举两得，不是纯粹的补丁。
+ */
+function withAccent(text: string) {
+  return text.split(/(AI)/g).map((part, i) =>
+    part === 'AI' ? (
+      <span className="hero__accent" key={i}>
+        AI
+      </span>
+    ) : (
+      part
+    )
+  )
+}
 
 export function Hero() {
   return (
     <section className="hero" id="top">
       <div className="hero__inner page">
+        <p className="hero__kicker">{hero.kicker}</p>
         <h1 className="hero__title">
-          <span className="hero__title-brand">{hero.titleBrand}</span>
-          {hero.titleLead}
-          <em>{hero.titleAccent}</em>
-          {hero.titleTail}
+          {hero.titleLead && <span className="hero__title-lead">{withAccent(hero.titleLead)}</span>}
+          <span className="hero__title-main">{withAccent(hero.titleMain)}</span>
         </h1>
-        <p className="hero__sub measure">
-          {hero.subtitleLead}
-          <span className="hero__channels">
-            {reach.channels.map((c) => (
-              /* alt 不能留空：文字换成图之后，读屏器只剩这里能读出渠道名 */
-              <img
-                key={c.name}
-                className="hero__channel"
-                src={c.logo}
-                alt={c.name}
-                width={22}
-                height={22}
-              />
-            ))}
-          </span>
-          {hero.subtitleTail}
-        </p>
+        <p className="hero__sub measure">{hero.subtitle}</p>
         <div className="hero__cta">
           <Button href={LOGIN_URL}>{hero.ctaPrimary}</Button>
-          <Button href="#cross-check" variant="ghost">
+          <Button href="#workspace" variant="ghost">
             {hero.ctaSecondary}
             <IconArrowDown size={17} />
           </Button>

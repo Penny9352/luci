@@ -1,4 +1,5 @@
 import { start as s, footer as f, LOGIN_URL } from '../content/copy'
+import { asset } from '../lib/asset'
 import { Button } from './ui/Button'
 import { IconGift, IconSpark } from './ui/Icon'
 
@@ -36,11 +37,11 @@ export function Start() {
         <div className="foot__inner page">
           <div className="foot__brand">
             <a className="foot__logo" href="#top">
-              <img src="/logo.svg" alt="" width={22} height={34} />
+              <img src={asset('logo.svg')} alt="" width={22} height={34} />
               <span>{f.brand}</span>
             </a>
             <p className="foot__tagline">{f.tagline}</p>
-            <p className="foot__co">{f.company}</p>
+            {f.company && <p className="foot__co">{f.company}</p>}
           </div>
 
           {f.columns.map((col) => (

@@ -34,23 +34,37 @@
   padding-top: clamp(0.75rem, 2vh, 1.5rem);
 }
 
-.hero__title {
-  /* 首屏要放下完整的演示窗口，标题让出一档 */
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
-  letter-spacing: -0.02em;
-  /* ch 是「0」的宽度，汉字约合两个 —— 18ch 只放得下 9 个汉字，
-     会把「一个真正替你工作的 AI 助手」挤成两行（全标题三行）。 */
-  max-width: 28ch;
+/* 题头小标签：品牌 + 品类，落在两行大标题上方。
+   13px 跟标题差 4 倍以上，眼睛跳不过去 —— 提一档到 15px，
+   跟下面副标题（20px）之间也不再是孤零零一个小碎片。 */
+.hero__kicker {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  margin-bottom: 0.875rem;
 }
 
-.hero__title-brand {
+.hero__title {
+  /* 首屏要放下完整的演示窗口，标题让出一档；上限从 3.75rem 收到 3.25rem，
+     跟题头、副标题的字号级差更顺——不再是「很小 / 巨大 / 中等」三级跳。 */
+  font-size: clamp(2.125rem, 4.4vw, 3.25rem);
+  letter-spacing: -0.02em;
+  max-width: 24ch;
+}
+
+/* 两行同字重、同字号 —— 当一句话拆两行读，不做「引题变小」的层级 */
+.hero__title-lead,
+.hero__title-main {
   display: block;
 }
 
-.hero__title em {
-  font-style: normal;
+/* 思源宋体的拉丁字形比中文笔画细很多，「AI」嵌进标题会显得单薄。
+   换成无衬线粗体 + 品牌橙，粗细跟中文对得上，顺带当强调色用。 */
+.hero__accent {
+  font-family: var(--ff-body);
+  font-weight: 700;
   color: var(--orange);
-  white-space: nowrap;
 }
 
 .hero__sub {
@@ -61,23 +75,6 @@
   text-wrap: balance;
   /* 约为标题字号的 0.47 倍 */
   margin-top: 1.75rem;
-}
-
-/* 行内 logo：inline-flex 保证三个图标不会被拆到两行 */
-.hero__channels {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  /* 右侧留白要小：中文跟的是全角逗号（自带左空），英文跟的是句号，
-     两边等量会让句号浮在半空 */
-  margin-inline: 0.4em 0.1em;
-  vertical-align: -0.18em;
-}
-
-.hero__channel {
-  display: block;
-  width: 1.15em;
-  height: 1.15em;
 }
 
 .hero__cta {
@@ -122,41 +119,9 @@
   }
 }
 
-.demo__meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--fs-cap);
-  color: var(--text-3);
-  opacity: 0;
-  translate: 0 4px;
-  transition:
-    opacity 0.4s var(--ease-out),
-    translate 0.4s var(--ease-out);
-}
-
-.demo__meta.is-on {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.demo__meta svg {
-  color: var(--orange);
-  flex: none;
-}
-
-.demo__meta-name {
-  color: var(--text-2);
-}
-
-.demo__meta-model {
-  margin-inline-start: auto;
-  font-size: 0.75rem;
-}
-
 .demo__answer {
   display: grid;
-  gap: 0.6875rem;
+  gap: 0.5rem;
 }
 
 .demo__block h4 {
@@ -171,41 +136,6 @@
   font-size: var(--fs-sm);
   line-height: 1.7;
   color: var(--text-2);
-}
-
-.demo__file {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-self: start;
-  padding: 0.4375rem 0.8125rem;
-  border: 1px solid var(--border-gold);
-  border-radius: var(--r-sm);
-  background: color-mix(in srgb, var(--gold) 7%, transparent);
-  font-size: var(--fs-cap);
-  opacity: 0;
-  translate: 0 6px;
-  transition:
-    opacity 0.45s var(--ease-out),
-    translate 0.45s var(--ease-out);
-}
-
-.demo__file.is-on {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.demo__file svg {
-  color: var(--gold);
-  flex: none;
-}
-
-.demo__file-name {
-  color: var(--text);
-}
-
-.demo__file-note {
-  color: var(--gold);
 }
 
 /* ── 输入框 ─────────────────────────────────────────────── */

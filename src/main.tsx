@@ -5,7 +5,6 @@ import './styles/chrome.css'
 import './styles/hero.css'
 import './styles/workspace.css'
 import './styles/cards.css'
-import './styles/case.css'
 import './styles/sections.css'
 import App from './App'
 

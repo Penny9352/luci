@@ -1,4 +1,5 @@
 import { ecosystem as e, reach as r } from '../content/copy'
+import { asset } from '../lib/asset'
 import { Stage } from './Stage'
 
 export function Ecosystem() {
@@ -21,7 +22,7 @@ export function Ecosystem() {
         <ul className="apps">
           {e.apps.map((a) => (
             <li key={a.name}>
-              <img className="apps__icon" src={a.icon} alt="" width={48} height={48} />
+              <img className="apps__icon" src={asset(a.icon)} alt="" width={48} height={48} />
               <h3>{a.name}</h3>
               <p>{a.what}</p>
               {a.note && <p className="apps__note">{a.note}</p>}
@@ -41,7 +42,7 @@ export function Ecosystem() {
               <li key={c.name}>
                 <img
                   className="reach__logo"
-                  src={c.logo}
+                  src={asset(c.logo)}
                   alt=""
                   width={44}
                   height={44}

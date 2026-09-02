@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { nav, ALT_LANG, LOGIN_URL } from '../content/copy'
+import { asset } from '../lib/asset'
 import { Button } from './ui/Button'
 import { IconMenu, IconClose } from './ui/Icon'
 
@@ -48,7 +49,7 @@ export function Nav() {
     <header className={['nav', stuck && 'is-stuck'].filter(Boolean).join(' ')}>
       <div className="nav__inner page">
         <a className="nav__brand" href="#top">
-          <img src="/logo.svg" alt="" width={22} height={34} />
+          <img src={asset('logo.svg')} alt="" width={22} height={34} />
           <span>{nav.brand}</span>
         </a>
 
