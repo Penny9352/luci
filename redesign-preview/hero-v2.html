@@ -1,0 +1,1477 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>首屏精简版 · 预览</title>
+<link rel="stylesheet" href="../src/styles/base.css">
+<style>
+  /**
+   * 这是 redesign/hero-v2 分支上的静态预览页，不接入 App.tsx / 构建流程，
+   * 只是拿真实 token（tokens.css/fonts.css，经 base.css 引入）、真实 logo
+   * 资源和真实文案字段，快速拼一版"极度精简"的首屏给大家看结构对不对。
+   * 定稿后再决定要不要落成正式的 Hero 组件。
+   */
+
+  body { padding-block: clamp(2.5rem, 5vw, 4rem) 4rem; }
+
+  .hv2 {
+    position: relative;
+    display: grid;
+    --hero-gap: clamp(2rem, 4vw, 3rem);
+    /* 只用来把「产品窗口 + 汇聚线路 + 模型图标」整体往下推，
+       不进 --hero-gap：hero-gap 同时决定标题到按钮的居中点，
+       改它会把按钮也顶下去；matrix 相对控制台的贴合关系
+       (margin-top:-3rem) 不看这个变量，控制台下移多少，matrix
+       和图标就跟着下移多少，两者相对位置不变。 */
+    --console-push: 4rem;
+    gap: var(--hero-gap);
+  }
+
+  /* ── 顶部品牌 ── */
+  .hv2__brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.0625rem;
+    margin-bottom: -1rem;
+  }
+  .hv2__brand img { width: 1.375rem; height: 1.375rem; }
+  .hv2__brand-name {
+    color: var(--orange);
+    letter-spacing: 0.06em;
+  }
+  .hv2__brand-separator {
+    color: var(--text-3);
+    font-weight: 400;
+  }
+
+  /* ── 标题区：一整句 hero.subtitle 拆成主标题 + 副标题两行 ── */
+  .hv2__head {
+    text-align: center;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .hv2__head h1 {
+    font-family: var(--ff-display);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+    line-height: 1.2;
+  }
+  .hv2__accent { color: var(--orange-fill); }
+  .hv2__head p {
+    color: var(--text-2);
+    font-size: var(--fs-lead);
+  }
+
+  /* CTA 只占标题与产品窗口之间的视觉层，不参与 Hero 网格布局。 */
+  .hv2__intro {
+    position: relative;
+  }
+  .hv2__cta-layer {
+    position: absolute;
+    top: calc(100% + (var(--hero-gap) + var(--console-push)) / 2);
+    left: 50%;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hv2__cta-hit {
+    min-width: 132px;
+    min-height: 44px;
+    padding: 2px 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+  }
+  .hv2__cta-visual {
+    min-width: 132px;
+    height: 40px;
+    padding: 0 1.125rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border-radius: 999px;
+    background: var(--orange-fill);
+    color: var(--on-orange);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 10px 22px -14px rgb(198 80 33 / 0.55);
+    transition:
+      background-color 0.2s var(--ease-out),
+      box-shadow 0.2s var(--ease-out),
+      transform 0.2s var(--ease-out);
+  }
+  .hv2__cta-hit:hover .hv2__cta-visual {
+    background: var(--orange-soft);
+    box-shadow: 0 14px 26px -14px rgb(198 80 33 / 0.65);
+    transform: translateY(-2px);
+  }
+  .hv2__cta-hit:active .hv2__cta-visual { transform: translateY(1px); }
+  .hv2__cta-hit:focus-visible {
+    outline: 2px solid var(--orange-fill);
+    outline-offset: 3px;
+    border-radius: 999px;
+  }
+  .hv2__cta-visual svg { width: 1rem; height: 1rem; }
+
+  /* ── 产品窗口：只保留品牌归属与核心提问动作 ──
+     position/z-index 是为了压住汇聚线的顶端，见 .hv2__matrix 的说明 */
+  .hv2__console {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 1.75rem;
+    align-content: center;
+    max-width: 58.75rem;
+    min-height: 13.75rem;
+    margin-top: var(--console-push);
+    margin-inline: auto;
+    width: 100%;
+    padding: 2rem 2.25rem;
+    background: #F4F2EE;
+    border-radius: 1.875rem;
+    box-shadow:
+      0 1px 2px rgb(26 25 23 / 0.04),
+      0 18px 42px -30px rgb(26 25 23 / 0.22);
+  }
+
+  .hv2__product-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding-inline: 0.25rem;
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .hv2__product-brand img { width: 1.25rem; height: 1.25rem; }
+
+  .hv2__input {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 5.75rem;
+    padding: 0.75rem 0.75rem 0.75rem 1.625rem;
+    background: var(--bg);
+    border: 1px solid rgb(38 36 31 / 0.10);
+    border-radius: 1.5rem;
+    box-shadow:
+      0 1px 2px rgb(26 25 23 / 0.04),
+      0 10px 24px -20px rgb(26 25 23 / 0.18);
+  }
+  .hv2__placeholder {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    align-items: center;
+    color: var(--text-2);
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+  .hv2__send {
+    flex: none;
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    position: relative;
+    background: #F9DFD2;
+    color: #C65021;
+  }
+  .hv2__send > svg { grid-area: 1 / 1; }
+  .hv2__send-progress { opacity: 0; }
+  .hv2__send-progress { transform-origin: center; }
+  .hv2__selector {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    opacity: 0;
+    box-sizing: border-box;
+    border-radius: calc(var(--r-md) + 6px);
+    will-change: transform, opacity;
+  }
+  .hv2__selector {
+    z-index: 5;
+    border: 1px solid #F17A47;
+    background: rgb(255 124 73 / 0.045);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.75), 0 8px 16px -13px rgb(210 93 42 / 0.46);
+  }
+  .hv2__selector::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 7px;
+    height: 7px;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    background: #FF6418;
+    box-shadow: 0 2px 6px rgb(197 70 25 / 0.34);
+  }
+  .hv2__probe-dot {
+    --probe-c: #82CDBD;
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff 0 20%, var(--probe-c) 48%, color-mix(in srgb, var(--probe-c) 72%, #5D82C9) 100%);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--probe-c) 16%, transparent), 0 0 10px 2px color-mix(in srgb, var(--probe-c) 30%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hv2__probe-dot[data-m='claude'] { --probe-c: #E9A576; }
+  .hv2__probe-dot[data-m='gpt'] { --probe-c: #82CDBD; }
+  .hv2__probe-dot[data-m='deepseek'] { --probe-c: #9A8AD6; }
+  .hv2__probe-dot[data-m='glm'] { --probe-c: #8BB6E7; }
+  .hv2__probe-dot[data-m='kimi'] { --probe-c: #D5A66E; }
+  .hv2__probe-dot[data-m='qwen'] { --probe-c: #DA9EBA; }
+
+  /* ── 汇聚线 + 模型矩阵 ──
+     分层汇聚：6 条 logo 引线两两先合成 3 条支流，支流再合成 1 条主干，
+     主干顶端拉到卡片底边以上、靠负 margin + z-index 压在控制台卡片下面，
+     不悬空断在空白处。连线本身是静态 SVG，不做动画。 */
+  .hv2__matrix {
+    position: relative;
+    z-index: 1;
+    max-width: 58rem;
+    margin-inline: auto;
+    /* 再压入控制台 12px：汇聚束的顶端由 console 的 z-index 遮住，
+       视觉上就像线路直接从窗口底边长出。 */
+    margin-top: -3rem;
+    width: 100%;
+  }
+  .hv2__lines {
+    display: block;
+    width: 100%;
+    height: clamp(90px, 11vw, 132px);
+    overflow: visible;
+  }
+  /* 每条线路有自己的模型端颜色，向上汇聚为同一枚薄荷灰绿核心；
+     高亮层用相同的路径，但只提高已被选中模型的颜色浓度。 */
+  .hv2__solid use[data-m='claude'] { stroke: url(#line-claude); }
+  .hv2__solid use[data-m='gpt'] { stroke: url(#line-gpt); }
+  .hv2__solid use[data-m='deepseek'] { stroke: url(#line-deepseek); }
+  .hv2__solid use[data-m='glm'] { stroke: url(#line-glm); }
+  .hv2__solid use[data-m='kimi'] { stroke: url(#line-kimi); }
+  .hv2__solid use[data-m='qwen'] { stroke: url(#line-qwen); }
+  .hv2__glow use[data-m='claude'] { stroke: url(#line-active-claude); }
+  .hv2__glow use[data-m='gpt'] { stroke: url(#line-active-gpt); }
+  .hv2__glow use[data-m='deepseek'] { stroke: url(#line-active-deepseek); }
+  .hv2__glow use[data-m='glm'] { stroke: url(#line-active-glm); }
+  .hv2__glow use[data-m='kimi'] { stroke: url(#line-active-kimi); }
+  .hv2__glow use[data-m='qwen'] { stroke: url(#line-active-qwen); }
+
+  /**
+   * viewBox 是 1200×132，实际显示 928×132，而且 preserveAspectRatio="none"
+   * 两轴不等比（scaleX≈0.77 / scaleY=1）—— 默认情况下描边会被这个变换压扁，
+   * 而且压多少还取决于该段线的角度：垂直段按 scaleX 收窄，近水平段几乎不变。
+   * 同一个 stroke-width 因此会渲染出 2px~3.3px 的不同粗细，还随视口宽度漂移。
+   * 所以每条 path 上都写了 vector-effect="non-scaling-stroke"，让 stroke-width
+   * 直接按屏幕像素算，跟缩放和角度都脱钩，SVG 里写的数值 = 页面上看到的 px。
+   * 注意必须写成 path 自己的表现属性：用 CSS 选择器设在 .hv2__lines path 上
+   * 管不到 <use> 生成的影子实例，实测仍会被 scaleX 压缩。
+   */
+  /* 6 等分栅格，不是 flex + gap：图标中心因此精确落在每列中点，
+     换算到 1200 宽的 viewBox 就是 100/300/500/700/900/1100，
+     缆线路径可以写死这组坐标，任何视口宽度都对得上。
+     margin-top 归零，让 SVG 底边（y=132）正好贴住图标顶边，线不悬空。 */
+  .hv2__logos {
+    --tile: 2.75rem;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin-top: 0;
+  }
+  .hv2__logo-tile {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 0.375rem;
+    width: 100%;
+    text-align: center;
+  }
+  .hv2__logo-tile img {
+    width: var(--tile);
+    height: var(--tile);
+    padding: 0.5rem;
+    border-radius: var(--r-md);
+    /* 未选中时是略带暖意的静默陶瓷节点：只保留内高光，不向页面投影。 */
+    background: #FAF9F7;
+    border: 1px solid rgb(42 39 34 / 0.10);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.92);
+  }
+  .hv2__logo-tile .name {
+    font-size: var(--fs-cap);
+    color: var(--text-2);
+    font-weight: 600;
+  }
+  .hv2__logo-tile .ver {
+    font-size: 0.6875rem;
+    color: var(--text-3);
+  }
+
+  /* ── 演示动画（GSAP）用到的元素 ───────────────────────────── */
+
+  .hv2__main {
+    min-width: 0;
+  }
+
+  /* 卡片和光幕只在聚合阶段出现，都是绝对定位，不再为它们常驻预留空白。
+     matrix 固定保持负 margin，因此待机时线路会从产品窗口下缘直接延伸出来。 */
+
+  /* 汇聚结果卡：文档第 4、5 节。不是"答案卡"——只有一句文案 +
+     抽象几何色块，不出现模型名字、图表、统计数据。
+     z-index 给到比 .hv2__console（2）高，因为卡片要能视觉上盖住
+     控制台下缘那 16–24px 重叠区，不能被控制台压在下面。 */
+  .hv2__card {
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 21rem;
+    height: 9rem;
+    padding: 1.125rem 1.375rem;
+    border-radius: 1rem;
+    background: #fff;
+    /* 用接近纸张的中性边界与分层阴影区分前景，不把紫色做成“选中框”。 */
+    border: 1px solid rgb(42 39 52 / 0.14);
+    box-shadow:
+      0 1px 2px rgb(26 25 23 / 0.07),
+      0 10px 20px -12px rgb(26 25 23 / 0.20),
+      0 24px 40px -28px rgb(26 25 23 / 0.24);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0.625rem;
+    pointer-events: none;
+    /* 初始态：文档 9.3——向下偏、透明、模糊，不是从汇聚点直接放大出来的。
+       这几个值会被 GSAP 的 fromTo 接管，这里只是给 JS 播放前 / reduced-motion
+       兜底时的默认外观。 */
+    opacity: 0;
+    filter: blur(6px);
+  }
+
+  .hv2__card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.4375rem;
+    height: 1.5rem;
+  }
+  .hv2__card-spark {
+    flex: none;
+    width: 0.8125rem;
+    height: 0.8125rem;
+    color: #7C5CF6;
+  }
+  .hv2__card-head span {
+    font-size: 1.1875rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1A1917;
+    white-space: nowrap;
+  }
+  .hv2__card-head strong {
+    color: var(--orange);
+    font-weight: 600;
+    margin-inline-start: 0.125rem;
+  }
+
+  /* 抽象内容区：文档 5.2，从上到下——图标块+两条信息线、三个并排色块、
+     底部信息线、右下角三个小圆点。全部是几何色块，读不出任何真实数据。 */
+  .hv2__card-body {
+    display: grid;
+    align-content: space-between;
+    gap: 0.5rem;
+    min-height: 0;
+  }
+  .hv2__card-row1 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hv2__card-icon {
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, #6E76F3 16%, transparent);
+  }
+  .hv2__card-lines {
+    flex: 1;
+    display: grid;
+    gap: 0.3125rem;
+    min-width: 0;
+  }
+  .hv2__card-line {
+    height: 0.375rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, #8A90F0 14%, transparent);
+  }
+  .hv2__card-line--sm { width: 42%; }
+  .hv2__card-line--lg { width: 78%; }
+
+  .hv2__card-blocks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.375rem;
+  }
+  .hv2__card-block {
+    height: 1.25rem;
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, #9AA2F5 12%, transparent);
+  }
+
+  .hv2__card-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+  .hv2__card-foot .hv2__card-line { flex: 1; }
+  .hv2__card-dots {
+    flex: none;
+    display: flex;
+    gap: 0.1875rem;
+  }
+  .hv2__card-dots i {
+    width: 0.1875rem;
+    height: 0.1875rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, #6E76F3 30%, transparent);
+  }
+
+  @media (max-width: 720px) {
+    .hv2__card {
+      width: 17.5rem;
+      height: 7.5rem;
+      padding: 0.9375rem 1.125rem;
+      border-radius: 0.875rem;
+      gap: 0.5rem;
+    }
+    .hv2__card-head { height: 1.25rem; }
+    .hv2__card-head span { font-size: 1.0625rem; }
+    .hv2__card-icon { width: 1.75rem; height: 1.75rem; }
+    .hv2__card-block { height: 1.0625rem; }
+  }
+
+  /* 扇形光幕：文档第 7、9.2 节。自己的一张小 SVG，viewBox 固定在
+     0 0 100 100 的归一化空间里画好楔形（顶宽=100%、底宽≈7%），
+     再靠 CSS 的实际 width/height（= 卡片宽度*0.8、光幕高度）把它拉伸到
+     目标比例——两端渐隐靠模糊层，不靠改宽高做动画：可见区域完全交给
+     clip-path: inset() 控制，动画只改这四个百分比，不碰任何布局值。 */
+  .hv2__fan {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 16.9rem;
+    height: 3.625rem;
+    overflow: visible;
+    pointer-events: none;
+    clip-path: inset(100% 46.5% 0% 46.5%);
+  }
+  @media (max-width: 720px) {
+    .hv2__fan {
+      width: 14rem;
+      height: 3rem;
+    }
+    .hv2__fan .hv2__fan-line:nth-child(n+4) { display: none; }
+  }
+
+  /* 信号徽章：被选模型有一层扩散的同色外晕和一个明确的勾选状态；
+     默认模型保持安静，不与真正参与聚合的三个模型争夺注意力。 */
+  .hv2__tile-ring {
+    position: absolute;
+    z-index: 0;
+    top: -7px;
+    left: 50%;
+    translate: -50% 0;
+    width: calc(var(--tile) + 14px);
+    height: calc(var(--tile) + 14px);
+    border: 1px solid color-mix(in srgb, var(--ring-c) 42%, #fff);
+    border-radius: calc(var(--r-md) + 7px);
+    background: color-mix(in srgb, var(--ring-c) 10%, transparent);
+    box-shadow: 0 9px 18px -12px color-mix(in srgb, var(--ring-c) 68%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hv2__tile-ring[data-m='claude'] { --ring-c: #D78E5D; }
+  .hv2__tile-ring[data-m='gpt'] { --ring-c: #70A990; }
+  .hv2__tile-ring[data-m='deepseek'] { --ring-c: #917AC2; }
+  .hv2__tile-check {
+    position: absolute;
+    z-index: 2;
+    top: -0.5rem;
+    left: calc(50% + (var(--tile) / 2) - 0.42rem);
+    width: 1.15rem;
+    height: 1.15rem;
+    display: grid;
+    place-items: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: var(--ring-c);
+    box-shadow: 0 4px 10px -6px rgb(26 25 23 / 0.32);
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hv2__tile-check svg { width: 0.67rem; height: 0.67rem; }
+  .hv2__tile-check[data-m='claude'] { --ring-c: #D78E5D; }
+  .hv2__tile-check[data-m='gpt'] { --ring-c: #70A990; }
+  .hv2__tile-check[data-m='deepseek'] { --ring-c: #917AC2; }
+  .hv2__logo-tile img {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 光点：用 HTML 元素而不是 SVG <circle>。SVG 里 preserveAspectRatio="none"
+     两轴不等比，circle 会被压成椭圆；HTML 元素不受那个变换影响，始终是正圆。
+     MotionPathPlugin 负责把 SVG 路径坐标换算到这里的定位坐标系。 */
+  .hv2__dot,
+  .hv2__merge,
+  .hv2__pulse {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+  }
+  /**
+   * 光点本体：实心小球，不是描边圆。核心用 radial-gradient 自己模拟受光——
+   * 偏一侧的近白高光过渡到该点的品牌色，做出立体感；外面叠一层同色、
+   * 更大尺寸、blur() 模糊的伪元素做发光光晕，晕的直径约是球体的 3 倍。
+   * （这两个效果在 SVG 里就是 fill="url(#radialGradient)" 配一层
+   * feGaussianBlur——但光点是 HTML 元素而不是 SVG <circle>，因为 SVG 那层
+   * preserveAspectRatio="none" 两轴缩放不等比，circle 会被压成椭圆，
+   * 之前已经因为这个原因把光点挪出 SVG，这次同样的理由继续用 CSS 实现。）
+   */
+  .hv2__dot,
+  .hv2__merge {
+    isolation: isolate;
+  }
+  .hv2__dot::after,
+  .hv2__merge::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--halo-r));
+    border-radius: 50%;
+    background: var(--ball-c);
+    filter: blur(var(--halo-blur));
+    opacity: 0.55;
+    z-index: -1;
+  }
+  .hv2__dot {
+    --ball-c: var(--dot-c);
+    --halo-r: 8px;
+    --halo-blur: 5px;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle at 34% 30%, #fff 0%, #fff 32%, var(--dot-c) 100%);
+  }
+  .hv2__dot[data-m='claude'] { --dot-c: #6E76F3; }
+  .hv2__dot[data-m='gpt'] { --dot-c: #3B82F6; }
+  .hv2__dot[data-m='deepseek'] { --dot-c: #6C8FE8; }
+
+  /* 汇聚点：文档 6.1——核心直径 14–16px，外层柔光范围 22–28px（含核心），
+     核心不是纯白/纯紫，而是三个选中模型颜色（蓝紫/蓝/青绿）的柔和混合，
+     要有实心亮部，不能只剩一圈模糊发光。 */
+  .hv2__merge {
+    --halo-r: 5px;
+    --halo-blur: 4px;
+    width: 15px;
+    height: 15px;
+    background: radial-gradient(circle at 34% 30%,
+      #fff 0%, #fff 26%, #6E76F3 52%, #5B9DF0 76%, #4DD0C0 100%);
+  }
+  .hv2__merge::after {
+    background: conic-gradient(from 180deg, #6E76F3, #5B9DF0 50%, #4DD0C0 85%, #6E76F3);
+  }
+  .hv2__pulse {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #6E8DF0;
+  }
+
+  /* 智能模式：输入判断、单路派发；不复用聚合光幕。 */
+  .hv2__input { position: relative; overflow: hidden; isolation: isolate; }
+  .hv2__scan {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(100deg, transparent 25%, #E8F1ED 50%, transparent 75%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hv2__smart-card {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: min(17.5rem, calc(100vw - 3rem));
+    height: 6rem;
+    padding: 1.125rem 1.25rem;
+    display: grid;
+    align-content: center;
+    gap: 0.875rem;
+    background: #fff;
+    border: 1px solid #EBEFEB;
+    border-radius: 1rem;
+    box-shadow: 0 14px 32px -16px rgb(30 50 40 / 0.22), 0 3px 10px rgb(30 50 40 / 0.05);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hv2__smart-card .hv2__card-head span { font-size: 1.0625rem; }
+  .hv2__smart-card .hv2__card-spark { color: #70A990; }
+  .hv2__smart-route { width: 100%; height: 12px; color: #70A990; }
+  .hv2__tile-ring[data-m='glm'] { --ring-c: #7188CC; }
+  .hv2__tile-ring[data-m='kimi'] { --ring-c: #B19480; }
+  .hv2__tile-ring[data-m='qwen'] { --ring-c: #A18ED0; }
+  .hv2__smart-dot {
+    --dot-c: #70A990;
+    --halo-r: 4px;
+    --halo-blur: 4px;
+  }
+  /* 智能模式的放大光球只保留实体核心，避免与绿色扇形叠出第二个球形雾团。 */
+  .hv2__smart-dot::after {
+    opacity: 0;
+  }
+  .hv2__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 720px) {
+    .hv2 { --hero-gap: 2rem; --console-push: 2rem; }
+    .hv2__console {
+      gap: 1.25rem;
+      min-height: 0;
+      /* 底边比其它三边多留 0.75rem——手机端控制台本来就矮，卡片重叠控制台
+         底边 16px 后，留给"卡片顶到输入框底"的安全间隔（≥12px，见文档 3.1）
+         会被吃掉大半，量出来只剩 4px，所以专门给底边加宽。 */
+      padding: 1.25rem 1.25rem 2rem;
+      border-radius: 1.5rem;
+    }
+    .hv2__brand { margin-bottom: -0.5rem; }
+    .hv2__input {
+      min-height: 4.75rem;
+      padding: 0.625rem 0.625rem 0.625rem 1rem;
+      border-radius: 1.25rem;
+    }
+    .hv2__placeholder {
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    .hv2__send {
+      width: 2.875rem;
+      height: 2.875rem;
+    }
+    .hv2__cta-hit,
+    .hv2__cta-visual {
+      min-width: 112px;
+    }
+    .hv2__cta-visual {
+      height: 32px;
+      padding: 0 0.875rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  /* 六列要一直保持六列（缆线落点绑在列中点上，不能换行），
+     所以窄屏靠依次丢掉版本号、压小模型名来让列宽降下去。 */
+  @media (max-width: 720px) {
+    .hv2__logo-tile .ver { display: none; }
+  }
+  @media (max-width: 520px) {
+    .hv2__logos { --tile: 2.25rem; }
+    .hv2__logo-tile img { padding: 0.375rem; }
+    .hv2__logo-tile .name { font-size: 0.6875rem; }
+    /* 窄屏结果卡收成品牌右侧的小卡，不压住 Lucimix 和输入内容。 */
+    .hv2__smart-card {
+      width: clamp(9rem, 44vw, 11.25rem);
+      height: 4rem;
+      padding: 0.625rem;
+      gap: 0.5rem;
+    }
+    .hv2__smart-card .hv2__card-head { gap: 0.375rem; }
+    .hv2__smart-card .hv2__card-head span { font-size: 0.75rem; white-space: nowrap; }
+    .hv2__smart-card .hv2__card-spark { width: 10px; height: 10px; }
+    .hv2__smart-route { height: 8px; }
+  }
+</style>
+</head>
+<body>
+  <div class="hv2 page">
+
+    <div class="hv2__brand">
+      <img src="../public/logo.svg" alt="">
+      <span class="hv2__brand-name">LUCIMIX</span>
+      <span class="hv2__brand-separator" aria-hidden="true">·</span>
+      <span>多模型 AI 平台</span>
+    </div>
+
+    <div class="hv2__intro">
+      <div class="hv2__head">
+        <h1>你想用的 <span class="hv2__accent">AI</span> 都在这里</h1>
+        <p>让每个问题都有更合适的解法</p>
+      </div>
+      <div class="hv2__cta-layer">
+        <a class="hv2__cta-hit" href="https://lucimix.com/login" aria-label="立即使用">
+          <span class="hv2__cta-visual">
+            <span>立即使用</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 10h11"/>
+              <path d="m10.5 5.5 4.5 4.5-4.5 4.5"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hv2__console">
+      <div class="hv2__product-brand">
+        <img src="../public/logo.svg" alt="">
+        <span>Lucimix</span>
+      </div>
+
+      <div class="hv2__main">
+        <div class="hv2__input">
+          <span class="hv2__scan" aria-hidden="true"></span>
+          <span class="hv2__placeholder" aria-hidden="true">
+            <span>问吧，Lucimix 帮你匹配模型</span>
+          </span>
+          <span class="hv2__send" data-state="empty" aria-hidden="true">
+            <svg class="hv2__send-arrow" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>
+            <svg class="hv2__send-progress" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8" opacity=".18"/><path d="M12 4a8 8 0 0 1 8 8"/></svg>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!--
+      汇聚结果卡：文档要求它的 z-index 高于 .hv2__console（层级顺序第 5 层，
+      在扇形光幕和汇聚点之上），所以是 .hv2 的直接子元素而不是塞进
+      .hv2__matrix 里——.hv2__matrix 自己的 z-index 是 1，卡片放进去的话
+      不管卡片自己写多大的 z-index，都逃不出 matrix 这层 z:1 的局部层叠
+      上下文，会被 .hv2__console（z:2）盖住，跟控制台重叠的那 16–24px
+      就会显示错误（控制台在上、卡片在下）。位置由 JS 按汇聚点的真实坐标算，
+      见脚本里的 placeCard()。
+    -->
+    <div class="hv2__card" aria-hidden="true">
+      <div class="hv2__card-head">
+        <svg class="hv2__card-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2c.7 3.9 1.9 6.4 3.6 7.6 1.7 1.2 4.1 1.7 7.4 1.4-3.3.4-5.7 1.4-7.4 3-1.7 1.6-2.9 4-3.6 7-.7-3-1.9-5.4-3.6-7-1.7-1.6-4.1-2.6-7.4-3 3.3.3 5.7-.2 7.4-1.4C10.1 8.4 11.3 5.9 12 2Z"/>
+        </svg>
+        <span>多模型同时作答<strong>，更可靠</strong></span>
+      </div>
+      <div class="hv2__card-body">
+        <div class="hv2__card-row1">
+          <span class="hv2__card-icon"></span>
+          <span class="hv2__card-lines">
+            <span class="hv2__card-line hv2__card-line--lg"></span>
+            <span class="hv2__card-line hv2__card-line--sm"></span>
+          </span>
+        </div>
+        <div class="hv2__card-blocks">
+          <span class="hv2__card-block"></span>
+          <span class="hv2__card-block"></span>
+          <span class="hv2__card-block"></span>
+        </div>
+        <div class="hv2__card-foot">
+          <span class="hv2__card-line hv2__card-line--lg"></span>
+          <span class="hv2__card-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hv2__smart-card" aria-hidden="true">
+      <div class="hv2__card-head">
+        <svg class="hv2__card-spark" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/></svg>
+        <span>自动匹配<strong>，用对模型</strong></span>
+      </div>
+      <svg class="hv2__smart-route" viewBox="0 0 238 12" fill="none">
+        <circle cx="6" cy="6" r="4" fill="currentColor" opacity=".35"/>
+        <path d="M18 6H216" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".22"/>
+        <circle cx="230" cy="6" r="5" fill="currentColor"/>
+        <path d="m228 6 1.5 1.5 2.5-3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="hv2__sr-only">功能动效演示：多模型同时作答，更可靠；自动匹配，用对模型。智能模式以 GPT 为示意，不代表实际选模结果。</p>
+
+    <div class="hv2__matrix">
+      <span class="hv2__selector" aria-hidden="true"></span>
+      <svg class="hv2__lines" viewBox="0 0 1200 132" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <!-- 马卡龙信号线：每个模型从自己的柔和颜色出发，向汇聚点融为共享的
+               薄荷灰绿；active 版本只用于被选中的模型，颜色更有能量但不霓虹。 -->
+          <linearGradient id="line-claude" gradientUnits="userSpaceOnUse" x1="100" y1="132" x2="565" y2="-2"><stop stop-color="#E7B38D"/><stop offset="45%" stop-color="#E7B38D"/><stop offset="78%" stop-color="#CAD7D1"/><stop offset="100%" stop-color="#B6D8CC"/></linearGradient>
+          <linearGradient id="line-gpt" gradientUnits="userSpaceOnUse" x1="300" y1="132" x2="579" y2="-2"><stop stop-color="#A9D2C3"/><stop offset="45%" stop-color="#A9D2C3"/><stop offset="78%" stop-color="#CAD7D1"/><stop offset="100%" stop-color="#B6D8CC"/></linearGradient>
+          <linearGradient id="line-deepseek" gradientUnits="userSpaceOnUse" x1="500" y1="132" x2="593" y2="-2"><stop stop-color="#BDB2DE"/><stop offset="45%" stop-color="#BDB2DE"/><stop offset="78%" stop-color="#CAD7D1"/><stop offset="100%" stop-color="#B6D8CC"/></linearGradient>
+          <linearGradient id="line-glm" gradientUnits="userSpaceOnUse" x1="700" y1="132" x2="607" y2="-2"><stop stop-color="#B8D4ED"/><stop offset="45%" stop-color="#B8D4ED"/><stop offset="78%" stop-color="#CAD7D1"/><stop offset="100%" stop-color="#B6D8CC"/></linearGradient>
+          <linearGradient id="line-kimi" gradientUnits="userSpaceOnUse" x1="900" y1="132" x2="621" y2="-2"><stop stop-color="#F1C58D"/><stop offset="45%" stop-color="#F1C58D"/><stop offset="78%" stop-color="#CAD7D1"/><stop offset="100%" stop-color="#B6D8CC"/></linearGradient>
+          <linearGradient id="line-qwen" gradientUnits="userSpaceOnUse" x1="1100" y1="132" x2="635" y2="-2"><stop stop-color="#E6B5C2"/><stop offset="45%" stop-color="#E6B5C2"/><stop offset="78%" stop-color="#CAD7D1"/><stop offset="100%" stop-color="#B6D8CC"/></linearGradient>
+          <linearGradient id="line-active-claude" gradientUnits="userSpaceOnUse" x1="100" y1="132" x2="565" y2="-2"><stop stop-color="#D78E5D"/><stop offset="45%" stop-color="#D78E5D"/><stop offset="78%" stop-color="#94C8B9"/><stop offset="100%" stop-color="#6EBAA5"/></linearGradient>
+          <linearGradient id="line-active-gpt" gradientUnits="userSpaceOnUse" x1="300" y1="132" x2="579" y2="-2"><stop stop-color="#70A990"/><stop offset="45%" stop-color="#70A990"/><stop offset="78%" stop-color="#94C8B9"/><stop offset="100%" stop-color="#6EBAA5"/></linearGradient>
+          <linearGradient id="line-active-deepseek" gradientUnits="userSpaceOnUse" x1="500" y1="132" x2="593" y2="-2"><stop stop-color="#917AC2"/><stop offset="45%" stop-color="#917AC2"/><stop offset="78%" stop-color="#94C8B9"/><stop offset="100%" stop-color="#6EBAA5"/></linearGradient>
+          <linearGradient id="line-active-glm" gradientUnits="userSpaceOnUse" x1="700" y1="132" x2="607" y2="-2"><stop stop-color="#78A9D1"/><stop offset="45%" stop-color="#78A9D1"/><stop offset="78%" stop-color="#94C8B9"/><stop offset="100%" stop-color="#6EBAA5"/></linearGradient>
+          <linearGradient id="line-active-kimi" gradientUnits="userSpaceOnUse" x1="900" y1="132" x2="621" y2="-2"><stop stop-color="#D99C55"/><stop offset="45%" stop-color="#D99C55"/><stop offset="78%" stop-color="#94C8B9"/><stop offset="100%" stop-color="#6EBAA5"/></linearGradient>
+          <linearGradient id="line-active-qwen" gradientUnits="userSpaceOnUse" x1="1100" y1="132" x2="635" y2="-2"><stop stop-color="#CD899B"/><stop offset="45%" stop-color="#CD899B"/><stop offset="78%" stop-color="#94C8B9"/><stop offset="100%" stop-color="#6EBAA5"/></linearGradient>
+
+          <filter id="line-glow" x="-100%" y="-40%" width="300%" height="180%">
+            <feGaussianBlur stdDeviation="6"/>
+          </filter>
+          <filter id="probe-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="1.1"/>
+          </filter>
+
+          <!-- 6 条缆线：每条只用一个连续的三次贝塞尔（M x0,y0 C x0,(y0-c) x1,(y1+c) x1,y1），
+               两端控制点都只在 y 方向偏移，起点垂直升起、终点垂直汇入，中途没有拼接点。
+               在约 65% 高度收拢到中心附近，转成纯直线的平行线束，紧贴着一起没入卡片底部。
+               起点 x 对应 6 等分栅格的列中点（见 .hv2__logos），控制点长度随横向跨度增长。
+               每条曲线用 De Casteljau 在 t=0.5 精确拆成两半，形状不变，只是分开标粗细：
+               靠图标的下半段细、靠汇聚点的上半段稍粗、顶部的平行线束段最粗。 -->
+          <path id="claude-lo" d="M100,132 C100,100.41 216.25,89.88 332.5,79.35" vector-effect="non-scaling-stroke"/>
+          <path id="claude-hi" d="M332.5,79.35 C448.75,68.82 565,58.29 565,26.7" vector-effect="non-scaling-stroke"/>
+          <path id="claude-bd" d="M565,26.7 L565,-2" vector-effect="non-scaling-stroke"/>
+
+          <path id="gpt-lo" d="M300,132 C300,103.28 369.75,91.31 439.5,79.35" vector-effect="non-scaling-stroke"/>
+          <path id="gpt-hi" d="M439.5,79.35 C509.25,67.39 579,55.42 579,26.7" vector-effect="non-scaling-stroke"/>
+          <path id="gpt-bd" d="M579,26.7 L579,-2" vector-effect="non-scaling-stroke"/>
+
+          <path id="deepseek-lo" d="M500,132 C500,107.68 523.25,93.52 546.5,79.35" vector-effect="non-scaling-stroke"/>
+          <path id="deepseek-hi" d="M546.5,79.35 C569.75,65.18 593,51.02 593,26.7" vector-effect="non-scaling-stroke"/>
+          <path id="deepseek-bd" d="M593,26.7 L593,-2" vector-effect="non-scaling-stroke"/>
+
+          <path id="glm-lo" d="M700,132 C700,107.68 676.75,93.52 653.5,79.35" vector-effect="non-scaling-stroke"/>
+          <path id="glm-hi" d="M653.5,79.35 C630.25,65.18 607,51.02 607,26.7" vector-effect="non-scaling-stroke"/>
+          <path id="glm-bd" d="M607,26.7 L607,-2" vector-effect="non-scaling-stroke"/>
+
+          <path id="kimi-lo" d="M900,132 C900,103.28 830.25,91.31 760.5,79.35" vector-effect="non-scaling-stroke"/>
+          <path id="kimi-hi" d="M760.5,79.35 C690.75,67.39 621,55.42 621,26.7" vector-effect="non-scaling-stroke"/>
+          <path id="kimi-bd" d="M621,26.7 L621,-2" vector-effect="non-scaling-stroke"/>
+
+          <path id="qwen-lo" d="M1100,132 C1100,100.41 983.75,89.88 867.5,79.35" vector-effect="non-scaling-stroke"/>
+          <path id="qwen-hi" d="M867.5,79.35 C751.25,68.82 635,58.29 635,26.7" vector-effect="non-scaling-stroke"/>
+          <path id="qwen-bd" d="M635,26.7 L635,-2" vector-effect="non-scaling-stroke"/>
+        </defs>
+
+        <!-- 光点流动用的轨道：就是实线那条完整的单段贝塞尔（-lo/-hi 是它在 t=0.5
+             的两半），这里不描边，只作 MotionPathPlugin 的 path 用。必须留在渲染树里
+             而不能塞进 defs —— defs 里的元素拿不到 CTM，坐标换算会失败。 -->
+        <g class="hv2__tracks" fill="none" stroke="none">
+          <path id="track-claude" d="M100,132 C100,68.82 565,89.88 565,26.7"/>
+          <path id="track-gpt" d="M300,132 C300,74.2 579,84.5 579,26.7"/>
+          <path id="track-deepseek" d="M500,132 C500,83.25 593,75.45 593,26.7"/>
+        </g>
+
+        <!-- 辉光层：复用同一组路径，按分段加粗到实线的 3 倍宽、叠模糊。
+             不透明度下放到每个 use（原来挂在 g 上），动画才能单独提亮某几条；
+             g 上留着会和 use 的值相乘，就没法把某条推到比其它条更亮。 -->
+        <g class="hv2__glow" fill="none" stroke="none" stroke-linecap="round" filter="url(#line-glow)">
+          <g stroke-width="13">
+            <use href="#claude-lo" data-m="claude" opacity="0"/>
+            <use href="#gpt-lo" data-m="gpt" opacity="0"/>
+            <use href="#deepseek-lo" data-m="deepseek" opacity="0"/>
+            <use href="#glm-lo" data-m="glm" opacity="0"/>
+            <use href="#kimi-lo" data-m="kimi" opacity="0"/>
+            <use href="#qwen-lo" data-m="qwen" opacity="0"/>
+          </g>
+          <g stroke-width="15">
+            <use href="#claude-hi" data-m="claude" opacity="0"/>
+            <use href="#gpt-hi" data-m="gpt" opacity="0"/>
+            <use href="#deepseek-hi" data-m="deepseek" opacity="0"/>
+            <use href="#glm-hi" data-m="glm" opacity="0"/>
+            <use href="#kimi-hi" data-m="kimi" opacity="0"/>
+            <use href="#qwen-hi" data-m="qwen" opacity="0"/>
+          </g>
+          <g stroke-width="17">
+            <use href="#claude-bd" data-m="claude" opacity="0"/>
+            <use href="#gpt-bd" data-m="gpt" opacity="0"/>
+            <use href="#deepseek-bd" data-m="deepseek" opacity="0"/>
+            <use href="#glm-bd" data-m="glm" opacity="0"/>
+            <use href="#kimi-bd" data-m="kimi" opacity="0"/>
+            <use href="#qwen-bd" data-m="qwen" opacity="0"/>
+          </g>
+        </g>
+
+        <!-- 实线层：所有缆线共用同一个 url(#rainbow)，下细上粗 -->
+        <g class="hv2__solid" fill="none" stroke="none" stroke-linecap="round">
+          <g stroke-width="5">
+            <use href="#claude-lo" data-m="claude" opacity="0.90"/>
+            <use href="#gpt-lo" data-m="gpt" opacity="0.90"/>
+            <use href="#deepseek-lo" data-m="deepseek" opacity="0.90"/>
+            <use href="#glm-lo" data-m="glm" opacity="0.90"/>
+            <use href="#kimi-lo" data-m="kimi" opacity="0.90"/>
+            <use href="#qwen-lo" data-m="qwen" opacity="0.90"/>
+          </g>
+          <g stroke-width="6">
+            <use href="#claude-hi" data-m="claude" opacity="0.90"/>
+            <use href="#gpt-hi" data-m="gpt" opacity="0.90"/>
+            <use href="#deepseek-hi" data-m="deepseek" opacity="0.90"/>
+            <use href="#glm-hi" data-m="glm" opacity="0.90"/>
+            <use href="#kimi-hi" data-m="kimi" opacity="0.90"/>
+            <use href="#qwen-hi" data-m="qwen" opacity="0.90"/>
+          </g>
+          <g stroke-width="6.5">
+            <use href="#claude-bd" data-m="claude" opacity="0.90"/>
+            <use href="#gpt-bd" data-m="gpt" opacity="0.90"/>
+            <use href="#deepseek-bd" data-m="deepseek" opacity="0.90"/>
+            <use href="#glm-bd" data-m="glm" opacity="0.90"/>
+            <use href="#kimi-bd" data-m="kimi" opacity="0.90"/>
+            <use href="#qwen-bd" data-m="qwen" opacity="0.90"/>
+          </g>
+        </g>
+
+        <!-- 智能选模的轻探测：每段从路由汇合束向模型短促扫过，
+             只在分析阶段显示，不承担聚合或结果回传的语义。 -->
+        <g class="hv2__probes" fill="none" stroke="transparent" stroke-width="2.35" stroke-linecap="round">
+          <path class="hv2__probe-line" data-m="claude" d="M565,26.7 C565,89.88 100,68.82 100,132"/>
+          <path class="hv2__probe-line" data-m="gpt" d="M579,26.7 C579,84.5 300,74.2 300,132"/>
+          <path class="hv2__probe-line" data-m="deepseek" d="M593,26.7 C593,75.45 500,83.25 500,132"/>
+          <path class="hv2__probe-line" data-m="glm" d="M607,26.7 C607,75.45 700,83.25 700,132"/>
+          <path class="hv2__probe-line" data-m="kimi" d="M621,26.7 C621,84.5 900,74.2 900,132"/>
+          <path class="hv2__probe-line" data-m="qwen" d="M635,26.7 C635,89.88 1100,68.82 1100,132"/>
+        </g>
+
+      </svg>
+      <div class="hv2__logos">
+        <div class="hv2__logo-tile" data-m="claude"><span class="hv2__tile-ring" data-m="claude" aria-hidden="true"></span><span class="hv2__tile-check" data-m="claude" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m3.25 8.1 2.85 2.85 6.65-6.65"/></svg></span><img src="../public/logos/models/claude.png" alt=""><span class="name">Claude</span><span class="ver">Opus 5 · Sonnet 5</span></div>
+        <div class="hv2__logo-tile" data-m="gpt"><span class="hv2__tile-ring" data-m="gpt" aria-hidden="true"></span><span class="hv2__tile-check" data-m="gpt" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m3.25 8.1 2.85 2.85 6.65-6.65"/></svg></span><img src="../public/logos/models/gpt.png" alt=""><span class="name">GPT</span><span class="ver">5.6 Sol · 5.6 Terra</span></div>
+        <div class="hv2__logo-tile" data-m="deepseek"><span class="hv2__tile-ring" data-m="deepseek" aria-hidden="true"></span><span class="hv2__tile-check" data-m="deepseek" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m3.25 8.1 2.85 2.85 6.65-6.65"/></svg></span><img src="../public/logos/models/deepseek.png" alt=""><span class="name">DeepSeek</span><span class="ver">V4 Flash · V4 Pro</span></div>
+        <div class="hv2__logo-tile" data-m="glm"><span class="hv2__tile-ring" data-m="glm" aria-hidden="true"></span><img src="../public/logos/models/glm.png" alt=""><span class="name">GLM</span><span class="ver">5.1 · 5.2</span></div>
+        <div class="hv2__logo-tile" data-m="kimi"><span class="hv2__tile-ring" data-m="kimi" aria-hidden="true"></span><img src="../public/logos/models/kimi.png" alt=""><span class="name">Kimi</span><span class="ver">K2.6 · K3</span></div>
+        <div class="hv2__logo-tile" data-m="qwen"><span class="hv2__tile-ring" data-m="qwen" aria-hidden="true"></span><img src="../public/logos/models/qwen.png" alt=""><span class="name">Qwen</span><span class="ver">3.5</span></div>
+      </div>
+
+      <!--
+        扇形光幕：文档第 7、9.2 节。viewBox 固定在 0 0 100 100 的归一化空间里，
+        y=0 是靠卡片的顶边（宽，=卡片宽度*0.8，由外层 .hv2__fan 的 CSS
+        width 决定），y=100 是靠汇聚点的底边（窄，占顶宽的 ~7%，对应
+        16–20px）。两侧渐隐靠模糊层（软楔形 + 更亮更窄的核心楔形叠加），
+        不用硬边三角形。位置由 JS 贴着汇聚点摆（跟 merge/pulse 同一个
+        坐标系），可见区域的"从下到上生长、从中心向两边展开"完全交给
+        CSS 的 clip-path: inset() 动画，不改这张 SVG 自己的宽高。
+      -->
+      <svg class="hv2__fan" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="fan-grad" x1="50%" y1="100%" x2="50%" y2="0%">
+            <stop offset="0%" stop-color="#6E76F3"/>
+            <stop offset="55%" stop-color="#5B9DF0"/>
+            <stop offset="100%" stop-color="#4DD0C0"/>
+          </linearGradient>
+          <filter id="fan-blur-soft" x="-60%" y="-30%" width="220%" height="160%">
+            <feGaussianBlur stdDeviation="7"/>
+          </filter>
+          <filter id="fan-blur-core" x="-60%" y="-30%" width="220%" height="160%">
+            <feGaussianBlur stdDeviation="3"/>
+          </filter>
+        </defs>
+        <!-- 细光线：3–5 条，从汇聚点附近扇向卡片底部不同位置，只做辅助，
+             桌面 5 条、手机靠媒体查询隐藏后两条剩 3 条（见 CSS）。 -->
+        <g stroke="url(#fan-grad)" stroke-width="0.7" fill="none" filter="url(#fan-blur-core)" opacity="0.55">
+          <path class="hv2__fan-line" d="M50,99 L14,2"/>
+          <path class="hv2__fan-line" d="M49,99 L33,2"/>
+          <path class="hv2__fan-line" d="M50,99 L50,2"/>
+          <path class="hv2__fan-line" d="M51,99 L67,2"/>
+          <path class="hv2__fan-line" d="M50,99 L86,2"/>
+        </g>
+        <!-- 宽而软的主光幕，边缘靠模糊渐隐 -->
+        <path d="M46.5,100 L53.5,100 L100,0 L0,0 Z" fill="url(#fan-grad)" filter="url(#fan-blur-soft)" opacity="0.24"/>
+        <!-- 中心更亮、更窄的核心楔形，叠出"中心亮度略高"的效果 -->
+        <path d="M48.3,100 L51.7,100 L72,4 L28,4 Z" fill="url(#fan-grad)" filter="url(#fan-blur-core)" opacity="0.2"/>
+      </svg>
+
+      <!-- 智能模式结果光幕：独立于聚合模式，绿色且以 GPT 回传光球为底部尖点。 -->
+      <svg class="hv2__fan hv2__smart-fan" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="smart-fan-grad" x1="50%" y1="100%" x2="50%" y2="0%">
+            <stop offset="0%" stop-color="#70A990"/>
+            <stop offset="58%" stop-color="#8BC9B0"/>
+            <stop offset="100%" stop-color="#C7E7D7"/>
+          </linearGradient>
+          <filter id="smart-fan-soft" x="-60%" y="-30%" width="220%" height="160%">
+            <feGaussianBlur stdDeviation="7"/>
+          </filter>
+          <filter id="smart-fan-core" x="-60%" y="-30%" width="220%" height="160%">
+            <feGaussianBlur stdDeviation="3"/>
+          </filter>
+        </defs>
+        <!-- 直边楔形：底部收束到单一尖点，上方展开；不使用紫色。 -->
+        <path d="M50,100 L100,0 L0,0 Z" fill="url(#smart-fan-grad)" filter="url(#smart-fan-soft)" opacity="0.18"/>
+        <path d="M50,100 L72,4 L28,4 Z" fill="url(#smart-fan-grad)" filter="url(#smart-fan-core)" opacity="0.14"/>
+      </svg>
+
+      <span class="hv2__dot" data-m="claude" aria-hidden="true"></span>
+      <span class="hv2__dot" data-m="gpt" aria-hidden="true"></span>
+      <span class="hv2__dot" data-m="deepseek" aria-hidden="true"></span>
+      <span class="hv2__merge" aria-hidden="true"></span>
+      <span class="hv2__probe-dot" data-m="claude" aria-hidden="true"></span>
+      <span class="hv2__probe-dot" data-m="gpt" aria-hidden="true"></span>
+      <span class="hv2__probe-dot" data-m="deepseek" aria-hidden="true"></span>
+      <span class="hv2__probe-dot" data-m="glm" aria-hidden="true"></span>
+      <span class="hv2__probe-dot" data-m="kimi" aria-hidden="true"></span>
+      <span class="hv2__probe-dot" data-m="qwen" aria-hidden="true"></span>
+      <span class="hv2__dot hv2__smart-dot" aria-hidden="true"></span>
+      <span class="hv2__pulse" aria-hidden="true"></span>
+    </div>
+  </div>
+
+<script type="module">
+/**
+ * 首屏汇聚结果卡演示。按 docs/Lucimix汇聚结果卡片设计与动画方案.md 第 8 节的
+ * 聚合收尾后重新提问，再进入智能选模，整轮 17.15s，循环之间停 1s。
+ * 以下为聚合段相对 ask 标签的时间；实际标签定义是编排的唯一时间依据：
+ *
+ *   0.0–0.4s  提问确认：发送按钮轻微收紧后回弹
+ *   0.4–1.2s  模型选中：三个模型依次高亮，stagger 合计 240ms
+ *   1.2–2.4s  信号流动：三个光点沿线路上移，未选中线路降低亮度
+ *   2.4–2.65s 汇聚：三个光点在汇聚点重合、合成一个稳定光核
+ *   2.6–3.05s 光幕打开：扇形光幕从汇聚点向上、向两侧展开（clip-path）
+ *   2.85–3.45s 卡片成形：光幕碰到卡片位置后，卡片由模糊透明变清晰实体
+ *   3.05–3.65s 内容显现：顶部闪光/文案、抽象内容块依次显现
+ *   3.65–6.1s  结果保持：卡片稳定，光幕与汇聚点降到低强度
+ *   6.1–6.7s   退出：内容先淡出，光幕收窄，最后汇聚点和模型高亮回到待机
+ *
+ * 层级顺序（文档 3.2）：普通连线 < 高亮连线 < 扇形光幕 < 汇聚光点 < 卡片 < 卡片文字。
+ * 卡片被提到 .hv2 顶层（z-index:10），不挂在 .hv2__matrix（z-index:1）下面，
+ * 否则不管卡片自己写多大的 z-index 都逃不出 matrix 的局部层叠上下文，
+ * 会被 z-index:2 的 .hv2__console 盖住，跟控制台重叠那 16–24px 会显示错误。
+ */
+import gsap from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+
+gsap.registerPlugin(MotionPathPlugin);
+
+const q = (sel, root = document) => root.querySelector(sel);
+const qa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+const ACTIVE = ['claude', 'gpt', 'deepseek'];
+const isActive = (el) => ACTIVE.includes(el.dataset.m);
+
+const hv2Root = q('.hv2');
+const matrix = q('.hv2__matrix');
+const svg = q('.hv2__lines');
+const send = q('.hv2__send');
+const sendArrow = q('.hv2__send-arrow');
+const sendProgress = q('.hv2__send-progress');
+const input = q('.hv2__input');
+const selector = q('.hv2__selector');
+
+const card = q('.hv2__card');
+const cardHead = q('.hv2__card-head');
+const cardBodyKids = qa('.hv2__card-body > *');
+
+const fan = q('.hv2__fan');
+const smartFan = q('.hv2__smart-fan');
+const merge = q('.hv2__merge');
+const pulse = q('.hv2__pulse');
+
+const dots = ACTIVE.map((m) => q(`.hv2__dot[data-m="${m}"]`));
+const tracks = ACTIVE.map((m) => q(`#track-${m}`));
+const rings = ACTIVE.map((m) => q(`.hv2__tile-ring[data-m="${m}"]`));
+const checks = ACTIVE.map((m) => q(`.hv2__tile-check[data-m="${m}"]`));
+const activeImgs = ACTIVE.map((m) => q(`.hv2__logo-tile[data-m="${m}"] img`));
+
+const glowOn = qa('.hv2__glow use').filter(isActive);
+const glowOff = qa('.hv2__glow use').filter((el) => !isActive(el));
+const solidOff = qa('.hv2__solid use').filter((el) => !isActive(el));
+
+// 固定 GPT 只用于展示路由语义，不伪装成实时的模型决策。
+const smartCard = q('.hv2__smart-card');
+const smartContent = qa('.hv2__smart-card > *');
+const scan = q('.hv2__scan');
+const smartDot = q('.hv2__smart-dot');
+const smartRing = q('.hv2__tile-ring[data-m="gpt"]');
+const smartCheck = q('.hv2__tile-check[data-m="gpt"]');
+const allRings = qa('.hv2__tile-ring');
+const smartTile = q('.hv2__logo-tile[data-m="gpt"]');
+const smartImg = q('img', smartTile);
+const otherTiles = qa('.hv2__logo-tile').filter((el) => el !== smartTile);
+const smartGlow = qa('.hv2__glow use[data-m="gpt"]');
+const otherSolid = qa('.hv2__solid use').filter((el) => el.dataset.m !== 'gpt');
+const probeLines = qa('.hv2__probe-line');
+const probeDots = qa('.hv2__probe-dot');
+const probeImgs = qa('.hv2__logo-tile img');
+const TILE_REST_SHADOW = 'inset 0 1px 0 rgb(255 255 255 / 0.92)';
+const PROBE_HIGHLIGHT = 'inset 0 0 0 1px rgb(243 154 112 / 0.42), inset 0 1px 0 rgb(255 255 255 / 0.92)';
+
+// 待机时的基准值，淡出那段要回到这里
+// 待机只保留低饱和实体线；高饱和辉光是“模型被选中”的专属反馈。
+const IDLE = { glow: 0, solid: 0.90, fan: 1 };
+const HOLD = { fan: 0.55 };
+
+const FAN_CLIP_CLOSED = 'inset(100% 46.5% 0% 46.5%)';
+const FAN_CLIP_OPEN = 'inset(0% 0% 0% 0%)';
+
+// 三个按钮状态共享同一时间线；没有独立的无限旋转，暂停与定格也会暂停分析环。
+function buttonState(tl, state, at, reduced = false) {
+  const palette = {
+    empty: ['#F9DFD2', '#C65021'],
+    ready: ['#FF6418', '#FFFFFF'],
+    analyzing: ['#FFF0E9', '#FF6418'],
+  }[state];
+  tl.set(send, { attr: { 'data-state': state } }, at)
+    .to(send, { backgroundColor: palette[0], color: palette[1], duration: 0.2 }, at)
+    .to(sendArrow, { opacity: state === 'empty' || state === 'ready' ? 1 : 0, duration: 0.16 }, at)
+    .to(sendProgress, { opacity: state === 'analyzing' ? 1 : 0, duration: 0.16 }, at);
+  if (state === 'ready' && !reduced) {
+    tl.to(send, { scale: 1.08, duration: 0.18 }, at)
+      .to(send, { scale: 1, duration: 0.2 }, at + 0.18);
+  }
+}
+
+function resetInput() {
+  gsap.set([sendProgress, selector, ...probeDots], { opacity: 0 });
+  gsap.set(sendArrow, { opacity: 1 });
+  gsap.set(send, { scale: 1, backgroundColor: '#F9DFD2', color: '#C65021', attr: { 'data-state': 'empty' } });
+}
+
+function candidatePosition(model) {
+  const rect = q(`.hv2__logo-tile[data-m="${model}"] img`).getBoundingClientRect();
+  const parent = matrix.getBoundingClientRect();
+  return { x: rect.left - parent.left - 5, y: rect.top - parent.top - 5, width: rect.width + 10, height: rect.height + 10 };
+}
+
+/**
+ * 汇聚点在 viewBox 里是固定坐标 (600, 26.7)（缆线收拢处，见 .hv2__lines 里
+ * 6 条 -bd 路径的起点）。卡片和光幕都不能用写死的 CSS margin/bottom 去够
+ * 这个点——.hv2__lines 用了 preserveAspectRatio="none" 两轴不等比缩放，
+ * 换个视口宽度这套写死的数字就对不上了，只有 MotionPathPlugin 换算出来的
+ * 屏幕坐标是准的（merge/pulse 光点已经这么做，这里对光幕、卡片用同一套）。
+ *
+ * 光幕紧贴汇聚点向上生长（doc 7.1「从汇聚点向上展开」），卡片紧贴光幕顶边——
+ * 卡片底部到汇聚点的距离因此正好等于光幕自己的高度，不需要另外量。
+ */
+function placeStage() {
+  const mergeMatrix = MotionPathPlugin.convertCoordinates(svg, matrix, { x: 600, y: 26.7 });
+  const smartMatrix = MotionPathPlugin.convertCoordinates(svg, matrix, { x: 579, y: 26.7 });
+  gsap.set([merge, pulse], { x: mergeMatrix.x, y: mergeMatrix.y, xPercent: -50, yPercent: -50 });
+  gsap.set(fan, { x: mergeMatrix.x, y: mergeMatrix.y, xPercent: -50, yPercent: -100 });
+  gsap.set(smartFan, { x: smartMatrix.x, y: smartMatrix.y, xPercent: -50, yPercent: -100 });
+
+  const mergeRoot = MotionPathPlugin.convertCoordinates(svg, hv2Root, { x: 600, y: 26.7 });
+  const fanH = fan.getBoundingClientRect().height;
+  const cardBaseY = mergeRoot.y - fanH;
+  gsap.set(card, { x: mergeRoot.x, y: cardBaseY, xPercent: -50, yPercent: -100 });
+  // 智能选模的结果也由路由核心生成：卡片与聚合模式共用同一片向上展开的光幕。
+  const smartBaseY = cardBaseY;
+  gsap.set(smartCard, { x: mergeRoot.x, y: smartBaseY, xPercent: -50, yPercent: -100 });
+  return { cardBaseY, smartBaseY };
+}
+
+function buildTimeline() {
+  const { cardBaseY, smartBaseY } = placeStage();
+  resetInput();
+  probeLines.forEach((line) => {
+    const length = line.getTotalLength();
+    gsap.set(line, { opacity: 0, strokeDasharray: `24 ${length}`, strokeDashoffset: 0 });
+  });
+  const candidatePositions = ['claude', 'deepseek', 'gpt'].map(candidatePosition);
+  gsap.set(selector, { ...candidatePositions[0], scale: 0.96, borderColor: '#F17A47' });
+  gsap.set(fan, { display: 'block', clipPath: FAN_CLIP_CLOSED, opacity: IDLE.fan });
+  gsap.set(card, { opacity: 0, filter: 'blur(6px)', scale: 0.98 });
+  gsap.set([cardHead, ...cardBodyKids], { opacity: 0 });
+  gsap.set([smartCard, ...smartContent, smartDot, smartFan, smartRing, smartCheck, scan, ...probeDots], { opacity: 0 });
+
+  const tl = gsap.timeline({
+    repeat: -1,
+    repeatDelay: 1,
+    defaults: { ease: 'power2.out' },
+  });
+
+  tl.addLabel('ask', 1.4)
+    .addLabel('pick', 1.8)
+    .addLabel('flow', 2.6)
+    .addLabel('merge', 3.8)
+    .addLabel('fanOpen', 4)
+    .addLabel('cardForm', 4.25)
+    .addLabel('content', 4.45)
+    .addLabel('hold', 5.05)
+    .addLabel('exit', 7.5)
+    .addLabel('idle', 8.02)
+    .addLabel('ready', 8.52)
+    .addLabel('smartScan', 9.12)
+    .addLabel('smartCandidates', 11.28)
+    .addLabel('smartLock', 13.06)
+    .addLabel('smartDispatch', 13.41)
+    .addLabel('smartArrival', 14.13)
+    .addLabel('smartFan', 14.23)
+    .addLabel('smartCard', 14.48)
+    .addLabel('smartExit', 17.31);
+
+  buttonState(tl, 'ready', 0.95);
+  buttonState(tl, 'analyzing', 1.8);
+  tl.fromTo(sendProgress, { rotation: 0 }, { rotation: 1600, duration: 6.2, ease: 'none', immediateRender: false }, 1.8);
+
+  // ── 1. 提问确认 0–0.4s：轻微收紧后回弹（不是放大——「收紧」是往小了压）
+  tl.to(send, { scale: 0.88, duration: 0.14 }, 'ask')
+    .to(send, { scale: 1, duration: 0.26, ease: 'power2.inOut' }, 'ask+=0.14');
+
+  // ── 2. 模型选中 0.4–1.2s：三个模型依次高亮，stagger 合计 0.12*2=0.24s（≤240ms）
+  // 下面几个 fromTo() 都加了 immediateRender:false——默认值 true 会在
+  // buildTimeline() 执行的那一刻（页面刚加载/每次 resize 重建时）就把 from
+  // 状态立刻写进 DOM，而不是等时间线播放到这个位置才生效。pulse 的 from 是
+  // opacity:0.7（非零），不关掉的话它会从加载那一刻就顶着这个不透明度出现
+  // 在汇聚点，直到时间线真正播放到 merge 阶段才被接管。
+  tl.fromTo(rings,
+      { opacity: 0, scale: 0.86 },
+      { opacity: 0.9, scale: 1, duration: 0.4, stagger: 0.12, immediateRender: false }, 'pick')
+    .to(activeImgs, { scale: 1.05, y: -2, backgroundColor: '#fff', duration: 0.4, stagger: 0.12 }, 'pick')
+    .fromTo(checks,
+      { opacity: 0, scale: 0.7 },
+      { opacity: 1, scale: 1, duration: 0.24, stagger: 0.12, ease: 'back.out(1.25)', immediateRender: false }, 'pick+=0.16');
+
+  // ── 3. 信号流动 1.2–2.4s：连线提亮（未选中线路降低亮度）+ 光点沿路径上移
+  tl.to(glowOn, { opacity: 0.78, duration: 0.35 }, 'flow')
+    .to(glowOff, { opacity: 0, duration: 0.35 }, 'flow')
+    .to(solidOff, { opacity: 0.4, duration: 0.35 }, 'flow');
+
+  dots.forEach((dot, i) => {
+    tl.set(dot, { opacity: 1 }, `flow+=${i * 0.1}`)
+      .to(dot, {
+        motionPath: { path: tracks[i], align: tracks[i], alignOrigin: [0.5, 0.5] },
+        duration: 1.1,
+        ease: 'power1.inOut',
+      }, `flow+=${i * 0.1}`);
+  });
+
+  // ── 4. 汇聚 2.4–2.65s：三个光点不立即消失，在汇聚点重合约 100ms 后
+  // 才合成一个稳定光核；光核有一次很轻的收紧+定住，光晕做一次非常轻的
+  // 圆形扩散——都不是强烈爆炸或弹跳（back.out 的系数压得很低，只是让
+  // 光核出现时有一点点扎实感，不是弹性过冲）。
+  tl.to(dots, { opacity: 0, duration: 0.2 }, 'merge+=0.08')
+    .fromTo(merge,
+      { opacity: 0, scale: 0.5 },
+      { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(1.15)', immediateRender: false }, 'merge')
+    .fromTo(pulse,
+      { opacity: 0.55, scale: 0.6 },
+      { opacity: 0, scale: 1.8, duration: 0.5, ease: 'power2.out', immediateRender: false }, 'merge+=0.1');
+
+  // ── 5. 光幕打开 2.6–3.05s：只动 clip-path，不碰宽高——从「底部一条窄缝」
+  // 展开到「完全可见」，同时做到「从下到上生长」和「从中心向两边展开」。
+  tl.fromTo(fan,
+    { clipPath: FAN_CLIP_CLOSED },
+    { clipPath: FAN_CLIP_OPEN, duration: 0.45, ease: 'power2.out', immediateRender: false },
+    'fanOpen');
+
+  // ── 6. 卡片成形 2.85–3.45s：不是从汇聚点直接放大，是被光幕「投射」出来——
+  // 初始向下偏 10px、透明、模糊 6px，光幕碰到卡片位置后卡片才归位、显形、
+  // 模糊降到 0，配一个 0.98→1 的极小缩放，自然减速，不做弹跳/过冲。
+  tl.fromTo(card,
+    { y: cardBaseY + 10, opacity: 0, filter: 'blur(6px)', scale: 0.98 },
+    { y: cardBaseY, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 0.55, ease: 'power2.out', immediateRender: false },
+    'cardForm')
+    .to(merge, { opacity: 0.7, duration: 0.3 }, 'cardForm+=0.1');
+
+  // ── 7. 内容显现 3.05–3.65s：先顶部闪光+文案，再抽象内容块；只是轻微
+  // 渐显 + 3–6px 上移，两组入场时间差 0.12s（<300ms），不做瀑布式列表动画。
+  tl.fromTo(cardHead,
+      { opacity: 0, y: 5 },
+      { opacity: 1, y: 0, duration: 0.28, immediateRender: false }, 'content')
+    .fromTo(cardBodyKids,
+      { opacity: 0, y: 5 },
+      { opacity: 1, y: 0, duration: 0.3, stagger: 0.08, immediateRender: false }, 'content+=0.12');
+
+  // ── 8. 结果保持 3.65–6.1s：卡片不动，光幕和汇聚点降到低强度（但汇聚点
+  // 不能降到看不见——「光点全程可见」是硬要求，只降模型高亮环和光幕）。
+  tl.to(fan, { opacity: HOLD.fan, duration: 0.35 }, 'hold')
+    .to(rings, { opacity: 0.42, duration: 0.4 }, 'hold')
+    .to(checks, { opacity: 0.78, duration: 0.4 }, 'hold')
+    .to(activeImgs, { scale: 1.02, duration: 0.4 }, 'hold');
+
+  // ── 9. 退出 6.1–6.7s：先淡出内容，再收窄光幕，最后汇聚点和模型高亮回到
+  // 待机——卡片退场（0.32s）明显快于进场（0.55s）。
+  tl.to([cardHead, ...cardBodyKids], { opacity: 0, duration: 0.16 }, 'exit')
+    .to(card, { opacity: 0, y: cardBaseY + 8, filter: 'blur(4px)', scale: 0.98, duration: 0.32, ease: 'power2.in' }, 'exit+=0.08')
+    .to(fan, { clipPath: FAN_CLIP_CLOSED, opacity: IDLE.fan, duration: 0.32, ease: 'power2.in' }, 'exit+=0.22')
+    .to([merge, pulse], { opacity: 0, duration: 0.3 }, 'exit+=0.18')
+    .to(rings, { opacity: 0, scale: 0.9, duration: 0.4 }, 'exit+=0.18')
+    .to(checks, { opacity: 0, scale: 0.72, duration: 0.24 }, 'exit+=0.18')
+    .to(activeImgs, { scale: 1, y: 0, backgroundColor: '#FAF9F7', duration: 0.4 }, 'exit+=0.18')
+    .to(glowOn, { opacity: IDLE.glow, duration: 0.4 }, 'exit+=0.18')
+    .to(glowOff, { opacity: IDLE.glow, duration: 0.4 }, 'exit+=0.18')
+    .to(solidOff, { opacity: IDLE.solid, duration: 0.4 }, 'exit+=0.18');
+
+  // 聚合结果退出后，才依次回到暗箭头、可发送和分析中；输入文案始终静止。
+  buttonState(tl, 'empty', 'idle');
+  buttonState(tl, 'ready', 'ready');
+  buttonState(tl, 'analyzing', 'smartScan');
+  tl.fromTo(sendProgress, { rotation: 0 },
+    { rotation: 1900, duration: 9.1, ease: 'none', immediateRender: false }, 'smartScan');
+
+  // 路由层判断以输入框细扫和边缘反馈表达，文案保持不动。
+  tl.fromTo(scan, { xPercent: -100, opacity: 0 },
+      { xPercent: 100, opacity: 0.9, duration: 0.8, ease: 'power1.inOut', immediateRender: false }, 'smartScan')
+    .to(input, { borderColor: '#D99470', duration: 0.2 }, 'smartScan')
+    .to(input, { borderColor: 'rgba(38,36,31,0.1)', duration: 0.25 }, 'smartCandidates')
+    .to(scan, { opacity: 0, duration: 0.15 }, 'smartScan+=0.8');
+
+  // 智能探测不叠加扇形或线路高光：结果光幕直接从渲染树移除，
+  // 只保留六颗光点沿既有结构线路下行。
+  tl.set([fan, smartFan], { display: 'none', opacity: 0, clipPath: FAN_CLIP_CLOSED }, 'smartScan-=0.01');
+  probeLines.forEach((line, index) => {
+    const at = 9.3 + index * 0.05;
+    const img = q(`.hv2__logo-tile[data-m="${line.dataset.m}"] img`);
+    tl.set(line, { opacity: 0 }, at)
+      .set(probeDots[index], { opacity: 0.96, scale: 0.82 }, at)
+      .to(probeDots[index], {
+        scale: 1,
+        motionPath: { path: line, align: line, alignOrigin: [0.5, 0.5] },
+        duration: 1.24, ease: 'power1.in', immediateRender: false,
+      }, at)
+      .to(probeDots[index], { opacity: 0, scale: 0.72, duration: 0.18 }, at + 1.24)
+      .to(img, { boxShadow: PROBE_HIGHLIGHT, duration: 0.16 }, at + 1.08)
+      .to(img, { boxShadow: TILE_REST_SHADOW, duration: 0.28 }, at + 1.26);
+  });
+
+  // 探测结束后才进入候选检视；整个智能阶段不在汇聚束中央生成光球。
+  tl.fromTo(selector,
+      { x: candidatePositions[0].x, opacity: 0, scale: 0.96 },
+      { x: candidatePositions[0].x, opacity: 1, scale: 1, duration: 0.22, immediateRender: false }, 'smartCandidates+=0.25')
+    .to(selector, { x: candidatePositions[1].x, duration: 0.38, ease: 'power2.inOut' }, 'smartCandidates+=0.65')
+    .to(selector, { x: candidatePositions[2].x, duration: 0.5, ease: 'power3.out' }, 'smartCandidates+=1.22')
+    .to(selector, { borderColor: '#FF6418', scale: 1.03, duration: 0.2 }, 'smartLock')
+    .to(selector, { opacity: 0, scale: 1.05, duration: 0.18 }, 'smartLock+=0.22');
+
+  tl.to(smartImg, {
+      scale: 1.02,
+      y: -1,
+      backgroundColor: '#fff',
+      boxShadow: TILE_REST_SHADOW,
+      duration: 0.28,
+    }, 'smartLock')
+    .fromTo(smartRing, { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.28, ease: 'power2.out', immediateRender: false }, 'smartLock')
+    .fromTo(smartCheck, { opacity: 0, scale: 0.68 },
+      { opacity: 1, scale: 1, duration: 0.22, ease: 'back.out(2)', immediateRender: false }, 'smartLock+=0.14')
+    .to(otherTiles, { opacity: 0.72, duration: 0.3 }, 'smartLock')
+    .to(otherSolid, { opacity: 0.25, duration: 0.3 }, 'smartLock')
+    .to(smartGlow, { opacity: 0.8, duration: 0.3 }, 'smartLock')
+    .set(smartDot, { opacity: 1 }, 'smartDispatch')
+    .fromTo(smartDot, { scale: 0.8 }, {
+      scale: 1,
+      // GPT 被选定后只产生一次上行回传：从模型沿原线抵达路由核心。
+      motionPath: { path: tracks[1], align: tracks[1], alignOrigin: [0.5, 0.5] },
+      duration: 0.72, ease: 'power1.inOut', immediateRender: false,
+    }, 'smartDispatch')
+    // GPT 的绿色结果光点抵达顶部后先长成光核，再由光核打开结果扇形。
+    .to(smartDot, { opacity: 1, scale: 2.25, duration: 0.2, ease: 'power2.out' }, 'smartArrival')
+    .set(smartFan, { display: 'block' }, 'smartFan')
+    .fromTo(smartFan, { clipPath: FAN_CLIP_CLOSED, opacity: IDLE.fan },
+      { clipPath: FAN_CLIP_OPEN, opacity: 1, duration: 0.45, ease: 'power2.out', immediateRender: false }, 'smartFan')
+    .to(smartDot, { opacity: 0.72, scale: 1.95, duration: 0.35, ease: 'power2.out' }, 'smartCard+=0.12')
+    .fromTo(smartCard, { y: smartBaseY + 10, opacity: 0, filter: 'blur(6px)', scale: 0.98 },
+      { y: smartBaseY, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 0.55, immediateRender: false }, 'smartCard')
+    .fromTo(smartContent, { opacity: 0, y: 3 },
+      { opacity: 1, y: 0, duration: 0.25, stagger: 0.08, immediateRender: false }, 'smartCard+=0.12')
+    .to(smartContent, { opacity: 0, duration: 0.15 }, 'smartExit')
+    .to(smartCard, { opacity: 0, y: smartBaseY + 6, duration: 0.25 }, 'smartExit+=0.08')
+    .to(smartFan, { clipPath: FAN_CLIP_CLOSED, opacity: IDLE.fan, duration: 0.32, ease: 'power2.in' }, 'smartExit+=0.22')
+    .to(smartDot, { opacity: 0, duration: 0.3 }, 'smartExit+=0.1')
+    .to(smartRing, { opacity: 0, scale: 0.9, duration: 0.25 }, 'smartExit+=0.1')
+    .to(smartCheck, { opacity: 0, scale: 0.72, duration: 0.2 }, 'smartExit+=0.1')
+    .to(smartImg, { scale: 1, y: 0, backgroundColor: '#FAF9F7', boxShadow: TILE_REST_SHADOW, duration: 0.3 }, 'smartExit+=0.1')
+    .to(otherTiles, { opacity: 1, duration: 0.3 }, 'smartExit+=0.1')
+    .to(otherSolid, { opacity: IDLE.solid, duration: 0.3 }, 'smartExit+=0.1')
+    .to(smartGlow, { opacity: IDLE.glow, duration: 0.3 }, 'smartExit+=0.1');
+  tl.set(smartFan, { display: 'none' }, 'smartExit+=0.56');
+  buttonState(tl, 'empty', 'smartExit+=0.42');
+
+  return tl;
+}
+
+const mm = gsap.matchMedia();
+
+mm.add({
+  animate: '(prefers-reduced-motion: no-preference)',
+  reduce: '(prefers-reduced-motion: reduce)',
+}, (ctx) => {
+  // 减少动效时仅交替淡显两种结果，不移动光点、扫描或缩放。
+  function buildReducedTimeline() {
+    const { cardBaseY } = placeStage();
+    resetInput();
+    gsap.set([fan, smartFan, merge, pulse, ...dots, smartDot, scan, smartCard, ...probeLines, ...probeDots], { opacity: 0 });
+    gsap.set(card, { y: cardBaseY, filter: 'blur(0px)', scale: 1, opacity: 0 });
+    gsap.set([cardHead, ...cardBodyKids, ...smartContent], { opacity: 1 });
+    const reduced = gsap.timeline({ repeat: -1, repeatDelay: 1 })
+      .to([card, ...rings, ...checks], { opacity: 1, duration: 0.2 }, 0)
+      .to([card, ...rings, ...checks], { opacity: 0, duration: 0.2 }, 4)
+      .to(smartCard, { opacity: 1, duration: 0.2 }, 6.5)
+      .to(smartCard, { opacity: 0, duration: 0.2 }, 8.7);
+    buttonState(reduced, 'ready', 4.6, true);
+    buttonState(reduced, 'analyzing', 5, true);
+    buttonState(reduced, 'empty', 6.5, true);
+    return reduced;
+  }
+
+  const build = ctx.conditions.reduce ? buildReducedTimeline : buildTimeline;
+  let tl = build();
+  const seekParam = new URLSearchParams(location.search).get('t');
+  const seekTime = seekParam === null ? null : Number(seekParam);
+  const frozen = seekTime !== null && Number.isFinite(seekTime) && seekTime >= 0;
+  if (frozen) tl.pause(seekTime);
+
+  // 离屏/后台暂停；设计核对的 ?t= 定格优先，不因切换标签页意外恢复。
+  let inView = true;
+  const onVisibility = () => tl.paused(frozen || document.hidden || !inView);
+  document.addEventListener('visibilitychange', onVisibility);
+  const observer = new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    onVisibility();
+  });
+  observer.observe(hv2Root);
+  onVisibility();
+
+  // MotionPath 的坐标是建 tween 时换算好的，视口变了要重算，否则光点/光幕/
+  // 卡片都会脱离汇聚点
+  let raf;
+  const onResize = () => {
+    clearTimeout(raf);
+    raf = setTimeout(() => {
+      const time = tl.totalTime();
+      tl.kill();
+      gsap.set([card, cardHead, ...cardBodyKids, fan, smartFan, ...dots, merge, pulse, ...allRings, ...checks, ...activeImgs,
+        smartCard, ...smartContent, smartDot, scan, ...otherTiles, send, sendArrow, sendProgress,
+        selector, input, ...probeLines, ...probeDots, ...probeImgs,
+        ...qa('.hv2__glow use'), ...qa('.hv2__solid use')],
+        { clearProps: 'all' });
+      tl = build();
+      tl.totalTime(time);
+      onVisibility();
+    }, 200);
+  };
+  window.addEventListener('resize', onResize);
+
+  // 供截图核对用：可以 seek 到任意时间点
+  window.__heroTl = () => tl;
+
+  // 设计核对用：URL 加 ?t=1.95 直接定格在某一帧，不用再从外部用 CDP 实时调用
+  // tl.pause() —— 那条路径在无头 Chrome 里偶尔会跟 GSAP 的 rAF 循环抢锁卡死。
+
+  return () => {
+    clearTimeout(raf);
+    window.removeEventListener('resize', onResize);
+    document.removeEventListener('visibilitychange', onVisibility);
+    observer.disconnect();
+    tl.kill();
+  };
+});
+</script>
+</body>
+</html>
