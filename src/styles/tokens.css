@@ -71,6 +71,19 @@
   --measure: 34em;
   --page-max: 76rem;
 
+  /* ── 间距阶梯：命名沿用 --r-* 的后缀习惯，基于 4px 网格。
+     覆盖全站最高频的结构性取值；比 4px 更细或更古怪的一次性数值
+     （多见于图标/动效小元件的像素级微调）不必强收进来。 ── */
+  --sp-3xs: 0.25rem;   /* 4px */
+  --sp-2xs: 0.375rem;  /* 6px */
+  --sp-xs: 0.5rem;     /* 8px */
+  --sp-sm: 0.75rem;    /* 12px */
+  --sp-md: 1rem;       /* 16px */
+  --sp-lg: 1.5rem;     /* 24px */
+  --sp-xl: 2rem;       /* 32px */
+  --sp-2xl: 3rem;      /* 48px */
+  --sp-3xl: 4rem;      /* 64px */
+
   /* ── 缓动：指数式 ease-out ── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);

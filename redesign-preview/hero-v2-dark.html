@@ -3,17 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>首屏精简版 · 预览</title>
+<meta name="color-scheme" content="dark">
+<title>首屏精简版 · 深色对比稿</title>
 <link rel="stylesheet" href="../src/styles/base.css">
 <style>
   /**
-   * 这是 redesign/hero-v2 分支上的静态预览页，不接入 App.tsx / 构建流程，
-   * 只是拿真实 token（tokens.css/fonts.css，经 base.css 引入）、真实 logo
-   * 资源和真实文案字段，快速拼一版"极度精简"的首屏给大家看结构对不对。
-   * 定稿后再决定要不要落成正式的 Hero 组件。
+   * hero-v2.html 的深色对比稿：结构、间距、动画逻辑完全不变，只换配色，
+   * 用来对比"暖白+马卡龙糖果色"和首页已定的"暖近黑+橙/金点缀"哪个
+   * 视觉冲击感更强。只是评估用的一次性草稿，不接入构建，阴影等细节
+   * 没有精修。
+   *
+   * 做法：给 body 挂 base.css 里已有的 .panel-dark（tokens.css 定义），
+   * --bg/--text/--text-2/--text-3/--surface/--orange/--gold 这些语义
+   * token 会自动换成暗色版本，本文件里原来引用 var(--xxx) 的地方大多
+   * 不用动；只手动修了控制台卡片、输入框、发送按钮、logo 底板这几处
+   * 写死的十六进制颜色（原来是给白底配的浅色小色块，深底下要反过来）。
+   *
+   * 背景原来是纯 CSS 画的橙/金光晕，后来换成 Penny 给的实拍感星球图，
+   * 又换成透视感更强的第二版，现在是第三版（img/hero-bg-3.webp，
+   * 3840×1632 转的，150KB，比第二版更清晰）：同样是单点透视，光线从
+   * 画面中心的亮点向四周发散，跟首屏下方汇聚线动画（多模型 -> 一个答案）
+   * 正好是反过来的呼应关系。图本身偏亮（中心光点、地平线那几道暖光）
+   * 盖在标题正下方，
+   * 直接叠字怕对比度不够，所以在图上面叠了一层由深到浅再到深的黑色渐变
+   * 当"衬色"：标题所在的顶部压得最暗，中段（控制台卡片本身有自己的深底，
+   * 不靠这层遮罩也够）松一点，底部再收一点收个尾。
+   *
+   * 踩了个坑：body 自己的 background（来自 base.css 的 var(--bg)，经
+   * .panel-dark 换算成同一个 #1a1917）是不透明的，会整块盖在 z-index:-1
+   * 的 body::before 上面，把这张图完全挡住——即使 ::before 的 z-index
+   * 更低，body 自身背景色的绘制层级依然在它之上。所以把 body 自己的
+   * background 显式清成 transparent，只留 html 的纯色兜底（图片加载
+   * 出来之前，或加载失败时显示）。
    */
 
-  body { padding-block: clamp(2.5rem, 5vw, var(--sp-3xl)) var(--sp-3xl); }
+  html { background: #1a1917; }
+
+  body {
+    /* 原来没有垂直居中，视口比内容高的时候（全屏大屏、超宽屏）多出来的
+       高度全部堆在底部变成空白，整组内容像焊死在顶部——不是分辨率适配
+       策略，是漏了这一步。给 body 一个 min-height:100vh 的 flex 居中，
+       视口够高时整组往下让、居中显示；内容本身超出一屏时正常滚动，
+       不受影响。 */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: clamp(2.5rem, 5vw, var(--sp-3xl)) var(--sp-3xl);
+    position: relative;
+    background: transparent;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(180deg, rgb(10 9 8 / 0.55) 0%, rgb(10 9 8 / 0.22) 32%, rgb(10 9 8 / 0.12) 58%, rgb(10 9 8 / 0.4) 100%),
+      url('img/hero-bg-3.webp');
+    background-size: cover;
+    background-position: center top, center 30%;
+    background-repeat: no-repeat;
+  }
 
   .hv2 {
     position: relative;
@@ -62,7 +114,12 @@
   }
   .hv2__accent { color: var(--orange-fill); }
   .hv2__head p {
-    color: var(--text-2);
+    /* var(--text-2) 在纯色深底上够用，但背景换成实拍图之后亮度不稳定
+       （光线/星轨穿过的地方比暗部亮很多），这行字跟着显得发暗、不突出。
+       提亮到接近 --text 的自定义灰白，再叠一层柔和的黑色投影稳住它跟
+       背景细节的对比，不受背后是亮是暗影响。 */
+    color: #d8d5cd;
+    text-shadow: 0 2px 14px rgb(0 0 0 / 0.55);
     font-size: var(--fs-lead);
   }
 
@@ -96,20 +153,28 @@
     justify-content: center;
     gap: 0.625rem;
     border-radius: 999px;
-    background: var(--orange-fill);
+    /* 纯色实心 pill 换成很轻的上下渐变 + 顶部一条内嵌高光，
+       给它一点"打磨过的实体"厚度感，而不是纯 CSS 色块——
+       克制着做：只有这两处，不做发光边框那种大动作，CTA
+       首要任务还是一眼看清、立刻能点，装饰不能抢它的功能性。 */
+    background: linear-gradient(180deg, #ff7d1f 0%, var(--orange-fill) 100%);
     color: var(--on-orange);
     font-size: 0.9375rem;
     font-weight: 700;
     line-height: 1;
-    box-shadow: 0 10px 22px -14px rgb(198 80 33 / 0.55);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.35),
+      0 10px 22px -14px rgb(198 80 33 / 0.55);
     transition:
-      background-color 0.2s var(--ease-out),
+      background 0.2s var(--ease-out),
       box-shadow 0.2s var(--ease-out),
       transform 0.2s var(--ease-out);
   }
   .hv2__cta-hit:hover .hv2__cta-visual {
-    background: var(--orange-soft);
-    box-shadow: 0 14px 26px -14px rgb(198 80 33 / 0.65);
+    background: linear-gradient(180deg, #ff8a3d 0%, var(--orange-soft) 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.4),
+      0 14px 26px -14px rgb(198 80 33 / 0.65);
     transform: translateY(-2px);
   }
   .hv2__cta-hit:active .hv2__cta-visual { transform: translateY(1px); }
@@ -134,11 +199,31 @@
     margin-inline: auto;
     width: 100%;
     padding: var(--sp-xl) 2.25rem;
-    background: #F4F2EE;
+    /* 不均匀发光边：border 本身透明，靠 background-clip 的经典双层技巧
+       露出来——内层纯色填充卡片本体（padding-box），外层一圈 conic-gradient
+       只在 1.5px 的边框缝隙里可见（border-box）。conic-gradient 沿圆周角度
+       走，亮暗本来就不均匀，比一圈等宽等亮的描边更像"能量在管壁里流动"，
+       不是简单的均匀霓虹框。 */
+    border: 1.5px solid transparent;
     border-radius: 1.875rem;
+    background-image:
+      linear-gradient(rgb(24 23 21 / 0.74), rgb(24 23 21 / 0.74)),
+      conic-gradient(from 220deg at 50% 50%,
+        rgb(255 140 40 / 0.7) 0deg,
+        rgb(255 140 40 / 0.06) 55deg,
+        rgb(212 184 122 / 0.55) 140deg,
+        rgb(255 140 40 / 0.05) 210deg,
+        rgb(255 140 40 / 0.75) 290deg,
+        rgb(255 140 40 / 0.7) 360deg);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
     box-shadow:
-      0 1px 2px rgb(26 25 23 / 0.04),
-      0 18px 42px -30px rgb(26 25 23 / 0.22);
+      inset 0 1px 0 rgb(255 255 255 / 0.05),
+      0 1px 2px rgb(0 0 0 / 0.3),
+      0 18px 42px -24px rgb(0 0 0 / 0.55),
+      0 0 32px -6px rgb(255 107 0 / 0.16);
   }
 
   .hv2__product-brand {
@@ -159,12 +244,12 @@
     gap: var(--sp-md);
     min-height: 5.75rem;
     padding: var(--sp-sm) var(--sp-sm) var(--sp-sm) 1.625rem;
-    background: var(--bg);
-    border: 1px solid rgb(38 36 31 / 0.10);
+    background: #0a0908;
+    border: 1px solid rgb(255 255 255 / 0.06);
     border-radius: 1.5rem;
     box-shadow:
-      0 1px 2px rgb(26 25 23 / 0.04),
-      0 10px 24px -20px rgb(26 25 23 / 0.18);
+      inset 0 2px 6px rgb(0 0 0 / 0.5),
+      0 1px 2px rgb(0 0 0 / 0.3);
   }
   .hv2__placeholder {
     flex: 1;
@@ -183,8 +268,8 @@
     display: grid;
     place-items: center;
     position: relative;
-    background: #F9DFD2;
-    color: #C65021;
+    background: #3A2414;
+    color: #FF8B4D;
   }
   .hv2__send > svg { grid-area: 1 / 1; }
   .hv2__send-progress { opacity: 0; }
@@ -343,13 +428,16 @@
     height: 9rem;
     padding: 1.125rem 1.375rem;
     border-radius: 1rem;
-    background: #fff;
-    /* 用接近纸张的中性边界与分层阴影区分前景，不把紫色做成“选中框”。 */
-    border: 1px solid rgb(42 39 52 / 0.14);
+    /* 深色稿里改成暖白（不是纯 #fff）：冷白在暖色系星空背景上太扎眼，
+       像贴上去的纸片；暖白 + 一圈很淡的橙色外光晕，读起来像被同一个
+       光源照到的东西，跟控制台的发光边呼应，但卡片本身还是浅色——
+       "答案落在纸面上"这个隐喻不能丢，深色卡片会削弱这一点。 */
+    background: #FAF7F2;
+    border: 1px solid rgb(42 39 52 / 0.1);
     box-shadow:
-      0 1px 2px rgb(26 25 23 / 0.07),
-      0 10px 20px -12px rgb(26 25 23 / 0.20),
-      0 24px 40px -28px rgb(26 25 23 / 0.24);
+      0 1px 2px rgb(0 0 0 / 0.2),
+      0 10px 24px -12px rgb(0 0 0 / 0.45),
+      0 0 28px -8px rgb(255 140 40 / 0.35);
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 0.625rem;
@@ -625,10 +713,13 @@
     display: grid;
     align-content: center;
     gap: 0.875rem;
-    background: #fff;
-    border: 1px solid #EBEFEB;
+    background: #FAF7F2;
+    border: 1px solid rgb(112 169 144 / 0.18);
     border-radius: 1rem;
-    box-shadow: 0 14px 32px -16px rgb(30 50 40 / 0.22), 0 3px 10px rgb(30 50 40 / 0.05);
+    box-shadow:
+      0 14px 32px -16px rgb(0 0 0 / 0.45),
+      0 3px 10px rgb(0 0 0 / 0.2),
+      0 0 26px -8px rgb(112 169 144 / 0.4);
     opacity: 0;
     pointer-events: none;
   }
@@ -715,7 +806,7 @@
   }
 </style>
 </head>
-<body>
+<body class="panel-dark">
   <div class="hv2 page">
 
     <div class="hv2__brand">
@@ -888,28 +979,28 @@
              处会比任一段本身都细。统一成一个宽度后凹陷消失，视觉也更高级。 -->
         <g class="hv2__glow" fill="none" stroke="none" stroke-linecap="round" filter="url(#line-glow)">
           <g stroke-width="14.5">
-            <use href="#claude-lo" data-m="claude" opacity="0"/>
-            <use href="#gpt-lo" data-m="gpt" opacity="0"/>
-            <use href="#deepseek-lo" data-m="deepseek" opacity="0"/>
-            <use href="#glm-lo" data-m="glm" opacity="0"/>
-            <use href="#kimi-lo" data-m="kimi" opacity="0"/>
-            <use href="#qwen-lo" data-m="qwen" opacity="0"/>
+            <use href="#claude-lo" data-m="claude" opacity="0.16"/>
+            <use href="#gpt-lo" data-m="gpt" opacity="0.16"/>
+            <use href="#deepseek-lo" data-m="deepseek" opacity="0.16"/>
+            <use href="#glm-lo" data-m="glm" opacity="0.16"/>
+            <use href="#kimi-lo" data-m="kimi" opacity="0.16"/>
+            <use href="#qwen-lo" data-m="qwen" opacity="0.16"/>
           </g>
           <g stroke-width="14.5">
-            <use href="#claude-hi" data-m="claude" opacity="0"/>
-            <use href="#gpt-hi" data-m="gpt" opacity="0"/>
-            <use href="#deepseek-hi" data-m="deepseek" opacity="0"/>
-            <use href="#glm-hi" data-m="glm" opacity="0"/>
-            <use href="#kimi-hi" data-m="kimi" opacity="0"/>
-            <use href="#qwen-hi" data-m="qwen" opacity="0"/>
+            <use href="#claude-hi" data-m="claude" opacity="0.16"/>
+            <use href="#gpt-hi" data-m="gpt" opacity="0.16"/>
+            <use href="#deepseek-hi" data-m="deepseek" opacity="0.16"/>
+            <use href="#glm-hi" data-m="glm" opacity="0.16"/>
+            <use href="#kimi-hi" data-m="kimi" opacity="0.16"/>
+            <use href="#qwen-hi" data-m="qwen" opacity="0.16"/>
           </g>
           <g stroke-width="14.5">
-            <use href="#claude-bd" data-m="claude" opacity="0"/>
-            <use href="#gpt-bd" data-m="gpt" opacity="0"/>
-            <use href="#deepseek-bd" data-m="deepseek" opacity="0"/>
-            <use href="#glm-bd" data-m="glm" opacity="0"/>
-            <use href="#kimi-bd" data-m="kimi" opacity="0"/>
-            <use href="#qwen-bd" data-m="qwen" opacity="0"/>
+            <use href="#claude-bd" data-m="claude" opacity="0.16"/>
+            <use href="#gpt-bd" data-m="gpt" opacity="0.16"/>
+            <use href="#deepseek-bd" data-m="deepseek" opacity="0.16"/>
+            <use href="#glm-bd" data-m="glm" opacity="0.16"/>
+            <use href="#kimi-bd" data-m="kimi" opacity="0.16"/>
+            <use href="#qwen-bd" data-m="qwen" opacity="0.16"/>
           </g>
         </g>
 
@@ -1116,7 +1207,7 @@ const PROBE_HIGHLIGHT = 'inset 0 0 0 1px rgb(243 154 112 / 0.42), inset 0 1px 0 
 
 // 待机时的基准值，淡出那段要回到这里
 // 待机只保留低饱和实体线；高饱和辉光是“模型被选中”的专属反馈。
-const IDLE = { glow: 0, solid: 0.90, fan: 1 };
+const IDLE = { glow: 0.16, solid: 0.90, fan: 1 };
 const HOLD = { fan: 0.55 };
 
 const FAN_CLIP_CLOSED = 'inset(100% 46.5% 0% 46.5%)';
@@ -1125,9 +1216,9 @@ const FAN_CLIP_OPEN = 'inset(0% 0% 0% 0%)';
 // 三个按钮状态共享同一时间线；没有独立的无限旋转，暂停与定格也会暂停分析环。
 function buttonState(tl, state, at, reduced = false) {
   const palette = {
-    empty: ['#F9DFD2', '#C65021'],
+    empty: ['#3A2414', '#FF8B4D'],
     ready: ['#FF6418', '#FFFFFF'],
-    analyzing: ['#FFF0E9', '#FF6418'],
+    analyzing: ['#3A2414', '#FF8B4D'],
   }[state];
   tl.set(send, { attr: { 'data-state': state } }, at)
     .to(send, { backgroundColor: palette[0], color: palette[1], duration: 0.2 }, at)
@@ -1142,7 +1233,7 @@ function buttonState(tl, state, at, reduced = false) {
 function resetInput() {
   gsap.set([sendProgress, selector, ...probeDots], { opacity: 0 });
   gsap.set(sendArrow, { opacity: 1 });
-  gsap.set(send, { scale: 1, backgroundColor: '#F9DFD2', color: '#C65021', attr: { 'data-state': 'empty' } });
+  gsap.set(send, { scale: 1, backgroundColor: '#3A2414', color: '#FF8B4D', attr: { 'data-state': 'empty' } });
 }
 
 function candidatePosition(model) {
