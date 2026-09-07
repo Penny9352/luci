@@ -29,17 +29,24 @@
    * 当"衬色"：标题所在的顶部压得最暗，中段（控制台卡片本身有自己的深底，
    * 不靠这层遮罩也够）松一点，底部再收一点收个尾。
    *
-   * 踩了个坑：body 自己的 background（来自 base.css 的 var(--bg)，经
+   * 踩了个坑 1：body 自己的 background（来自 base.css 的 var(--bg)，经
    * .panel-dark 换算成同一个 #1a1917）是不透明的，会整块盖在 z-index:-1
    * 的 body::before 上面，把这张图完全挡住——即使 ::before 的 z-index
    * 更低，body 自身背景色的绘制层级依然在它之上。所以把 body 自己的
    * background 显式清成 transparent，只留 html 的纯色兜底（图片加载
    * 出来之前，或加载失败时显示）。
-   */
+   *
+   * 踩了个坑 2：本地 `npm run dev` 好使，部署到 GitHub Pages 之后背景图
+   * 又被挡住了——`vite build` 会把这个 <style> 块挪到 base.css 的
+   * <link> 前面（本地开发时 <link> 在前、<style> 在后，构建后顺序反过来
+   * 了），选择器优先级又一样（都是普通的 `body{}`），CSS 层叠按后出现
+   * 的赢，构建后 base.css 的不透明 background 就反超盖过来了。用
+   * `body.panel-dark` 把优先级提高一档，不管构建怎么重排 <style>/<link>
+   * 顺序都稳赢。 */
 
   html { background: #1a1917; }
 
-  body {
+  body.panel-dark {
     /* 原来没有垂直居中，视口比内容高的时候（全屏大屏、超宽屏）多出来的
        高度全部堆在底部变成空白，整组内容像焊死在顶部——不是分辨率适配
        策略，是漏了这一步。给 body 一个 min-height:100vh 的 flex 居中，
@@ -819,7 +826,7 @@
     <div class="hv2__intro">
       <div class="hv2__head">
         <h1>你想用的 <span class="hv2__accent">AI</span> 都在这里</h1>
-        <p>让每个问题都有更合适的解法</p>
+        <p>模型各有所长，Lucimix 用其所长</p>
       </div>
       <div class="hv2__cta-layer">
         <a class="hv2__cta-hit" href="https://lucimix.com/login" aria-label="立即使用">
