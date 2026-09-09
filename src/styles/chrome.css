@@ -263,116 +263,18 @@
   letter-spacing: 0.04em;
 }
 
-/* ── 页脚：品牌一栏 + 三栏去处，底下压一行合规信息 ──────────── */
+/* ── 页脚：只留一行版权信息 ──────────── */
 
 .foot {
-  margin-top: clamp(4rem, 9vw, 7rem);
+  margin-top: clamp(2.75rem, 5vw, 4rem);
   border-top: 1px solid var(--border);
-  /* 收尾段已经是暖灰色块，页脚再铺一层更浅的灰会多出一档说不清的色阶。
-     底色交给色块，页脚只留那道发丝线断句。 */
-  background: none;
-  padding-block: clamp(2.75rem, 5vw, 4rem) 1.25rem;
-}
-
-.foot__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
-  gap: 2.5rem 2rem;
-}
-
-.foot__brand {
-  display: grid;
-  gap: 0.625rem;
-  align-content: start;
-  max-width: 22rem;
-}
-
-.foot__logo {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  gap: 0.5rem;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
-
-.foot__logo img {
-  height: 1.375rem;
-  width: auto;
-}
-
-.foot__tagline {
-  font-size: var(--fs-sm);
-  line-height: 1.7;
-  color: var(--text-2);
-}
-
-.foot__co {
-  font-size: var(--fs-cap);
-  color: var(--text-3);
-}
-
-.foot__col {
-  display: grid;
-  gap: 0.875rem;
-  align-content: start;
-}
-
-.foot__col h3 {
-  font-family: var(--ff-body);
-  font-size: var(--fs-cap);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--text);
-}
-
-/* 行距压到 0，可点区域由每个链接自己的 44px 撑开 ——
-   页脚链接在手机上挨得近，点错一个就跳走一屏。 */
-.foot__col ul {
-  display: grid;
-  list-style: none;
-}
-
-.foot__col a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  font-size: var(--fs-sm);
-  color: var(--text-2);
-  transition: color 0.2s var(--ease-out);
-}
-
-.foot__col a:hover {
-  color: var(--orange);
+  padding-block: 1.5rem;
 }
 
 .foot__bottom {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  margin-top: clamp(2.25rem, 4vw, 3.25rem);
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border);
+  text-align: center;
   font-size: var(--fs-cap);
   color: var(--text-3);
-}
-
-@media (max-width: 860px) {
-  .foot__inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .foot__brand {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 480px) {
-  .foot__inner {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-  }
 }
 
 /* 语言切换器。它是导航里唯一一个"离开本页"的链接，所以给一道描边

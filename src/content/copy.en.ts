@@ -28,8 +28,6 @@
  * product has no English UI, either an English screenshot is needed or this
  * page should say plainly that the app runs in Chinese.
  */
-import { LOGIN_URL, ENTERPRISE_URL } from './urls'
-
 export const nav = {
   brand: 'lucimix',
   links: [
@@ -38,13 +36,11 @@ export const nav = {
     { label: 'Apps', href: '#ecosystem' },
     { label: 'Lumens', href: '#start' },
   ],
-  login: 'Log in',
-  cta: 'Start free',
-  /** Screen-reader and switcher strings; never rendered as visible copy */
+  cta: 'Log in',
+  /** Screen-reader strings; never rendered as visible copy */
   navLabel: 'Site navigation',
   menuOpen: 'Open menu',
   menuClose: 'Close menu',
-  langSwitch: '切换到中文',
 }
 
 export const hero = {
@@ -370,7 +366,6 @@ export const ecosystem = {
 
 export const start = {
   title: 'Start now',
-  lead: 'Sign in with a phone number. If you have no account, one is created for you.',
   credits: {
     title: 'Lumens',
     body: 'The platform-wide unit of billing (credits). Top up by scanning with WeChat or Alipay. Your balance sits in the sidebar with the top-up button beside it.',
@@ -383,30 +378,7 @@ export const start = {
   cta: 'Start free',
 }
 
+/** Same legal notice as the Chinese page; entity name kept as registered. */
 export const footer = {
-  brand: 'lucimix',
-  tagline: 'An AI assistant that actually works for you.',
-  /** Registered entity stays as filed. Swap if there is a registered English name. */
-  company: '北京光忽智能科技有限公司',
-  /** Same legal notice as the Chinese page; entity name kept as registered. */
   copyright: 'Copyright © 香港超昂控股有限公司 All Rights Reserved.',
-  columns: [
-    { title: 'Product', links: nav.links },
-    {
-      title: 'Get started',
-      links: [
-        { label: 'Start free', href: LOGIN_URL },
-        { label: 'Log in', href: LOGIN_URL },
-        { label: 'Enterprise', href: ENTERPRISE_URL },
-      ],
-    },
-    {
-      title: 'Terms and policies',
-      links: [
-        { label: 'Terms of service', href: '#' },
-        { label: 'Privacy policy', href: '#' },
-      ],
-    },
-  ],
-  disclaimer: 'AI-generated content. Please verify before relying on it.',
 }

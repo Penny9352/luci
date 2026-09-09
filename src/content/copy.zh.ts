@@ -20,8 +20,6 @@
  *   - 定时任务联网检索已研发确认，可对外书写
  */
 
-import { LOGIN_URL, ENTERPRISE_URL } from './urls'
-
 export const nav = {
   brand: '多模型AI平台',
   links: [
@@ -31,13 +29,11 @@ export const nav = {
     { label: '定时任务', href: '#ws-schedule' },
     { label: '光点', href: '#start' },
   ],
-  login: '登录',
-  cta: '免费使用',
-  /** 只给读屏器和语言切换器用，不出现在可见文案里 */
+  cta: '登录',
+  /** 只给读屏器用，不出现在可见文案里 */
   navLabel: '页面导航',
   menuOpen: '打开菜单',
   menuClose: '关闭菜单',
-  langSwitch: '切换到英文',
 }
 
 export const hero = {
@@ -46,8 +42,8 @@ export const hero = {
   titleLead: '问题不同，AI就该不同',
   titleMain: '每次提问，都用对AI',
   subtitle: '你想用的AI都在这里，让每个问题都有更合适的解法。',
-  ctaPrimary: '免费开始使用',
-  ctaSecondary: '看它怎么用',
+  ctaPrimary: '立即使用',
+  ctaSecondary: '如何使用',
 }
 
 /** 首屏模拟对话。演一轮普通对话（非交叉验证），不依赖任何未确认能力。 */
@@ -467,50 +463,22 @@ export const ecosystem = {
 
 export const start = {
   title: '现在开始用',
-  lead: '手机号登录，未注册会自动创建账号。',
   credits: {
-    title: '光点',
-    body: '平台统一的计费单位，微信或支付宝扫码充值。侧边栏常驻显示余额，旁边就是充值入口。',
+    title: '无需订阅，按需使用',
+    body: '购买光点，即刻使用。光点全模型通用，用多少，付多少。',
   },
   invite: {
     title: '邀请好友',
     body: '邀请人与被邀请人各得 1,000 光点。',
     amount: '1,000',
   },
-  cta: '免费开始使用',
+  cta: '立即使用',
 }
 
 /**
- * 页脚四栏。只收录站内真实存在的去处 —— 锚点、登录、企业版、协议页，
- * 不为了凑满一栏去编「帮助中心」「客户端下载」这类还没有的东西。
+ * 页脚目前只留版权一行。原来这里是 ICP 备案号占位，2026-08-28 用户指定
+ * 改为版权声明 —— 字段名跟着改，留着 icp 这个名字会误导后来的人。
  */
 export const footer = {
-  brand: '多模型AI平台',
-  tagline: '多模型AI平台',
-  company: '',
-  /**
-   * 页脚底栏的法律声明。原来这里是 ICP 备案号占位，2026-08-28 用户指定
-   * 改为版权声明 —— 字段名跟着改，留着 icp 这个名字会误导后来的人。
-   */
   copyright: 'Copyright © 香港超昂控股有限公司 All Rights Reserved.',
-  columns: [
-    { title: '产品', links: nav.links },
-    {
-      title: '开始使用',
-      links: [
-        { label: '免费使用', href: LOGIN_URL },
-        { label: '登录', href: LOGIN_URL },
-        { label: '企业版', href: ENTERPRISE_URL },
-      ],
-    },
-    {
-      /** TODO: 协议页上线前是 # 占位，上线后换成真实地址。 */
-      title: '条款与政策',
-      links: [
-        { label: '服务协议', href: '#' },
-        { label: '隐私政策', href: '#' },
-      ],
-    },
-  ],
-  disclaimer: 'AI 生成内容请注意核实。',
 }

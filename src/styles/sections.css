@@ -939,7 +939,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.5rem, 4vw, 3.5rem);
   margin-top: clamp(2.5rem, 5vw, 4rem);
-  text-align: start;
+  text-align: center;
   width: 100%;
   max-width: 50rem;
 }
@@ -947,15 +947,21 @@
 .start__fact {
   display: grid;
   gap: 0.5rem;
+  justify-items: center;
   align-content: start;
   padding-top: 1.25rem;
   border-top: 1px solid var(--border);
 }
 
+/* 图标 + 幽灵占位各占一列，宽度相等，文字列才是真正的居中列 ——
+   否则图标把 icon+text 这一整块的视觉中心带偏，跟下面纯文字的
+   正文对不齐。 */
 .start__fact h3 {
-  display: flex;
+  display: grid;
+  grid-template-columns: 17px auto 17px;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  column-gap: 0.5rem;
   font-family: var(--ff-body);
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -963,10 +969,14 @@
 
 .start__fact h3 svg {
   color: var(--orange);
-  flex: none;
+}
+
+.start__fact h3::after {
+  content: '';
 }
 
 .start__fact p {
+  max-width: 24rem;
   font-size: var(--fs-sm);
   line-height: 1.7;
   color: var(--text-2);

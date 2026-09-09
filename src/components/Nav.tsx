@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { nav, ALT_LANG, LOGIN_URL } from '../content/copy'
+import { nav, LOGIN_URL } from '../content/copy'
 import { asset } from '../lib/asset'
 import { Button } from './ui/Button'
 import { IconMenu, IconClose } from './ui/Icon'
@@ -66,13 +66,6 @@ export function Nav() {
         </nav>
 
         <div className="nav__actions">
-          {/* 换语言 = 换页面。两种语言各有真实 URL，这里就是一个普通链接 */}
-          <a className="nav__lang" href={ALT_LANG.href} hrefLang={ALT_LANG.code} aria-label={nav.langSwitch}>
-            {ALT_LANG.label}
-          </a>
-          <a className="nav__login" href={LOGIN_URL}>
-            {nav.login}
-          </a>
           <Button href={LOGIN_URL}>{nav.cta}</Button>
           <button
             className="nav__toggle"
@@ -97,7 +90,6 @@ export function Nav() {
               {l.label}
             </a>
           ))}
-          <a href={LOGIN_URL}>{nav.login}</a>
         </div>
       )}
     </header>
