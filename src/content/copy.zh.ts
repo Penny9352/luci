@@ -464,8 +464,8 @@ export const ecosystem = {
 export const start = {
   title: '现在开始用',
   credits: {
-    title: '无需订阅，按需使用',
-    body: '购买光点，即刻使用。光点全模型通用，用多少，付多少。',
+    title: '无需订阅，按使用量付费',
+    body: '购买光点，即可使用。光点全模型通用，用多少，付多少。',
   },
   invite: {
     title: '邀请好友',
