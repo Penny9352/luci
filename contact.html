@@ -83,7 +83,7 @@
   </head>
   <body>
     <main class="contact page">
-      <a class="contact__brand" href="/">
+      <a class="contact__brand" id="contact-brand" href="/">
         <img src="/logo.svg" alt="" />
         <span>LUCIMIX</span>
       </a>
@@ -99,7 +99,24 @@
         <dd><a href="mailto:service@lucimix.com">service@lucimix.com</a></dd>
       </dl>
 
-      <a class="contact__back" href="/">← 返回首页</a>
+      <a class="contact__back" id="contact-back" href="/">← 返回首页</a>
     </main>
+
+    <script type="module">
+      /**
+       * 「联系我们」是从三处不同的页面链过来的（中文首页 /、英文首页 /en/、
+       * hero-v2-dark 预览稿），点进来之前用 ?home= 带一个来源标记，这里
+       * 照着标记把"返回首页"（含顶部品牌标）指回各自的入口，而不是一律
+       * 写死 "/"——写死的话，子路径部署（GitHub Pages 的 /luci/）下会直接
+       * 404，而且英文站/预览稿点进来也应该退回它们自己，不是退回中文首页。
+       */
+      const base = import.meta.env.BASE_URL
+      const home = new URLSearchParams(location.search).get('home')
+      const target =
+        home === 'en' ? `${base}en/` : home === 'preview' ? `${base}redesign-preview/hero-v2-dark.html` : base
+
+      document.getElementById('contact-brand').href = target
+      document.getElementById('contact-back').href = target
+    </script>
   </body>
 </html>
