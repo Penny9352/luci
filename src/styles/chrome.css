@@ -263,7 +263,7 @@
   letter-spacing: 0.04em;
 }
 
-/* ── 页脚：只留一行版权信息 ──────────── */
+/* ── 页脚：一行版权信息 + 联系我们 ──────────── */
 
 .foot {
   margin-top: clamp(2.75rem, 5vw, 4rem);
@@ -272,8 +272,26 @@
 }
 
 .foot__bottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   text-align: center;
   font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+
+.foot__contact {
+  color: var(--text-2);
+  transition: color 0.2s var(--ease-out);
+}
+
+.foot__contact:hover {
+  color: var(--orange);
+}
+
+.foot__sep {
   color: var(--text-3);
 }
 

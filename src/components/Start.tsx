@@ -1,4 +1,5 @@
 import { start as s, footer as f, LOGIN_URL } from '../content/copy'
+import { asset } from '../lib/asset'
 import { Button } from './ui/Button'
 import { IconGift, IconSpark } from './ui/Icon'
 
@@ -32,7 +33,13 @@ export function Start() {
       </div>
 
       <footer className="foot">
-        <div className="foot__bottom page">{f.copyright}</div>
+        <div className="foot__bottom page">
+          <a className="foot__contact" href={asset('contact.html')} target="_blank" rel="noopener noreferrer">
+            {f.contact}
+          </a>
+          <span className="foot__sep" aria-hidden="true">·</span>
+          {f.copyright}
+        </div>
       </footer>
     </section>
   )

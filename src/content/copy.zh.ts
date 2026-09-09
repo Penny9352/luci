@@ -478,7 +478,10 @@ export const start = {
 /**
  * 页脚目前只留版权一行。原来这里是 ICP 备案号占位，2026-08-28 用户指定
  * 改为版权声明 —— 字段名跟着改，留着 icp 这个名字会误导后来的人。
+ * 2026-09-09 加了「联系我们」，链到独立的 contact.html（不接入 App.tsx，
+ * 只是一个带 LOGO 和简介的静态页），新开标签页。
  */
 export const footer = {
+  contact: '联系我们',
   copyright: 'Copyright © 香港超昂控股有限公司 All Rights Reserved.',
 }

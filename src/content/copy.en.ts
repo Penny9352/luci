@@ -380,5 +380,6 @@ export const start = {
 
 /** Same legal notice as the Chinese page; entity name kept as registered. */
 export const footer = {
+  contact: 'Contact us',
   copyright: 'Copyright © 香港超昂控股有限公司 All Rights Reserved.',
 }

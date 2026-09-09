@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>联系我们 · Lucimix</title>
+    <meta name="description" content="联系 Lucimix：产品问题、合作意向、使用反馈都可以找我们。" />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <style>
+      /**
+       * 独立静态页，不接入 App.tsx / 组件体系——内容只有 LOGO + 一段简介 +
+       * 一个联系方式，用不上整套 React 树。footer 的「联系我们」新开标签页
+       * 链过来，所以这页自己也留了一条「返回首页」，不然是个死胡同。
+       */
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .contact {
+        flex: 1;
+        display: grid;
+        justify-items: center;
+        align-content: center;
+        gap: 1.5rem;
+        text-align: center;
+        max-width: 34rem;
+        padding-block: var(--sp-3xl);
+      }
+      .contact__brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--sp-xs);
+        font-weight: 700;
+        font-size: 1.0625rem;
+        letter-spacing: 0.02em;
+        color: var(--orange);
+      }
+      .contact__brand img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+      .contact h1 {
+        font-family: var(--ff-display);
+        font-size: var(--fs-h1);
+        letter-spacing: -0.01em;
+      }
+      .contact__desc {
+        color: var(--text-2);
+        line-height: 1.8;
+      }
+      .contact__channel {
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        font-size: var(--fs-sm);
+      }
+      .contact__channel dt {
+        color: var(--text-3);
+      }
+      .contact__channel dd {
+        font-weight: 600;
+      }
+      .contact__channel a {
+        color: var(--orange);
+      }
+      .contact__channel a:hover {
+        color: var(--orange-soft);
+      }
+      .contact__back {
+        margin-top: var(--sp-md);
+        font-size: var(--fs-cap);
+        color: var(--text-3);
+      }
+      .contact__back:hover {
+        color: var(--orange);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="contact page">
+      <a class="contact__brand" href="/">
+        <img src="/logo.svg" alt="" />
+        <span>LUCIMIX</span>
+      </a>
+
+      <h1>联系我们</h1>
+      <p class="contact__desc">
+        无论是产品使用中遇到的问题、合作洽谈，还是任何一点使用反馈，都欢迎告诉我们——
+        我们会认真看每一条，并尽快回复你。
+      </p>
+
+      <dl class="contact__channel">
+        <dt>邮箱</dt>
+        <dd><a href="mailto:service@lucimix.com">service@lucimix.com</a></dd>
+      </dl>
+
+      <a class="contact__back" href="/">← 返回首页</a>
+    </main>
+  </body>
+</html>
